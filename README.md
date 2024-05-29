@@ -16,11 +16,12 @@ docker compose up -d
 
 ## 配置示例
 
-1. [只部署小雅alist](/docker-compose-alist.yml)
-2. [部署小雅alist+emby](/docker-compose-emby.yml)
-2. [部署小雅alist+jellyfin](/docker-compose-jellyfin.yml)
+* [只部署小雅alist](/docker-compose-alist.yml)
+* [部署小雅alist+emby](/docker-compose-emby.yml)
+* [部署小雅alist+jellyfin](/docker-compose-jellyfin.yml)
 
 ## 参考
 
 https://hub.docker.com/r/amilys/embyserver
+
 https://github.com/DDS-Derek/xiaoya-alist/blob/master/all_in_one.sh

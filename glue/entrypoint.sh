@@ -7,6 +7,9 @@ while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:80}" > /dev/null; do
     sleep 2
 done
 
+echo "alist启动完成，可能需要一段时间加载数据，等待5分钟后开始下载元数据..."
+sleep 300
+
 MEDIA_DIR="/media"
 
 if [ ! -d "${MEDIA_DIR}/temp" ]; then

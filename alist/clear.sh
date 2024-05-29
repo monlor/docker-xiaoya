@@ -1,6 +1,12 @@
 #!/bin/bash
 
+set -e
+
 DATA_DIR=/data
+
+myecho() {
+    echo "$*"
+}
 
 retry_command() {
     # 重试次数和最大重试次数

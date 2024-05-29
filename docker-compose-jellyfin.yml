@@ -35,7 +35,7 @@ services:
       - meta:/media/temp
     depends_on:
       - alist
-    restart: no
+    restart: unless-stopped
     networks:
       - default
   jellyfin:
