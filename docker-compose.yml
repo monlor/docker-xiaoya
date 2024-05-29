@@ -1,0 +1,93 @@
+version: '3'
+
+services:
+  alist:
+    image: monlor/xiaoya-alist
+    container_name: alist
+    volumes:
+      - xiaoya:/data
+    ports:
+      - "5678:80"
+      - "2345:2345"
+      - "2346:2346"
+    environment:
+      - TZ=Asia/Shanghai
+      - ALIYUN_TOKEN=
+      - ALIYUN_OPEN_TOKEN=
+      - ALIYUN_FOLDER_ID=
+      - AUTO_UPDATE_ENABLED=true
+      - AUTO_CLEAR_ENABLED=true
+    restart: unless-stopped
+    networks:
+      - default
+  glue:
+    image: monlor/xiaoya-glue
+    container_name: glue
+    environment:
+      - LANG=C.UTF-8
+      - ALIST_ADDR=http://alist:80
+      - EMBY_ENABLED=true
+      - JELLYFIN_ENABLED=true
+    volumes:
+      - xiaoya:/etc/xiaoya
+      - media:/media/xiaoya
+      - config:/media/config
+      - meta:/media/temp
+    depends_on:
+      - alist
+    restart: no
+    networks:
+      - default
+  emby:
+    image: monlor/xiaoya-emby
+    container_name: emby
+    environment:
+      - TZ=Asia/Shanghai
+      - GIDLIST=0,0
+      - ALIST_DOMAIN=alist
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+    depends_on:
+      - glue
+      - alist
+    volumes:
+      - media:/media
+      - config:/config
+      - cache:/cache
+    ports:
+      - "8096:8096"
+    restart: unless-stopped
+    networks:
+      - default
+  jellyfin:
+    image: monlor/xiaoya-jellyfin
+    container_name: jellyfin
+    environment:
+      - TZ=Asia/Shanghai
+      - ALIST_DOMAIN=alist
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+    depends_on:
+      - glue
+      - alist
+    volumes:
+      - media:/media
+      - config:/config
+      - cache:/cache
+    ports:
+      - 6096:8096
+    restart: unless-stopped
+    networks:
+      - default
+
+networks:
+  default:
+
+volumes:
+  xiaoya:
+  media:
+  config:
+  meta:
+  cache:
