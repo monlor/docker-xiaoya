@@ -2,7 +2,7 @@ version: '3'
 
 services:
   alist:
-    image: monlor/xiaoya-alist
+    image: ghcr.io/monlor/xiaoya-alist
     container_name: alist
     volumes:
       - xiaoya:/data
@@ -21,7 +21,7 @@ services:
     networks:
       - default
   glue:
-    image: monlor/xiaoya-glue
+    image: ghcr.io/monlor/xiaoya-glue
     container_name: glue
     environment:
       - LANG=C.UTF-8
@@ -39,7 +39,7 @@ services:
     networks:
       - default
   emby:
-    image: monlor/xiaoya-emby
+    image: ghcr.io/monlor/xiaoya-emby
     container_name: emby
     environment:
       - TZ=Asia/Shanghai
@@ -61,7 +61,7 @@ services:
     networks:
       - default
   jellyfin:
-    image: monlor/xiaoya-jellyfin
+    image: ghcr.io/monlor/xiaoya-jellyfin
     container_name: jellyfin
     environment:
       - TZ=Asia/Shanghai
