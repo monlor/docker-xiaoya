@@ -79,7 +79,7 @@ fi
 
 if [ "${AUTO_CLEAR_ENABLED:=true}" = "true" ]; then
     echo "启动定时清理定时任务..."
-    crontabs="${crontabs}\n*/${AUTO_CLEAR_INTERVAL:=180} * * * * /clear.sh"
+    crontabs="${crontabs}\n* */${AUTO_CLEAR_INTERVAL:=24} * * * /clear.sh"
 fi
 
 echo -e "$crontabs" | crontab -
