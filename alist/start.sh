@@ -38,6 +38,36 @@ else
     echo "${ALIYUN_FOLDER_ID}" > /data/temp_transfer_folder_id.txt
 fi
 
+# 设置pikpak用户
+if [ -n "${PIKPAK_LIST:-}" ]; then
+    echo "设置PIKPAK用户密码..."
+    rm -rf /data/pikpak_list.txt
+    echo ${PIKPAK_LIST} | tr ',' '\n' | while read line; do
+        user=$(echo $line | cut -d':' -f1)
+        pass=$(echo $line | cut -d':' -f2-)
+        echo "\"${user}\" \"${pass}\"" >> /data/pikpak_list.txt
+    done
+fi
+
+# 开启强制登陆
+if [ "${FORCE_LOGIN}" = "true" ]; then
+    echo "已开启强制登陆..."
+    if [ ! -f /data/guestlogin.txt ]; then
+        touch /data/guestlogin.txt
+    fi
+else
+    echo "已关闭强制登陆..."
+    rm -rf /data/guestlogin.txt
+fi
+
+# 设置webdav密码
+if [ -n "${WEBDAV_PASSWORD}" ]; then
+    echo "设置webdav密码..."
+    echo "${WEBDAV_PASSWORD}" > /data/guestpass.txt
+else
+    rm -rf /data/guestpass.txt
+fi
+
 crond
 
 crontabs=""
@@ -49,7 +79,7 @@ fi
 
 if [ "${AUTO_CLEAR_ENABLED:=true}" = "true" ]; then
     echo "启动定时清理定时任务..."
-    crontabs="${crontabs}\n*/${AUTO_CLEAR_INTERVAL:=10} * * * * /clear.sh"
+    crontabs="${crontabs}\n*/${AUTO_CLEAR_INTERVAL:=180} * * * * /clear.sh"
 fi
 
 echo -e "$crontabs" | crontab -
