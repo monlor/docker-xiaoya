@@ -4,10 +4,6 @@ set -e
 
 DATA_DIR=/data
 
-myecho() {
-    echo "$*"
-}
-
 retry_command() {
     # 重试次数和最大重试次数
     retries=0
@@ -111,6 +107,11 @@ delete_File() {
     _file_id=$1
     _name="$(echo "$raw_list" | grep -o "\"name\":\"[^\"]*\"" | cut -d':' -f2- | tr -d '"' | grep -n . | grep "^$(echo "$raw_list" | grep -o "\"file_id\":\"[^\"]*\"" | cut -d':' -f2- | tr -d '"' | grep -n . | grep "$_file_id" | awk -F: '{print $1}'):" | awk -F: '{print $2}')"
 
+    if [ "${_name}" = "配置文件示范" ] || [ "${_name}" = "常用软件" ]; then
+        echo "跳过删除文件：$_name"
+        return 0
+    fi
+
     _res=$(curl --connect-timeout 5 -m 5 -s -H "$HEADER" -H "Content-Type: application/json" -X POST -d '{
   "requests": [
     {
@@ -137,7 +138,7 @@ delete_File() {
         drive_root="备份盘"
     fi
 
-    myecho "彻底删除文件：/$drive_root$path/$_name"
+    echo "彻底删除文件：/$drive_root$path/$_name"
 
     return 0
 }
@@ -162,7 +163,7 @@ clear_aliyun() {
         return 0
     fi
 
-    myecho -e "\n[$(date '+%Y/%m/%d %H:%M:%S')]开始清理小雅$XIAOYA_NAME转存"
+    echo -e "\n[$(date '+%Y/%m/%d %H:%M:%S')]开始清理小雅$XIAOYA_NAME转存"
 
     _res=1
     _filenum=0
@@ -172,7 +173,7 @@ clear_aliyun() {
         _filenum=$(($_filenum + $_res))
     done
 
-    myecho "本次共清理小雅$XIAOYA_NAME转存文件$_filenum个"
+    echo "本次共清理小雅$XIAOYA_NAME转存文件$_filenum个"
 
 }
 

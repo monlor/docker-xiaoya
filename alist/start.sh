@@ -34,21 +34,25 @@ if [ ${#ALIYUN_FOLDER_ID} -ne 40 ]; then
     echo -e "安装停止，请转存以下目录到你的网盘，并获取该文件夹的folder_id\nhttps://www.aliyundrive.com/s/rP9gP3h9asE \n"
     exit 1
 else
-    echo "添加阿里云盘 folder_id..."
+    echo "添加阿里云盘 Folder ID..."
     echo "${ALIYUN_FOLDER_ID}" > /data/temp_transfer_folder_id.txt
 fi
 
 crond
 
-if [ "${AUTO_UPDATE_ENABLED:=false}" = "true" ]; then
+crontabs=""
+
+if [ "${AUTO_UPDATE_ENABLED:=true}" = "true" ]; then
     echo "启动定时更新定时任务..."
-    echo "0 3 * * * /updateall " | crontab -
+    crontabs="0 3 * * * /updateall"
 fi
 
-if [ "${AUTO_CLEAR_ENABLED:=false}" = "true" ]; then
+if [ "${AUTO_CLEAR_ENABLED:=true}" = "true" ]; then
     echo "启动定时清理定时任务..."
-    echo "*/1 * * * * /clear.sh " | crontab -
+    crontabs="${crontabs}\n*/${AUTO_CLEAR_INTERVAL:=10} * * * * /clear.sh"
 fi
+
+echo -e "$crontabs" | crontab -
 
 echo "e825ed6f7f8f44ffa0563cddaddce14d" > /data/infuse_api_key.txt
 

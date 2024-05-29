@@ -1,0 +1,155 @@
+# 定义全局的repositories
+repositories:
+  - name: monlor
+    url: https://monlor.github.io/helm-charts
+
+releases:
+  - name: alist
+    namespace: media
+    chart: monlor/quickchart
+    version: 0.2.4
+    values:
+      - port: 80
+        global:
+          storageClassName: longhorn-single
+        nodeSelector:
+          kubernetes.io/hostname: nuc-1-node-1
+        image:
+          repository: ghcr.io
+          name: monlor/xiaoya-alist
+          tag: latest
+        env:
+          TZ: Asia/Shanghai
+          ALIYUN_TOKEN: 
+          ALIYUN_OPEN_TOKEN: 
+          ALIYUN_FOLDER_ID: 
+          AUTO_UPDATE_ENABLED: true
+          AUTO_CLEAR_ENABLED: true
+        volumes:
+        - name: data
+          mountPath: /data
+          persistentVolume: 
+            create: true
+            accessModes: ReadWriteMany
+            storageSize: 256Mi
+        strategy:
+          type: Recreate
+        resources: 
+          limits:
+            cpu: 2
+            memory: 4Gi
+          requests:
+            cpu: 100m
+            memory: 1Gi
+        ingress:
+          enabled: true
+          className: nginx
+          clusterIssuer: cloudflare
+          hosts:
+          - host: alist.monlor.cn
+  
+  - name: glue
+    namespace: media
+    chart: monlor/quickchart
+    version: 0.2.4
+    values:
+      - global:
+          storageClassName: longhorn-single
+        nodeSelector:
+          kubernetes.io/hostname: nuc-1-node-1
+        image:
+          repository: ghcr.io
+          name: monlor/xiaoya-glue
+          tag: latest
+        env:
+          TZ: Asia/Shanghai
+          ALIST_ADDR: http://alist:80
+          EMBY_ENABLED: true
+          JELLYFIN_ENABLED: false
+        volumes:
+        - name: alist-data
+          mountPath: /etc/xiaoya
+          persistentVolume: 
+            accessModes: ReadWriteMany
+        - name: media
+          mountPath: /media/xiaoya
+          persistentVolume: 
+            create: true
+            accessModes: ReadWriteMany
+            storageSize: 200Gi
+        - name: config
+          mountPath: /media/config
+          persistentVolume: 
+            create: true
+            accessModes: ReadWriteMany
+            storageSize: 200Gi
+        - name: meta
+          mountPath: /media/temp
+          persistentVolume: 
+            create: true
+            accessModes: ReadWriteOnce
+            storageSize: 200Gi
+        strategy:
+          type: Recreate
+        resources: 
+          limits:
+            cpu: 4
+            memory: 8Gi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+
+  - name: emby
+    namespace: media
+    chart: monlor/quickchart
+    version: 0.2.4
+    values:
+      - port: 8096
+        global:
+          storageClassName: longhorn-single
+        nodeSelector:
+          kubernetes.io/hostname: nuc-1-node-1
+        image:
+          repository: ghcr.io
+          name: monlor/xiaoya-emby
+          tag: latest
+        env:
+          TZ: Asia/Shanghai
+          GIDLIST: 0,0
+          ALIST_DOMAIN: alist
+        volumes:
+        - name: glue-media
+          mountPath: /media
+          persistentVolume: 
+            accessModes: ReadWriteMany
+        - name: glue-config
+          mountPath: /config
+          persistentVolume: 
+            accessModes: ReadWriteMany
+        - name: cache
+          mountPath: /cache
+          persistentVolume: 
+            create: true
+            accessModes: ReadWriteOnce
+            storageSize: 10Gi
+        - name: dri
+          mountPath: /dev/dri
+          hostPath:
+            path: /dev/dri
+        strategy:
+          type: Recreate
+        podSecurityContext:
+          privileged: true
+        resources: 
+          limits:
+            cpu: 4
+            memory: 8Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ingress:
+          enabled: true
+          className: nginx
+          clusterIssuer: cloudflare
+          hosts:
+          - host: emby.monlor.cn
