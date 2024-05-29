@@ -27,7 +27,7 @@ services:
       - LANG=C.UTF-8
       - ALIST_ADDR=http://alist:80
       - EMBY_ENABLED=true
-      - JELLYFIN_ENABLED=true
+      - JELLYFIN_ENABLED=false
     volumes:
       - xiaoya:/etc/xiaoya
       - media:/media/xiaoya
@@ -57,27 +57,6 @@ services:
       - cache:/cache
     ports:
       - "8096:8096"
-    restart: unless-stopped
-    networks:
-      - default
-  jellyfin:
-    image: ghcr.io/monlor/xiaoya-jellyfin
-    container_name: jellyfin
-    environment:
-      - TZ=Asia/Shanghai
-      - ALIST_DOMAIN=alist
-    privileged: true
-    devices:
-      - /dev/dri:/dev/dri
-    depends_on:
-      - glue
-      - alist
-    volumes:
-      - media:/media
-      - config:/config
-      - cache:/cache
-    ports:
-      - 6096:8096
     restart: unless-stopped
     networks:
       - default
