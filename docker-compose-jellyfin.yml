@@ -28,6 +28,7 @@ services:
       - ALIST_ADDR=http://alist:80
       - EMBY_ENABLED=false
       - JELLYFIN_ENABLED=true
+      - AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
     volumes:
       - xiaoya:/etc/xiaoya
       - media:/media/xiaoya

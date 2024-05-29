@@ -72,12 +72,12 @@ crond
 
 crontabs=""
 
-if [ "${AUTO_UPDATE_ENABLED:=true}" = "true" ]; then
+if [ "${AUTO_UPDATE_ENABLED:=false}" = "true" ]; then
     echo "启动定时更新定时任务..."
     crontabs="0 3 * * * /updateall"
 fi
 
-if [ "${AUTO_CLEAR_ENABLED:=true}" = "true" ]; then
+if [ "${AUTO_CLEAR_ENABLED:=false}" = "true" ]; then
     echo "启动定时清理定时任务..."
     crontabs="${crontabs}\n* */${AUTO_CLEAR_INTERVAL:=24} * * * /clear.sh"
 fi

@@ -28,7 +28,7 @@ docker compose up -d
 
 ## 配置示例
 
-* [只部署小雅alist+emby](/docker-compose-alist.yml)
+* [只部署小雅alist](/docker-compose-alist.yml)
 * [部署小雅alist+jellyfin](/docker-compose-jellyfin.yml)
 * [部署小雅alist+emby+jellyfin](/docker-compose-all.yml)
 

@@ -2,8 +2,11 @@ FROM xiaoyaliu/glue:latest
 
 WORKDIR /media
 
-COPY ./entrypoint.sh /entrypoint.sh
+RUN apt update && apt install -y cron
 
-RUN chmod +x /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
+COPY ./update_emby.sh /update.sh
+
+RUN chmod +x /entrypoint.sh /update_emby.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]

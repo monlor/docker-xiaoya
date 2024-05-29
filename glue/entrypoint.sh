@@ -40,7 +40,7 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     if [ -f /media/config/emby_meta_finished ]; then
         echo "Emby metadata has been downloaded. Delete the file /media/config/emby_meta_finished to re-download."
     else
-        disk_check 100
+        disk_check 140
         cd "${MEDIA_DIR}/temp"
         /update_all.sh "${ALIST_ADDR}"
         if [ $? -eq 0 ]; then
@@ -54,7 +54,7 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
         echo "Jellyfin metadata has been downloaded. Delete the file /media/config/jellyfin_meta_finished to re-download."
     else
 
-        disk_check 100
+        disk_check 140
 
         echo "Downloading Jellyfin metadata..."
 
@@ -88,6 +88,17 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
     
     fi
 fi
+
+cron
+
+crontabs=""
+
+if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ]; then
+    echo "启动定时更新Emby任务..."
+    crontabs="0 3 */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /update_emby.sh"
+fi
+
+echo -e "$crontabs" | crontab -
 
 echo "Complete." 
 

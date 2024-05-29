@@ -28,10 +28,12 @@ services:
       - ALIST_ADDR=http://alist:80
       - EMBY_ENABLED=true
       - JELLYFIN_ENABLED=false
+      - AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
     volumes:
       - xiaoya:/etc/xiaoya
       - media:/media/xiaoya
       - config:/media/config
+      - cache:/media/config/cache
       - meta:/media/temp
     depends_on:
       - alist
