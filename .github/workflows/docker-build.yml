@@ -1,4 +1,4 @@
-name: Build and Push Docker Images
+name: Build and Push Multi-Architecture Docker Images
 
 on:
   push:
@@ -25,11 +25,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract version from tag
+      - name: Determine version and tags
         id: vars
         run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "IS_TAG=true" >> $GITHUB_ENV
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
+          else
+            echo "IS_TAG=false" >> $GITHUB_ENV
+          fi
 
       - name: Build and push xiaoya-alist
         uses: docker/build-push-action@v4
@@ -38,7 +43,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/xiaoya-alist:latest
-            ghcr.io/${{ github.repository_owner }}/xiaoya-alist:${{ env.VERSION }}
+            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-alist:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
 
       - name: Build and push xiaoya-glue
@@ -48,7 +53,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/xiaoya-glue:latest
-            ghcr.io/${{ github.repository_owner }}/xiaoya-glue:${{ env.VERSION }}
+            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-glue:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
 
       - name: Build and push xiaoya-emby
@@ -58,7 +63,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/xiaoya-emby:latest
-            ghcr.io/${{ github.repository_owner }}/xiaoya-emby:${{ env.VERSION }}
+            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-emby:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
 
       - name: Build and push xiaoya-jellyfin
@@ -68,5 +73,5 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/xiaoya-jellyfin:latest
-            ghcr.io/${{ github.repository_owner }}/xiaoya-jellyfin:${{ env.VERSION }}
+            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-jellyfin:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
