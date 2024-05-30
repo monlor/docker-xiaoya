@@ -39,6 +39,10 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/mai
 * [部署小雅alist+jellyfin](/docker-compose-jellyfin.yml)
 * [部署小雅alist+emby+jellyfin](/docker-compose-all.yml)
 
+## 安装docker compose
+
+https://docs.docker.com/compose/install/linux/#install-using-the-repository
+
 ## 参考
 
 https://github.com/DDS-Derek/xiaoya-alist
