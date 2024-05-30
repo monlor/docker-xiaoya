@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "等待alist启动完成..."
-while ! curl -s -f -m 1 http://${ALIST_DOMAIN}:${ALIST_PORT:=5678} &> /dev/null; do
+while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:5678}" &> /dev/null; do
     sleep 2
 done
 
@@ -9,6 +9,9 @@ echo "等待元数据下载完成..."
 while test ! -f /config/jellyfin_meta_finished; do
     sleep 2
 done
+
+# 解析ALIST_ADDR里面的域名或ip
+ALIST_DOMAIN=$(echo "${ALIST_ADDR}" | sed -e 's#http://##' -e 's#https://##' -e 's#:[0-9]*##' -e 's#/$##')
 
 cat > /etc/nsswitch.conf <<-EOF
 hosts:  files dns

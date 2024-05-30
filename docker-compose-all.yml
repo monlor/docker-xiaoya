@@ -25,7 +25,7 @@ services:
     container_name: glue
     environment:
       - LANG=C.UTF-8
-      - ALIST_ADDR=http://alist:80
+      # - ALIST_ADDR=http://alist:5678
       - EMBY_ENABLED=true
       - JELLYFIN_ENABLED=true
       - AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
@@ -45,7 +45,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - GIDLIST=0
-      - ALIST_DOMAIN=alist
+      # ALIST_ADDR=http://alist:5678
     privileged: true
     devices:
       - /dev/dri:/dev/dri
@@ -83,7 +83,7 @@ services:
     container_name: jellyfin
     environment:
       - TZ=Asia/Shanghai
-      - ALIST_DOMAIN=alist
+      # ALIST_ADDR=http://alist:5678
     privileged: true
     devices:
       - /dev/dri:/dev/dri

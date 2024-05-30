@@ -1,9 +1,12 @@
 #!/bin/sh
 
 echo "等待alist启动完成..."
-while ! wget -q -T 1 -O /dev/null http://${ALIST_DOMAIN}:${ALIST_PORT:=5678} &> /dev/null; do
+while ! wget -q -T 1 -O /dev/null "${ALIST_ADDR:=http://alist:5678}" &> /dev/null; do
     sleep 2
 done
+
+# 解析ALIST_ADDR里面的域名或ip
+ALIST_DOMAIN=$(echo "${ALIST_ADDR}" | sed -e 's#http://##' -e 's#https://##' -e 's#:[0-9]*##' -e 's#/$##')
 
 echo "等待元数据下载完成..."
 while test ! -f /config/emby_meta_finished; do
@@ -20,7 +23,7 @@ if echo "${ALIST_DOMAIN}" | grep -E -q '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-
     echo "Alist IP address: $IP"
 else
     # 使用 nslookup 解析 Alist 域名
-    IP=$(nslookup "${ALIST_DOMAIN:=alist}" | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -n 1)
+    IP=$(nslookup "${ALIST_DOMAIN}" | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -n 1)
 
     # 检查 IP 地址是否解析成功
     if [ -z "$IP" ]; then
