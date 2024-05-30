@@ -50,13 +50,39 @@ if [ ${#folder_id} -ne 40 ]; then
   exit 1
 fi
 
+# 选择部署服务类型，alist + emby (默认), alist, alist + jellyfin, alist + emby + jellyfin
+echo "请选择部署服务类型："
+echo "1. alist + emby (默认)"
+echo "2. alist"
+echo "3. alist + jellyfin"
+echo "4. alist + emby + jellyfin"
+read -p "请选择部署服务类型：" service_type
+case $service_type in
+  1)
+    service_type=""
+    ;;
+  2)
+    service_type="-alist"
+    ;;
+  3)
+    service_type="-jellyfin"
+    ;;
+  4)
+    service_type="-all"
+    ;;
+  *)
+    service_type=""
+    ;;
+esac
+
+
 # 检查目录是否存在，不存在则创建
 if [ ! -d "$install_path" ]; then
   mkdir -p $install_path
 fi
 
 echo "开始生成配置文件..."
-curl -LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose.yml
+curl -LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
 sed -i "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
 sed -i "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
 sed -i "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
