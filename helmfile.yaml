@@ -7,7 +7,7 @@ releases:
   - name: alist
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.5
+    version: 0.2.6
     values:
       - port: 80
         extraPort:
@@ -54,7 +54,7 @@ releases:
   - name: glue
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.5
+    version: 0.2.6
     values:
       - nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
@@ -102,7 +102,7 @@ releases:
   - name: emby
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.5
+    version: 0.2.6
     values:
       - port: 8096
         nodeSelector:
@@ -157,7 +157,7 @@ releases:
   - name: resilio
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.5
+    version: 0.2.6
     values:
       - port: 8888
         nodeSelector:

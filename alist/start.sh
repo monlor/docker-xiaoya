@@ -50,7 +50,7 @@ if [ -n "${PIKPAK_LIST:-}" ]; then
 fi
 
 # 开启强制登陆
-if [ "${FORCE_LOGIN}" = "true" ]; then
+if [ "${FORCE_LOGIN:=false}" = "true" ]; then
     echo "已开启强制登陆..."
     if [ ! -f /data/guestlogin.txt ]; then
         touch /data/guestlogin.txt
@@ -61,7 +61,7 @@ else
 fi
 
 # 设置webdav密码
-if [ -n "${WEBDAV_PASSWORD}" ]; then
+if [ -n "${WEBDAV_PASSWORD:-}" ]; then
     echo "设置webdav密码..."
     echo "${WEBDAV_PASSWORD}" > /data/guestpass.txt
 else
