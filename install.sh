@@ -49,8 +49,7 @@ if [ $service_exist -eq 1 ]; then
 fi
 
 # 让用户输入服务部署目录，默认/opt/xiaoya
-echo "请输入服务部署目录，默认/opt/xiaoya"
-read -p "请输入服务部署目录：" install_path
+read -p "请输入服务部署目录（默认/opt/xiaoya）：" install_path
 install_path=${install_path:=/opt/xiaoya}
 
 # 如果是更新服务，则从原有的compose配置中获取token等信息
@@ -90,7 +89,7 @@ else
 fi
 
 # 选择部署服务类型，alist + emby (默认), alist, alist + jellyfin, alist + emby + jellyfin
-echo "请选择部署服务类型："
+echo "部署类型："
 echo "1. alist + emby (默认)"
 echo "2. alist"
 echo "3. alist + jellyfin"
@@ -123,7 +122,7 @@ fi
 cd $install_path
 
 echo "开始生成配置文件docker-compose${service_type}.yml..."
-curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
+curl -#Lo $install_path/docker-compose.yml https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
 sed -i "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
 sed -i "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
 sed -i "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
