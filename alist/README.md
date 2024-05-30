@@ -30,8 +30,8 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `JELLYFIN_ADDR`: jellyfin部署地址，默认http://jellyfin:8096
 
-`AUTO_UPDATE_ENABLED`: 自动更新小雅的文件，true/false
+`AUTO_UPDATE_ENABLED`: 自动更新小雅的文件，true/false，默认false
 
-`AUTO_CLEAR_ENABLED`: 自动清理阿里云云盘的文件，true/false
+`AUTO_CLEAR_ENABLED`: 自动清理阿里云云盘的文件，true/false，默认false
 
 `AUTO_CLEAR_INTERVAL`: 自动清理间隔，单位小时，默认24小时

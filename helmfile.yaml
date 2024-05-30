@@ -68,6 +68,7 @@ releases:
           ALIST_ADDR: http://alist:80
           EMBY_ENABLED: true
           JELLYFIN_ENABLED: false
+          AUTO_UPDATE_EMBY_CONFIG_ENABLED: true
         volumes:
         - name: data
           mountPath: /etc/xiaoya
@@ -171,12 +172,12 @@ releases:
           TZ: Asia/Shanghai
         volumes:
         - name: media
-          mountPath: /media/xiaoya
+          mountPath: /sync/xiaoya
           hostPath: 
             path: /opt/xiaoya/media
             type: DirectoryOrCreate
         - name: config
-          mountPath: /media/config
+          mountPath: /sync/config
           hostPath: 
             path: /opt/xiaoya/config
             type: DirectoryOrCreate
