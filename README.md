@@ -15,13 +15,20 @@
 
 ## 一键部署
 
-建议最低配置：2核CPU 4G内存 150G硬盘
-
 默认部署服务：alist + emby
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
 ```
+
+## 部署配置推荐
+
+| 部署方案          | CPU      | 内存      | 硬盘      |
+| ----------------- | -------- | --------- | --------- |
+| Alist + Emby      | 2核CPU   | 4G内存    | 150G硬盘  |
+| 仅部署 Alist      | 1核CPU   | 512M内存  | 512M硬盘  |
+| Alist + Emby + Jellyfin      | 2核CPU   | 4G内存    | 300G硬盘  |
+| Alist + Jellyfin      | 2核CPU   | 4G内存    | 150G硬盘  |
 
 ## 配置示例
 
