@@ -6,6 +6,9 @@ on:
       - main
     tags:
       - '*'
+    paths-ignore:
+      - 'README.md'
+      - 'install.sh'
 
 jobs:
   build-and-push:
@@ -51,6 +54,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/xiaoya-alist:latest
             ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-alist:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push xiaoya-glue
         uses: docker/build-push-action@v4
@@ -61,6 +66,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/xiaoya-glue:latest
             ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-glue:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push xiaoya-emby
         uses: docker/build-push-action@v4
@@ -71,6 +78,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/xiaoya-emby:latest
             ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-emby:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push xiaoya-jellyfin
         uses: docker/build-push-action@v4
@@ -81,6 +90,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/xiaoya-jellyfin:latest
             ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-jellyfin:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
             
       - name: Build and push xiaoya-resilio
         uses: docker/build-push-action@v4
@@ -91,4 +102,6 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/xiaoya-resilio:latest
             ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-resilio:${{ env.VERSION }}' || '' }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
             

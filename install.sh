@@ -30,6 +30,12 @@ if ! command -v docker &> /dev/null; then
   fi
 fi
 
+# 检查是否安装了compose插件,docker compose 命令
+if ! docker compose &> /dev/null; then
+  echo "系统未安装docker compose插件，退出程序..."
+  exit 1
+fi
+
 # 检查服务是否已经运行
 echo "检查服务是否已经运行..."
 service_exist=0

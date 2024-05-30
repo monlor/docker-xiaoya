@@ -23,7 +23,7 @@ if echo "${ALIST_DOMAIN}" | grep -E -q '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-
     echo "Alist IP address: $IP"
 else
     # 使用 nslookup 解析 Alist 域名
-    IP=$(nslookup "${ALIST_DOMAIN:=alist}" | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -n 1)
+    IP=$(nslookup "${ALIST_DOMAIN}" | awk '/^Address: / { print $2 }' | tail -n 1)
 
     # 检查 IP 地址是否解析成功
     if [ -z "$IP" ]; then
