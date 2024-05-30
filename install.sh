@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 docker_containers=(
   "xiaoya_alist"
   "xiaoya_glue"
@@ -118,8 +120,8 @@ if [ ! -d "$install_path" ]; then
   mkdir -p $install_path
 fi
 
-echo "开始生成配置文件..."
-curl -LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
+echo "开始生成配置文件docker-compose${service_type}.yml..."
+curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
 sed -i "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
 sed -i "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
 sed -i "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
