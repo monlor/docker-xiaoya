@@ -8,6 +8,10 @@ if [ ! -d "/data" ]; then
     mkdir /data
 fi
 
+# 修改端口
+sed -i -E "s/listen [0-9]+/listen ${PORT:=5678}/g" /etc/nginx/http.d/default.conf
+sed -i -E "s/listen \[::\]:[0-9]+/listen [::]:${PORT}/g" /etc/nginx/http.d/default.conf
+ 
 # 生成配置，阿里云token
 if [ ${#ALIYUN_TOKEN} -ne 32 ]; then
     echo "长度不对,阿里云盘 Token是32位长"

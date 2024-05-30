@@ -9,7 +9,7 @@ releases:
     chart: monlor/quickchart
     version: 0.2.6
     values:
-      - port: 80
+      - port: 5678
         extraPort:
         - port: 2345
           protocol: TCP

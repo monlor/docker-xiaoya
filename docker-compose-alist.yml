@@ -7,7 +7,7 @@ services:
     volumes:
       - xiaoya:/data
     ports:
-      - "5678:80"
+      - "5678:5678"
       - "2345:2345"
       - "2346:2346"
     environment:
