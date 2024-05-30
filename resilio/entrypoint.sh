@@ -26,4 +26,4 @@ for dir in "${dirs[@]}"; do
     fi
 done
 
-/init
+exec /init

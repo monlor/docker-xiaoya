@@ -31,4 +31,4 @@ sed -e "/xiaoya.host/d" /etc/hosts > /tmp/hosts
 echo -e "$IP\txiaoya.host" >> /tmp/hosts
 cat /tmp/hosts > /etc/hosts
 
-/init
+exec /init

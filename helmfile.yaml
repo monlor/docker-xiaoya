@@ -105,7 +105,7 @@ releases:
     chart: monlor/quickchart
     version: 0.2.6
     values:
-      - port: 8096
+      - port: 6908
         nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
         image:
