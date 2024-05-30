@@ -93,8 +93,9 @@ fi
 # 设置本地变量
 echo "e825ed6f7f8f44ffa0563cddaddce14d" > /data/infuse_api_key.txt
 
-echo "${EMBY_ADDR:=http://emby:6908}" > /data/emby_server.txt
-
-echo "${JELLYFIN_ADDR:=http://jellyfin:8096}" > /data/jellyfin_server.txt
+if [ "${AUTO_UPDATE_MEDIA_ADDR:=true}" = "true" ]; then
+    echo "开始自动更新媒体服务地址..."
+    /update_media_addr.sh &
+fi
 
 exec /entrypoint.sh /opt/alist/alist server --no-prefix

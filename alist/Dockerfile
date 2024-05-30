@@ -9,8 +9,9 @@ VOLUME /data
 
 COPY ./start.sh /start.sh
 COPY ./clear.sh /clear.sh
+COPY ./update_media_addr.sh /update_media_addr.sh
 
-RUN chmod +x /start.sh /clear.sh
+RUN chmod +x /start.sh /clear.sh /update_media_addr.sh
 
 ENTRYPOINT [ "/start.sh" ]
 
