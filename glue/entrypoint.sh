@@ -70,6 +70,8 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
         cd ${MEDIA_DIR}/xiaoya
         7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/pikpak.mp4
 
+        chmod -R 777 ${MEDIA_DIR}/xiaoya
+
         touch ${MEDIA_DIR}/config/emby_meta_finished
     fi
 fi
@@ -105,6 +107,8 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
 
         cd ${MEDIA_DIR}/xiaoya
         7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/PikPak_jf.mp4
+
+        chmod -R 777 ${MEDIA_DIR}/xiaoya
 
         touch ${MEDIA_DIR}/config/jellyfin_meta_finished
     

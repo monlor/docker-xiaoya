@@ -17,6 +17,7 @@ services:
       - ALIYUN_FOLDER_ID=
       - AUTO_UPDATE_ENABLED=true
       - AUTO_CLEAR_ENABLED=true
+      - AUTO_UPDATE_MEDIA_ADDR=false
     restart: unless-stopped
     networks:
       - default
