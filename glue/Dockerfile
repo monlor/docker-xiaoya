@@ -2,7 +2,19 @@ FROM xiaoyaliu/glue:latest
 
 WORKDIR /media
 
-RUN apt update && apt install -y cron
+# 设置非交互模式，以避免安装过程中提示用户输入
+ARG DEBIAN_FRONTEND=noninteractive
+
+ENV LANG=zh_CN.UTF-8 \
+    LANGUAGE=zh_CN:zh \
+    LC_ALL=zh_CN.UTF-8
+
+RUN apt-get update && \
+    apt-get install -y cron locales fonts-wqy-zenhei && \
+    locale-gen zh_CN.UTF-8 && \
+    update-locale LANG=zh_CN.UTF-8 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./update_emby.sh /update_emby.sh
