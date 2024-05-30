@@ -82,7 +82,9 @@ if [ "${AUTO_CLEAR_ENABLED:=false}" = "true" ]; then
     crontabs="${crontabs}\n* */${AUTO_CLEAR_INTERVAL:=24} * * * /clear.sh"
 fi
 
-echo -e "$crontabs" | crontab -
+if [ -n "${crontabs}" ]; then
+    echo -e "$crontabs" | crontab -
+fi
 
 # 设置本地变量
 echo "e825ed6f7f8f44ffa0563cddaddce14d" > /data/infuse_api_key.txt

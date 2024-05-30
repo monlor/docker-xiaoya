@@ -8,7 +8,7 @@ while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:80}" > /dev/null; do
 done
 
 echo "alist启动完成，可能需要一段时间加载数据，等待5分钟后开始下载元数据..."
-sleep 300
+sleep "${WAIT_ALIT_TIME:=300}"
 
 MEDIA_DIR="/media"
 
@@ -35,6 +35,12 @@ disk_check() {
     fi
 }  
 
+download_meta() {
+    file=$1
+    path=$2
+    echo "Downloading ${file}..."
+    aria2c -o ${file} --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${path}${file}"
+}
 
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
@@ -42,10 +48,29 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     else
         disk_check 140
         cd "${MEDIA_DIR}/temp"
-        /update_all.sh "${ALIST_ADDR}"
-        if [ $? -eq 0 ]; then
-            touch ${MEDIA_DIR}/config/emby_meta_finished
+
+        if [ ! -f "${MEDIA_DIR}/temp/config.mp4" ]; then
+            download_meta config.mp4
         fi
+        if [ ! -f "${MEDIA_DIR}/temp/all.mp4" ]; then
+            download_meta all.mp4
+        fi
+        if [ ! -f "${MEDIA_DIR}/temp/pikpak.mp4" ]; then
+            download_meta pikpak.mp4
+        fi
+
+        echo "Extracting Jellyfin metadata..."
+
+        cd ${MEDIA_DIR}
+        7z x -aoa -mmt=16 temp/config.mp4
+
+        cd ${MEDIA_DIR}/xiaoya
+        7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/all.mp4
+
+        cd ${MEDIA_DIR}/xiaoya
+        7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/pikpak.mp4
+
+        touch ${MEDIA_DIR}/config/emby_meta_finished
     fi
 fi
 
@@ -61,16 +86,13 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
         cd ${MEDIA_DIR}/temp
 
         if [ ! -f "${MEDIA_DIR}/temp/config_jf.mp4" ]; then
-            echo "Downloading config_jf.mp4..."
-            aria2c -o config_jf.mp4 --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/Jellyfin/config_jf.mp4"
+            download_meta config_jf.mp4 Jellyfin/
         fi
         if [ ! -f "${MEDIA_DIR}/temp/all_jf.mp4" ]; then
-            echo "Downloading metadata all_jf.mp4..."
-            aria2c -o all_jf.mp4 --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/Jellyfin/all_jf.mp4"
+            download_meta all_jf.mp4 Jellyfin/
         fi
         if [ ! -f "${MEDIA_DIR}/temp/PikPak_jf.mp4" ]; then
-            echo "Downloading PikPak_jf.mp4..."
-            aria2c -o PikPak_jf.mp4 --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/Jellyfin/PikPak_jf.mp4"
+            download_meta PikPak_jf.mp4 Jellyfin/
         fi
         
         echo "Extracting Jellyfin metadata..."
@@ -98,7 +120,9 @@ if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ]; then
     crontabs="0 3 */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /update_emby.sh"
 fi
 
-echo -e "$crontabs" | crontab -
+if [ -n "${crontabs}" ]; then
+    echo -e "$crontabs" | crontab -
+fi
 
 echo "Complete." 
 
