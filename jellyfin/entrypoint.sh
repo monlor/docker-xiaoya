@@ -6,7 +6,7 @@ while ! curl -s -f -m 1 http://${ALIST_DOMAIN} &> /dev/null; do
 done
 
 echo "等待元数据下载完成..."
-while test ! -f /media/config/jellyfin_meta_finished; do
+while test ! -f /config/jellyfin_meta_finished; do
     sleep 2
 done
 

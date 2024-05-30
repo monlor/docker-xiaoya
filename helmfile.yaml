@@ -10,14 +10,13 @@ releases:
     version: 0.2.4
     values:
       - port: 80
-        global:
-          storageClassName: longhorn-single
         nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
         image:
           repository: ghcr.io
           name: monlor/xiaoya-alist
           tag: latest
+          pullPolicy: Always
         env:
           TZ: Asia/Shanghai
           ALIYUN_TOKEN: 
@@ -28,10 +27,9 @@ releases:
         volumes:
         - name: data
           mountPath: /data
-          persistentVolume: 
-            create: true
-            accessModes: ReadWriteMany
-            storageSize: 256Mi
+          hostPath: 
+            path: /opt/xiaoya/data
+            type: DirectoryOrCreate
         strategy:
           type: Recreate
         resources: 
@@ -53,43 +51,39 @@ releases:
     chart: monlor/quickchart
     version: 0.2.4
     values:
-      - global:
-          storageClassName: longhorn-single
-        nodeSelector:
+      - nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
         image:
           repository: ghcr.io
           name: monlor/xiaoya-glue
           tag: latest
+          pullPolicy: Always  
         env:
           TZ: Asia/Shanghai
           ALIST_ADDR: http://alist:80
           EMBY_ENABLED: true
           JELLYFIN_ENABLED: false
-          AUTO_UPDATE_EMBY_CONFIG_ENABLED: true
         volumes:
-        - name: alist-data
+        - name: data
           mountPath: /etc/xiaoya
-          persistentVolume: 
-            accessModes: ReadWriteMany
+          hostPath: 
+            path: /opt/xiaoya/data
+            type: DirectoryOrCreate
         - name: media
           mountPath: /media/xiaoya
-          persistentVolume: 
-            create: true
-            accessModes: ReadWriteMany
-            storageSize: 200Gi
+          hostPath: 
+            path: /opt/xiaoya/media
+            type: DirectoryOrCreate
         - name: config
           mountPath: /media/config
-          persistentVolume: 
-            create: true
-            accessModes: ReadWriteMany
-            storageSize: 200Gi
+          hostPath: 
+            path: /opt/xiaoya/config
+            type: DirectoryOrCreate
         - name: meta
           mountPath: /media/temp
-          persistentVolume: 
-            create: true
-            accessModes: ReadWriteOnce
-            storageSize: 200Gi
+          hostPath: 
+            path: /opt/xiaoya/temp
+            type: DirectoryOrCreate
         strategy:
           type: Recreate
         resources: 
@@ -106,33 +100,33 @@ releases:
     version: 0.2.4
     values:
       - port: 8096
-        global:
-          storageClassName: longhorn-single
         nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
         image:
           repository: ghcr.io
           name: monlor/xiaoya-emby
           tag: latest
+          pullPolicy: Always  
         env:
           TZ: Asia/Shanghai
           GIDLIST: 0,0
           ALIST_DOMAIN: alist
         volumes:
-        - name: glue-media
+        - name: media
           mountPath: /media
-          persistentVolume: 
-            accessModes: ReadWriteMany
-        - name: glue-config
+          hostPath: 
+            path: /opt/xiaoya/media
+            type: DirectoryOrCreate
+        - name: config
           mountPath: /config
-          persistentVolume: 
-            accessModes: ReadWriteMany
+          hostPath: 
+            path: /opt/xiaoya/config
+            type: DirectoryOrCreate
         - name: cache
           mountPath: /cache
-          persistentVolume: 
-            create: true
-            accessModes: ReadWriteOnce
-            storageSize: 10Gi
+          hostPath: 
+            path: /opt/xiaoya/config/cache
+            type: DirectoryOrCreate
         - name: dri
           mountPath: /dev/dri
           hostPath:

@@ -6,7 +6,7 @@ while ! wget -q -T 1 -O /dev/null http://${ALIST_DOMAIN} &> /dev/null; do
 done
 
 echo "等待元数据下载完成..."
-while test ! -f /media/config/emby_meta_finished; do
+while test ! -f /config/emby_meta_finished; do
     sleep 2
 done
 
