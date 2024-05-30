@@ -1,9 +1,9 @@
-FROM xiaoyaliu/alist:latest
+FROM xiaoyaliu/alist:hostmode
 
 LABEL MAINTAINER me@monlor.com
 LABEL VERSION 1.1.0
 
-EXPOSE 80 2345 2346
+EXPOSE 5678 2345 2346
 
 VOLUME /data
 

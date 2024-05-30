@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "等待alist启动完成..."
-while ! curl -s -f -m 1 http://${ALIST_DOMAIN} &> /dev/null; do
+while ! curl -s -f -m 1 http://${ALIST_DOMAIN}:${ALIST_PORT:=5678} &> /dev/null; do
     sleep 2
 done
 

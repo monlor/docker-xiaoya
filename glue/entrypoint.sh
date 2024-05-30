@@ -3,7 +3,7 @@
 set -e
 
 echo "等待alist启动完成..."
-while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:80}" > /dev/null; do
+while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:5678}" > /dev/null; do
     sleep 2
 done
 
