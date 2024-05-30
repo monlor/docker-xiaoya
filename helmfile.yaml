@@ -7,9 +7,14 @@ releases:
   - name: alist
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.4
+    version: 0.2.5
     values:
       - port: 80
+        extraPort:
+        - port: 2345
+          protocol: TCP
+        - port: 2346
+          protocol: TCP
         nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
         image:
@@ -49,7 +54,7 @@ releases:
   - name: glue
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.4
+    version: 0.2.5
     values:
       - nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
@@ -97,7 +102,7 @@ releases:
   - name: emby
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.4
+    version: 0.2.5
     values:
       - port: 8096
         nodeSelector:
@@ -148,3 +153,39 @@ releases:
           clusterIssuer: cloudflare
           hosts:
           - host: emby.monlor.cn
+
+  - name: resilio
+    namespace: media
+    chart: monlor/quickchart
+    version: 0.2.5
+    values:
+      - port: 8888
+        nodeSelector:
+          kubernetes.io/hostname: nuc-1-node-1
+        image:
+          repository: ghcr.io
+          name: monlor/xiaoya-resilio
+          tag: latest
+          pullPolicy: Always  
+        env:
+          TZ: Asia/Shanghai
+        volumes:
+        - name: media
+          mountPath: /media/xiaoya
+          hostPath: 
+            path: /opt/xiaoya/media
+            type: DirectoryOrCreate
+        - name: config
+          mountPath: /media/config
+          hostPath: 
+            path: /opt/xiaoya/config
+            type: DirectoryOrCreate
+        strategy:
+          type: Recreate
+        resources: 
+          limits:
+            cpu: 2
+            memory: 4Gi
+          requests:
+            cpu: 100m
+            memory: 512Mi

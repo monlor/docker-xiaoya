@@ -31,7 +31,9 @@ else
     fi
 fi
 
-sed -i "/xiaoya.host/d" /etc/hosts
-echo -e "$IP\txiaoya.host" >> /etc/hosts
+# 容器里不能使用sed -i，所以使用临时文件
+sed -e "/xiaoya.host/d" /etc/hosts > /tmp/hosts
+echo -e "$IP\txiaoya.host" >> /tmp/hosts
+cat /tmp/hosts > /etc/hosts
 
 /jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/lib/jellyfin-ffmpeg/ffmpeg

@@ -37,28 +37,28 @@ disk_check() {
 
 
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then
-    if [ -f /media/config/emby_meta_finished ]; then
-        echo "Emby metadata has been downloaded. Delete the file /media/config/emby_meta_finished to re-download."
+    if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
+        echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-download."
     else
         disk_check 140
         cd "${MEDIA_DIR}/temp"
         /update_all.sh "${ALIST_ADDR}"
         if [ $? -eq 0 ]; then
-            touch /media/config/emby_meta_finished
+            touch ${MEDIA_DIR}/config/emby_meta_finished
         fi
     fi
 fi
 
 if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
-    if [ -f /media/config/jellyfin_meta_finished ]; then
-        echo "Jellyfin metadata has been downloaded. Delete the file /media/config/jellyfin_meta_finished to re-download."
+    if [ -f ${MEDIA_DIR}/config/jellyfin_meta_finished ]; then
+        echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-download."
     else
 
         disk_check 140
 
         echo "Downloading Jellyfin metadata..."
 
-        cd /media/temp
+        cd ${MEDIA_DIR}/temp
 
         if [ ! -f "${MEDIA_DIR}/temp/config_jf.mp4" ]; then
             echo "Downloading config_jf.mp4..."
@@ -75,16 +75,16 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
         
         echo "Extracting Jellyfin metadata..."
 
-        cd /media
+        cd ${MEDIA_DIR}
         7z x -aoa -mmt=16 temp/config_jf.mp4
 
-        cd /media/xiaoya
-        7z x -aoa -mmt=16 /media/temp/all_jf.mp4
+        cd ${MEDIA_DIR}/xiaoya
+        7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/all_jf.mp4
 
-        cd /media/xiaoya
-        7z x -aoa -mmt=16 /media/temp/PikPak_jf.mp4
+        cd ${MEDIA_DIR}/xiaoya
+        7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/PikPak_jf.mp4
 
-        touch /media/config/jellyfin_meta_finished
+        touch ${MEDIA_DIR}/config/jellyfin_meta_finished
     
     fi
 fi
@@ -102,6 +102,6 @@ echo -e "$crontabs" | crontab -
 
 echo "Complete." 
 
-touch /media/config/meta_finished
+touch ${MEDIA_DIR}/config/meta_finished
 
 tail -f /dev/null

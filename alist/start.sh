@@ -84,6 +84,11 @@ fi
 
 echo -e "$crontabs" | crontab -
 
+# 设置本地变量
 echo "e825ed6f7f8f44ffa0563cddaddce14d" > /data/infuse_api_key.txt
+
+echo "${EMBY_ADDR:=http://emby:6908}" > /data/emby_server.txt
+
+echo "${JELLYFIN_ADDR:=http://jellyfin:8096}" > /data/jellyfin_server.txt
 
 exec /entrypoint.sh /opt/alist/alist server --no-prefix

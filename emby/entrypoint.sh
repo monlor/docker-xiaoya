@@ -1,10 +1,5 @@
 #!/bin/sh
 
-echo "等待alist启动完成..."
-while ! wget -q -T 1 -O /dev/null http://${ALIST_DOMAIN} &> /dev/null; do
-    sleep 2
-done
-
 echo "等待元数据下载完成..."
 while test ! -f /config/emby_meta_finished; do
     sleep 2
@@ -31,7 +26,9 @@ else
     fi
 fi
 
-sed -i "/xiaoya.host/d" /etc/hosts
-echo -e "$IP\txiaoya.host" >> /etc/hosts
+# 容器里不能使用sed -i，所以使用临时文件
+sed -e "/xiaoya.host/d" /etc/hosts > /tmp/hosts
+echo -e "$IP\txiaoya.host" >> /tmp/hosts
+cat /tmp/hosts > /etc/hosts
 
 /init

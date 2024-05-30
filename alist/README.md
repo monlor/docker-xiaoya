@@ -1,6 +1,10 @@
-## 小雅影视库
+## 小雅Alist
 
-简化部署逻辑，来源：https://xiaoyaliu.notion.site/xiaoya-docker-69404af849504fa5bcf9f2dd5ecaa75f
+alist访问端口：80
+
+emby访问端口：2345
+
+jellyfin访问端口：2346
 
 ## 启动命令
 
@@ -20,7 +24,11 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `FORCE_LOGIN`: 开启登陆功能，true/false
 
-`WEBDAV_PASSWORD`: webdav用户名为dav，设置密码，默认密码：guest_Api789
+`WEBDAV_PASSWORD`: webdav用户名为dav，设置密码。默认用户密码：guest/guest_Api789
+
+`EMBY_ADDR`: emby部署地址，默认http://emby:6908
+
+`JELLYFIN_ADDR`: jellyfin部署地址，默认http://jellyfin:8096
 
 `AUTO_UPDATE_ENABLED`: 自动更新小雅的文件，true/false
 
