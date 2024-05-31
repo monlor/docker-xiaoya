@@ -3,7 +3,6 @@ version: '3'
 services:
   alist:
     image: ghcr.io/monlor/xiaoya-alist
-    container_name: alist
     volumes:
       - xiaoya:/data
     ports:
@@ -21,9 +20,8 @@ services:
     restart: unless-stopped
     networks:
       - default
-  glue:
-    image: ghcr.io/monlor/xiaoya-glue
-    container_name: glue
+  metadata:
+    image: ghcr.io/monlor/xiaoya-metadata
     environment:
       - LANG=C.UTF-8
       # - ALIST_ADDR=http://alist:5678
@@ -44,7 +42,6 @@ services:
       - default
   emby:
     image: ghcr.io/monlor/xiaoya-emby
-    container_name: emby
     environment:
       - TZ=Asia/Shanghai
       - GIDLIST=0
@@ -53,7 +50,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     depends_on:
-      - glue
+      - metadata
       - alist
     volumes:
       - media:/media
@@ -66,7 +63,6 @@ services:
       - default
   resilio:
     image: ghcr.io/monlor/xiaoya-resilio
-    container_name: resilio
     environment:
       - TZ=Asia/Shanghai
     ports:
@@ -76,7 +72,7 @@ services:
       - media:/sync/xiaoya
       - config:/sync/config
     depends_on:
-      - glue
+      - metadata
       - alist
     restart: unless-stopped
     networks:

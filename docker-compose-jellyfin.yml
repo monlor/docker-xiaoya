@@ -3,7 +3,6 @@ version: '3'
 services:
   alist:
     image: ghcr.io/monlor/xiaoya-alist
-    container_name: alist
     volumes:
       - xiaoya:/data
     ports:
@@ -20,9 +19,8 @@ services:
     restart: unless-stopped
     networks:
       - default
-  glue:
-    image: ghcr.io/monlor/xiaoya-glue
-    container_name: glue
+  metadata:
+    image: ghcr.io/monlor/xiaoya-metadata
     environment:
       - LANG=C.UTF-8
       # - ALIST_ADDR=http://alist:5678
@@ -41,7 +39,6 @@ services:
       - default
   jellyfin:
     image: ghcr.io/monlor/xiaoya-jellyfin
-    container_name: jellyfin
     environment:
       - TZ=Asia/Shanghai
       # ALIST_ADDR=http://alist:5678
@@ -49,7 +46,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     depends_on:
-      - glue
+      - metadata
       - alist
     volumes:
       - media:/media

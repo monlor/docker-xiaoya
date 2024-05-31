@@ -53,7 +53,7 @@ releases:
           hosts:
           - host: alist.monlor.cn
   
-  - name: glue
+  - name: metadata
     namespace: media
     chart: monlor/quickchart
     version: 0.2.6
@@ -62,7 +62,7 @@ releases:
           kubernetes.io/hostname: nuc-1-node-1
         image:
           repository: ghcr.io
-          name: monlor/xiaoya-glue
+          name: monlor/xiaoya-metadata
           tag: latest
           pullPolicy: Always  
         env:

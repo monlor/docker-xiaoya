@@ -3,7 +3,7 @@
 
 docker build -t monlor/xiaoya-alist alist
 
-docker build -t monlor/xiaoya-glue glue
+docker build -t monlor/xiaoya-metadata metadata
 
 docker build -t monlor/xiaoya-emby emby
 

@@ -3,7 +3,6 @@ version: '3'
 services:
   alist:
     image: ghcr.io/monlor/xiaoya-alist
-    container_name: alist
     volumes:
       - xiaoya:/data
     ports:

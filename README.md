@@ -8,7 +8,7 @@
 * 合并jellyfin和emby的x86和arm镜像，部署时无需区分镜像名
 * 集成清理脚本到alist服务，无需单独部署
 * 通过环境变量配置阿里云盘token，无需映射文件
-* 元数据下载的流程集成到glue服务，自动下载
+* 元数据下载的流程集成到metadata服务，自动下载
 * jellyfin和emby启动时自动进行依赖检查，等待元数据下载完成，自动添加hosts
 * 完全兼容所有能运行docker的x86和arm设备
 * 支持自动清理阿里云盘，自动同步小雅元数据
@@ -113,10 +113,10 @@ docker run -d --name alist \
     ghcr.io/monlor/xiaoya-alist 
 ```
 
-4. 启动glue用于元数据同步
+4. 启动metadata用于元数据同步
 
 ```bash
-docker run -d --name glue \
+docker run -d --name metadata \
     -e LANG=C.UTF-8 \
     -e EMBY_ENABLED=true \
     -e JELLYFIN_ENABLED=false \
@@ -129,7 +129,7 @@ docker run -d --name glue \
     -v cache:/media/config/cache \
     -v meta:/media/temp \
     --network=xiaoya \
-    ghcr.io/monlor/xiaoya-glue
+    ghcr.io/monlor/xiaoya-metadata
 ```
 
 5. 启动emby服务
@@ -164,7 +164,7 @@ docker run -d --name resilio \
 ## 安全建议
 
 * 开启alist的登陆，alist服务设置`FORCE_LOGIN=true`，设置webdav的密码`WEBDAV_PASSWORD`
-* 在emby控制台修改ApiKey，glue服务设置`EMBY_APIKEY`，用于定期同步emby配置
+* 在emby控制台修改ApiKey，metadata服务设置`EMBY_APIKEY`，用于定期同步emby配置
 
 ## 参考
 
