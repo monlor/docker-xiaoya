@@ -4,7 +4,7 @@
 
 `AUTO_UPDATE_EMBY_INTERVAL`: 自动更新emby配置间隔，默认7，单位天
 
-`EMBY_APIKEY`: emby api 密钥
+`EMBY_APIKEY`: emby api 密钥，建议修改emby的api密钥，设置此变量，用于定期同步emby配置
 
 `EMBY_URL`: emby地址，默认：http://emby:6908
 

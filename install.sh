@@ -2,13 +2,6 @@
 
 set -e
 
-docker_containers=(
-  "xiaoya_alist"
-  "xiaoya_glue"
-  "xiaoya_emby"
-  "xiaoya_jellyfin"
-)
-
 if [[ "$(uname -o)" = "Darwin" ]]; then
   # macOS
   SED_COMMAND='sed -i ""'
@@ -70,16 +63,13 @@ if ! docker compose &> /dev/null; then
   DOCKER_COMPOSE="docker-compose"
 fi
 
+# 让用户输入服务部署目录，默认/opt/xiaoya
+read -p "请输入服务部署目录（默认/opt/xiaoya）：" install_path
+install_path=${install_path:=/opt/xiaoya}
+
 # 检查服务是否已经运行
-echo "检查服务是否已经运行..."
-service_exist=0
-for container in "${docker_containers[@]}"; do
-  if docker ps -a | grep $container > /dev/null; then
-    echo "服务 $container 已经存在！"
-    service_exist=1
-  fi
-done
-if [ $service_exist -eq 1 ]; then
+echo "检查服务是否已经存在..."
+if [ -f "$install_path/docker-compose.yml" ]; then
   # 询问用户是否要更新服务
   read "检查到服务已存在，是否更新服务？(y/n)" update
   if [ "${update}" != "y" ]; then
@@ -88,17 +78,8 @@ if [ $service_exist -eq 1 ]; then
   fi
 fi
 
-# 让用户输入服务部署目录，默认/opt/xiaoya
-read -p "请输入服务部署目录（默认/opt/xiaoya）：" install_path
-install_path=${install_path:=/opt/xiaoya}
-
 # 如果是更新服务，则从原有的compose配置中获取token等信息
 if [ "${update}" = "y" ]; then
-  # 检查docker-compose.yml是否存在
-  if [ ! -f "$install_path/docker-compose.yml" ]; then
-    echo "$install_path/docker-compose.yml文件不存在，请检查服务部署目录是否正确"
-    exit 1
-  fi
   token=$(cat $install_path/docker-compose.yml | grep ALIYUN_TOKEN | awk -F '=' '{print $2}')
   open_token=$(cat $install_path/docker-compose.yml | grep ALIYUN_OPEN_TOKEN | awk -F '=' '{print $2}')
   folder_id=$(cat $install_path/docker-compose.yml | grep ALIYUN_FOLDER_ID | awk -F '=' '{print $2}')

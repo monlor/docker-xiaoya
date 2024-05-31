@@ -8,6 +8,7 @@ ALIST_ADDR=${ALIST_ADDR:=http://alist:5678}
 
 MEDIA_DIR="/media"
 
+echo "保留用户 Policy 中..."
 curl -s "${EMBY_URL}/Users?api_key=${EMBY_APIKEY}" > /tmp/emby.response
 
 echo "导出数据库中..."
@@ -35,7 +36,7 @@ echo "清理旧数据..."
 rm -f $MEDIA_DIR/temp/config.mp4
 
 echo "下载并解压config.mp4数据..."
-cd /media/temp
+cd $MEDIA_DIR/temp
 aria2c -o config.mp4 --continue=true -x6 --conditional-get=true --allow-overwrite=true "${ALIST_ADDR}/d/元数据/config.mp4"
 7z x -aoa -mmt=16 config.mp4
 

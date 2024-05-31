@@ -117,16 +117,16 @@ fi
 
 cron
 
-crontabs=""
+# crontabs=""
 
-if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ]; then
-    echo "启动定时更新Emby任务..."
-    crontabs="0 3 */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /update_emby.sh"
-fi
+# if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ]; then
+#     echo "启动定时更新Emby任务..."
+#     crontabs="0 3 */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /update_emby.sh"
+# fi
 
-if [ -n "${crontabs}" ]; then
-    echo -e "$crontabs" | crontab -
-fi
+# if [ -n "${crontabs}" ]; then
+#     echo -e "$crontabs" | crontab -
+# fi
 
 echo "Complete." 
 

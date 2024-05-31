@@ -29,6 +29,8 @@ releases:
           ALIYUN_FOLDER_ID: 
           AUTO_UPDATE_ENABLED: true
           AUTO_CLEAR_ENABLED: true
+          FORCE_LOGIN: false
+          WEBDAV_PASSWORD: 
         volumes:
         - name: data
           mountPath: /data

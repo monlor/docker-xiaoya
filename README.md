@@ -161,6 +161,11 @@ docker run -d --name resilio \
     ghcr.io/monlor/xiaoya-resilio
 ```
 
+## 安全建议
+
+* 开启alist的登陆，alist服务设置`FORCE_LOGIN=true`，设置webdav的密码`WEBDAV_PASSWORD`
+* 在emby控制台修改ApiKey，glue服务设置`EMBY_APIKEY`，用于定期同步emby配置
+
 ## 参考
 
 https://github.com/DDS-Derek/xiaoya-alist

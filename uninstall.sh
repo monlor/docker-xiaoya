@@ -25,4 +25,4 @@ fi
 echo "停止服务..."
 $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" down $params
 
-rm -rf "$install_path"
+rm -rf "$install_path/docker-compose.yml"

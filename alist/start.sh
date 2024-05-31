@@ -91,7 +91,7 @@ if [ -n "${crontabs}" ]; then
 fi
 
 # 设置本地变量
-echo "e825ed6f7f8f44ffa0563cddaddce14d" > /data/infuse_api_key.txt
+echo "${INFUSE_API_KEY:-e825ed6f7f8f44ffa0563cddaddce14d}" > /data/infuse_api_key.txt
 
 if [ "${AUTO_UPDATE_MEDIA_ADDR:=true}" = "true" ]; then
     echo "开始自动更新媒体服务地址..."
