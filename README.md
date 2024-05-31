@@ -1,6 +1,6 @@
 ## 小雅影视库部署增强版
 
-🚀 使用 Docker Compose 一键部署服务
+🚀 使用 Docker Compose 一键部署服务，兼容群晖，Linux，Windows，Mac，包含所有X86和Arm架构
 
 ✨ 部署alist+下载元数据+部署emby/jellyfin服务全流程自动，无需人工干预
 
@@ -27,20 +27,132 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/mai
 
 | 部署方案          | CPU      | 内存      | 硬盘      |
 | ----------------- | -------- | --------- | --------- |
-| Alist + Emby      | 2核CPU   | 4G内存    | 150G硬盘  |
-| 仅部署 Alist      | 1核CPU   | 512M内存  | 512M硬盘  |
-| Alist + Emby + Jellyfin      | 2核CPU   | 4G内存    | 300G硬盘  |
-| Alist + Jellyfin      | 2核CPU   | 4G内存    | 150G硬盘  |
+| Alist + Emby      | 2核   | 4G    | 150G  |
+| 仅部署 Alist      | 1核   | 512M  | 512M  |
+| Alist + Emby + Jellyfin      | 2核   | 4G    | 300G  |
+| Alist + Jellyfin      | 2核   | 4G    | 150G  |
 
 ## 配置示例
 
 * [只部署小雅alist](/docker-compose-alist.yml)
+* [部署小雅alist+emby](/docker-compose.yml)
 * [部署小雅alist+jellyfin](/docker-compose-jellyfin.yml)
 * [部署小雅alist+emby+jellyfin](/docker-compose-all.yml)
 
-## 安装docker compose
+## 手动部署
 
-https://docs.docker.com/compose/install/linux/#install-using-the-repository
+仅展示小雅alist+emby的部署方式
+
+### 使用Docker Compose
+
+创建compose文件夹
+
+```bash
+mkdir /opt/xiaoya
+cd /opt/xiaoya
+```
+
+下载配置
+
+```bash
+curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose.yml
+```
+
+修改配置docker-compose.yml，添加阿里云盘相关变量
+
+启动服务
+
+```bash
+docker compose up -d
+```
+
+卸载服务
+
+```bash
+docker compose down 
+```
+
+### 使用docker部署
+
+**使用docker部署非常麻烦，不推荐**
+
+创建volume
+
+```bash
+docker volume create xiaoya
+docker volume create media
+docker volume create config
+docker volume create meta
+docker volume create cache
+```
+
+创建网络
+
+```bash
+docker network create xiaoya
+```
+
+启动小雅alist，修改下面的阿里云盘配置，再执行命令
+
+```bash
+docker run -d --name alist \
+    -v xiaoya:/data \
+    -p 5678:5678 -p 2345:2345 -p 2346:2346 \
+    -e TZ=Asia/Shanghai \
+    -e ALIYUN_TOKEN=阿里云盘TOKEN \
+    -e ALIYUN_OPEN_TOKEN=阿里云盘Open Token \
+    -e ALIYUN_FOLDER_ID=阿里云盘文件夹ID \
+    -e AUTO_UPDATE_ENABLED=true \
+    -e AUTO_CLEAR_ENABLED=true \
+    --network=xiaoya \
+    ghcr.io/monlor/xiaoya-alist 
+```
+
+启动glue用于元数据同步
+
+```bash
+docker run -d --name glue \
+    -e LANG=C.UTF-8 \
+    -e EMBY_ENABLED=true \
+    -e JELLYFIN_ENABLED=false \
+    -e AUTO_UPDATE_EMBY_CONFIG_ENABLED=true \
+    -v xiaoya:/etc/xiaoya \
+    -v media:/media/xiaoya \
+    -v config:/media/config \
+    -v cache:/media/config/cache \
+    -v meta:/media/temp \
+    --network=xiaoya \
+    ghcr.io/monlor/xiaoya-glue
+```
+
+启动emby服务
+
+```bash
+docker run -d --name emby
+    -e TZ=Asia/Shanghai \
+    -e GIDLIST=0 \
+    -e ALIST_ADDR=http://alist:5678 \
+    --privileged \
+    --device /dev/dri:/dev/dri \
+    -v media:/media \
+    -v config:/config \
+    -v cache:/cache \
+    -p 6908:6908 \
+    --network=xiaoya \
+    ghcr.io/monlor/xiaoya-emby
+```
+
+启动resilio自动同步元数据
+
+```bash
+docker run -d --name resilio \
+    -e TZ=Asia/Shanghai \
+    -p 8888:8888 -p 55555:55555 \
+    -v media:/sync/xiaoya \
+    -v config:/sync/config \
+    --network=xiaoya \
+    ghcr.io/monlor/xiaoya-resilio
+```
 
 ## 参考
 
