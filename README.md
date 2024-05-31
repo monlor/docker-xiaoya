@@ -17,9 +17,7 @@
 
 ## 一键部署
 
-默认部署服务：alist + emby
-
-> 服务部署和更新都是以下脚本
+> 脚本支持重复执行，部署和更新都可以直接执行以下脚本
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"

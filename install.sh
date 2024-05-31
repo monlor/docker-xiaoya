@@ -30,10 +30,32 @@ if ! command -v docker &> /dev/null; then
   fi
 fi
 
+DOCKER_COMPOSE="docker compose"
+
 # 检查是否安装了compose插件,docker compose 命令
+if ! docker compose &> /dev/null && ! which docker-compose &> /dev/null; then
+  read -p "docker compose 未安装，是否安装？(y/n)" install
+  if [ "$install" = "y" ]; then
+    echo "安装docker compose..."
+    # 判断系统是x86还是arm，arm有很多种类，都要判断
+    if [ "$(uname -m)" = "aarch64" ]; then
+      file=docker-compose-linux-aarch64
+    elif [ "$(uname -m)" = "x86_64" ]; then
+      file=docker-compose-linux-x86_64
+    else
+      echo "不支持的系统架构$(uname -m), 请自行安装docker compose(https://docs.docker.com/compose/install/linux/#install-using-the-repository)"
+      exit 1
+    fi
+    curl -SL https://github.com/docker/compose/releases/download/v2.27.1/$file -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+  else
+    echo "退出安装"
+    exit 1
+  fi
+fi
+
 if ! docker compose &> /dev/null; then
-  echo "系统未安装docker compose插件，退出程序..."
-  exit 1
+  DOCKER_COMPOSE="docker-compose"
 fi
 
 # 检查服务是否已经运行
@@ -68,30 +90,34 @@ if [ "${update}" = "y" ]; then
   token=$(cat $install_path/docker-compose.yml | grep ALIYUN_TOKEN | awk -F '=' '{print $2}')
   open_token=$(cat $install_path/docker-compose.yml | grep ALIYUN_OPEN_TOKEN | awk -F '=' '{print $2}')
   folder_id=$(cat $install_path/docker-compose.yml | grep ALIYUN_FOLDER_ID | awk -F '=' '{print $2}')
-else
-  # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
-  echo "阿里云盘token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html"
-  read -p "请输入阿里云盘TOKEN：" token
-  if [ ${#token} -ne 32 ]; then
-    echo "长度不对,阿里云盘 Token是32位"
-    exit 1
-  fi
+fi
 
-  # 让用户输入阿里云盘OpenTOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html
-  echo "阿里云盘Open token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html"
-  read -p "请输入阿里云盘Open TOKEN：" open_token
-  if [ ${#open_token} -le 334 ]; then
-    echo "长度不对,阿里云盘 Open Token是335位"
-    exit 1
-  fi
+# 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
+echo "阿里云盘token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html"
+read -p "请输入阿里云盘TOKEN(默认为$token)：" res
+token=${res:=$token}
+if [ ${#token} -ne 32 ]; then
+  echo "长度不对,阿里云盘 Token是32位"
+  exit 1
+fi
 
-  # 让用户输入阿里云盘转存目录folder_id，folder_id获取方式教程：https://www.aliyundrive.com/s/rP9gP3h9asE
-  echo "转存以下文件到你的网盘，进入文件夹，获取地址栏末尾的文件夹ID：https://www.aliyundrive.com/s/rP9gP3h9asE"
-  read -p "请输入阿里云盘转存目录folder_id：" folder_id
-  if [ ${#folder_id} -ne 40 ]; then
-    echo "长度不对,阿里云盘 folder id是40位"
-    exit 1
-  fi
+
+# 让用户输入阿里云盘OpenTOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html
+echo "阿里云盘Open token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html"
+read -p "请输入阿里云盘Open TOKEN(默认为$open_token)：" res
+open_token=${res:=$open_token}
+if [ ${#open_token} -le 334 ]; then
+  echo "长度不对,阿里云盘 Open Token是335位"
+  exit 1
+fi
+
+# 让用户输入阿里云盘转存目录folder_id，folder_id获取方式教程：https://www.aliyundrive.com/s/rP9gP3h9asE
+echo "转存以下文件到你的网盘，进入文件夹，获取地址栏末尾的文件夹ID：https://www.aliyundrive.com/s/rP9gP3h9asE"
+read -p "请输入阿里云盘转存目录folder_id(默认为$folder_id)：" res
+folder_id=${res:=$folder_id}
+if [ ${#folder_id} -ne 40 ]; then
+  echo "长度不对,阿里云盘 folder id是40位"
+  exit 1
 fi
 
 # 选择部署服务类型，alist + emby (默认), alist, alist + jellyfin, alist + emby + jellyfin
@@ -134,18 +160,18 @@ sed -i "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.y
 sed -i "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
 
 echo "开始部署服务..."
-docker compose -f docker-compose.yml up --remove-orphans --pull=always -d
+$DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
 
 echo "服务部署完成，下载并解压60G元数据需要一段时间，请耐心等待..."
 
 echo 
 echo "> 服务管理"
 # 提示用户compose如何查看日志，启动，重启，停止服务
-echo "查看日志：docker compose -f $install_path/docker-compose.yml logs -f"
+echo "查看日志：$DOCKER_COMPOSE -f $install_path/docker-compose.yml logs -f"
 # 更新服务
-echo "启动服务：docker compose -f $install_path/docker-compose.yml start"
-echo "重启服务：docker compose -f $install_path/docker-compose.yml restart"
-echo "停止服务：docker compose -f $install_path/docker-compose.yml down"
+echo "启动服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml start"
+echo "重启服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml restart"
+echo "停止服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml down"
 
 # 获取当前服务器ip
 ip=$(curl -s ip.sb 2> /dev/null)
