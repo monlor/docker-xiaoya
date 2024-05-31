@@ -37,12 +37,20 @@ jobs:
       - name: Determine version and tags
         id: vars
         run: |
-          IMAGE="ghcr.io/${{ github.repository_owner }}/xiaoya-alist"
+          IMAGE_PREFIX="ghcr.io/${{ github.repository_owner }}"
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
-            echo "TAGS=${IMAGE}:latest,${IMAGE}:${VERSION}" >> $GITHUB_ENV
+            echo "ALIST_TAGS=${IMAGE_PREFIX}/xiaoya-alist:latest,${IMAGE_PREFIX}/xiaoya-alist:${VERSION}" >> $GITHUB_ENV
+            echo "GLUE_TAGS=${IMAGE_PREFIX}/xiaoya-glue:latest,${IMAGE_PREFIX}/xiaoya-glue:${VERSION}" >> $GITHUB_ENV
+            echo "EMBY_TAGS=${IMAGE_PREFIX}/xiaoya-emby:latest,${IMAGE_PREFIX}/xiaoya-emby:${VERSION}" >> $GITHUB_ENV
+            echo "JELLYFIN_TAGS=${IMAGE_PREFIX}/xiaoya-jellyfin:latest,${IMAGE_PREFIX}/xiaoya-jellyfin:${VERSION}" >> $GITHUB_ENV
+            echo "RESILIO_TAGS=${IMAGE_PREFIX}/xiaoya-resilio:latest,${IMAGE_PREFIX}/xiaoya-resilio:${VERSION}" >> $GITHUB_ENV
           else
-            echo "TAGS=${IMAGE}:latest" >> $GITHUB_ENV
+            echo "ALIST_TAGS=${IMAGE_PREFIX}/xiaoya-alist:latest" >> $GITHUB_ENV
+            echo "GLUE_TAGS=${IMAGE_PREFIX}/xiaoya-glue:latest" >> $GITHUB_ENV
+            echo "EMBY_TAGS=${IMAGE_PREFIX}/xiaoya-emby:latest" >> $GITHUB_ENV
+            echo "JELLYFIN_TAGS=${IMAGE_PREFIX}/xiaoya-jellyfin:latest" >> $GITHUB_ENV
+            echo "RESILIO_TAGS=${IMAGE_PREFIX}/xiaoya-resilio:latest" >> $GITHUB_ENV
           fi
 
       - name: Build and push xiaoya-alist
@@ -50,7 +58,7 @@ jobs:
         with:
           context: ./alist
           push: true
-          tags: ${{ env.TAGS }}
+          tags: ${{ env.ALIST_TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -60,7 +68,7 @@ jobs:
         with:
           context: ./glue
           push: true
-          tags: ${{ env.TAGS }}
+          tags: ${{ env.GLUE_TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -70,7 +78,7 @@ jobs:
         with:
           context: ./emby
           push: true
-          tags: ${{ env.TAGS }}
+          tags: ${{ env.EMBY_TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -80,7 +88,7 @@ jobs:
         with:
           context: ./jellyfin
           push: true
-          tags: ${{ env.TAGS }}
+          tags: ${{ env.JELLYFIN_TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -90,7 +98,7 @@ jobs:
         with:
           context: ./resilio
           push: true
-          tags: ${{ env.TAGS }}
+          tags: ${{ env.RESILIO_TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
