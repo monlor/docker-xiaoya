@@ -25,6 +25,10 @@ echo
 
 # 检查docker服务是否存在，不存在则询问用户是否安装，不安装退出脚本
 if ! command -v docker &> /dev/null; then
+  if [ "$(uname -o)" = "Darwin" ]; then
+    echo "Docker 未安装，请安装docker后再运行脚本，推荐OrbStack：https://orbstack.dev/"
+    exit 1
+  fi
   echo "Docker 未安装，是否安装？(y/n)"
   read install
   if [ "$install" = "y" ]; then
