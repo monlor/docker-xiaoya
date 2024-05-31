@@ -9,6 +9,14 @@ docker_containers=(
   "xiaoya_jellyfin"
 )
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  SED_COMMAND="sed -i ''"
+else
+  # Linux
+  SED_COMMAND="sed -i"
+fi
+
 # 欢迎信息
 echo "欢迎使用xiaoya服务部署脚本"
 echo "项目地址：https://github.com/monlor/docker-xiaoya"
@@ -93,6 +101,7 @@ if [ "${update}" = "y" ]; then
 fi
 
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
+echo
 echo "阿里云盘token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html"
 read -p "请输入阿里云盘TOKEN(默认为$token)：" res
 token=${res:=$token}
@@ -101,8 +110,8 @@ if [ ${#token} -ne 32 ]; then
   exit 1
 fi
 
-
 # 让用户输入阿里云盘OpenTOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html
+echo
 echo "阿里云盘Open token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html"
 read -p "请输入阿里云盘Open TOKEN(默认为$open_token)：" res
 open_token=${res:=$open_token}
@@ -112,6 +121,7 @@ if [ ${#open_token} -le 334 ]; then
 fi
 
 # 让用户输入阿里云盘转存目录folder_id，folder_id获取方式教程：https://www.aliyundrive.com/s/rP9gP3h9asE
+echo
 echo "转存以下文件到你的网盘，进入文件夹，获取地址栏末尾的文件夹ID：https://www.aliyundrive.com/s/rP9gP3h9asE"
 read -p "请输入阿里云盘转存目录folder_id(默认为$folder_id)：" res
 folder_id=${res:=$folder_id}
@@ -121,6 +131,7 @@ if [ ${#folder_id} -ne 40 ]; then
 fi
 
 # 选择部署服务类型，alist + emby (默认), alist, alist + jellyfin, alist + emby + jellyfin
+echo
 echo "部署类型："
 echo "1. alist + emby (默认)"
 echo "2. alist"
@@ -155,9 +166,9 @@ cd $install_path
 
 echo "开始生成配置文件docker-compose${service_type}.yml..."
 curl -#Lo $install_path/docker-compose.yml https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
-sed -i "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
-sed -i "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
-sed -i "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
+$SED_COMMAND -i "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
+$SED_COMMAND -i "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
+$SED_COMMAND -i "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
 
 echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
