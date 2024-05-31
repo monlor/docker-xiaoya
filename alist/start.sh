@@ -98,4 +98,6 @@ if [ "${AUTO_UPDATE_MEDIA_ADDR:=true}" = "true" ]; then
     /update_media_addr.sh &> /dev/null &
 fi
 
+/fix_media.sh &
+
 exec /entrypoint.sh /opt/alist/alist server --no-prefix
