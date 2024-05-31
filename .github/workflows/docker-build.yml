@@ -50,7 +50,7 @@ jobs:
         with:
           context: ./alist
           push: true
-          tags: ${{ steps.vars.outputs.TAGS }}
+          tags: ${{ env.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -60,7 +60,7 @@ jobs:
         with:
           context: ./glue
           push: true
-          tags: ${{ steps.vars.outputs.TAGS }}
+          tags: ${{ env.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -70,7 +70,7 @@ jobs:
         with:
           context: ./emby
           push: true
-          tags: ${{ steps.vars.outputs.TAGS }}
+          tags: ${{ env.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -80,7 +80,7 @@ jobs:
         with:
           context: ./jellyfin
           push: true
-          tags: ${{ steps.vars.outputs.TAGS }}
+          tags: ${{ env.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -90,7 +90,7 @@ jobs:
         with:
           context: ./resilio
           push: true
-          tags: ${{ steps.vars.outputs.TAGS }}
+          tags: ${{ env.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
