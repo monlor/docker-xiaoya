@@ -35,7 +35,7 @@ download() {
     7z x -aoa -mmt=16 config.mp4
 }
 
-update() {
+update_data() {
 
     if check_emby_status; then
         echo "Emby 服务未停止！"
@@ -130,14 +130,39 @@ start_emby() {
     sleep 10
 }
 
-main() {
+update() {
     # 储存用户策略，下载元数据，停止emby服务，更新数据库，启动emby服务，恢复用户策略
     save_user_policy
     download
     stop_emby
-    update
+    update_data
     start_emby
     recover_user_policy
 }
 
-main
+reset() {
+    stop_emby
+    if [ ! -f "$MEDIA_DIR/temp/config.mp4" ]; then
+        download
+    fi
+    rm -rf $MEDIA_DIR/config/*
+    cd $MEDIA_DIR
+    7z x -aoa -mmt=16 temp/config.mp4
+    start_emby
+}
+
+case $1 in
+    update)
+        update
+        ;;
+    reset)
+        reset
+        ;;
+    download) 
+        download
+        ;;
+    *)
+        echo "Usage: $0 {update|reset|download}"
+        exit 1
+        ;;
+esac

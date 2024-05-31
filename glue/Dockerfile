@@ -17,8 +17,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY ./entrypoint.sh /entrypoint.sh
-COPY ./update_emby.sh /update_emby.sh
+COPY ./emby.sh /emby.sh
 
-RUN chmod +x /entrypoint.sh /update_emby.sh
+RUN chmod +x /entrypoint.sh /emby.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]

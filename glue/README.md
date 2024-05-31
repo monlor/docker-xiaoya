@@ -10,6 +10,15 @@
 
 `ALIST_ADDR`: alist地址，默认：http://alist:5678
 
-## 手动更新emby配置
+## emby数据管理
 
-进入容器执行：`/update_emby.sh`
+进入容器执行
+
+```
+# 更新emby数据
+/emby.sh update
+# 使用历史config.mp4重置emby数据，无法恢复
+/emby.sh reset
+# 下载emby数据，仅下载，不更新
+/emby.sh download
+```
