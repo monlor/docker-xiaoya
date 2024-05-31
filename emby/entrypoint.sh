@@ -16,6 +16,6 @@ networks:   files
 EOF
 
 echo "开始自动更新alist地址..."
-/update_alist_addr.sh &
+/update_alist_addr.sh &> /dev/null &
 
 exec /init

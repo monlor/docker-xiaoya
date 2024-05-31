@@ -95,7 +95,7 @@ echo "e825ed6f7f8f44ffa0563cddaddce14d" > /data/infuse_api_key.txt
 
 if [ "${AUTO_UPDATE_MEDIA_ADDR:=true}" = "true" ]; then
     echo "开始自动更新媒体服务地址..."
-    /update_media_addr.sh &
+    /update_media_addr.sh &> /dev/null &
 fi
 
 exec /entrypoint.sh /opt/alist/alist server --no-prefix
