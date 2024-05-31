@@ -45,38 +45,34 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/mai
 
 ### 使用Docker Compose
 
-创建compose文件夹
+1. 创建compose文件夹
 
 ```bash
 mkdir /opt/xiaoya
 cd /opt/xiaoya
 ```
 
-下载配置
+2. 下载配置
 
 ```bash
 curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose.yml
 ```
 
-修改配置docker-compose.yml，添加阿里云盘相关变量
-
-启动服务
+3. 修改配置docker-compose.yml，添加阿里云盘相关变量，启动服务
 
 ```bash
 docker compose up -d
 ```
 
-卸载服务
+4. 卸载服务
 
 ```bash
 docker compose down 
 ```
 
-### 使用docker部署
+### 使用docker部署【不推荐】
 
-**使用docker部署非常麻烦，不推荐**
-
-创建volume
+1. 创建volume
 
 ```bash
 docker volume create xiaoya
@@ -86,13 +82,13 @@ docker volume create meta
 docker volume create cache
 ```
 
-创建网络
+2. 创建网络
 
 ```bash
 docker network create xiaoya
 ```
 
-启动小雅alist，修改下面的阿里云盘配置，再执行命令
+3. 启动小雅alist，修改下面的阿里云盘配置，再执行命令
 
 ```bash
 docker run -d --name alist \
@@ -108,7 +104,7 @@ docker run -d --name alist \
     ghcr.io/monlor/xiaoya-alist 
 ```
 
-启动glue用于元数据同步
+4. 启动glue用于元数据同步
 
 ```bash
 docker run -d --name glue \
@@ -125,7 +121,7 @@ docker run -d --name glue \
     ghcr.io/monlor/xiaoya-glue
 ```
 
-启动emby服务
+5. 启动emby服务
 
 ```bash
 docker run -d --name emby
@@ -142,7 +138,7 @@ docker run -d --name emby
     ghcr.io/monlor/xiaoya-emby
 ```
 
-启动resilio自动同步元数据
+6. 启动resilio自动同步元数据
 
 ```bash
 docker run -d --name resilio \
