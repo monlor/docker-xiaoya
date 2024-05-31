@@ -39,7 +39,21 @@ download_meta() {
     file=$1
     path=$2
     echo "Downloading ${file}..."
-    aria2c -o ${file} --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${path}${file}"
+    # 重试3次下载，包含.aria2则重试
+    for i in {1..5}; do
+        echo "Downloading ${file}, try ${i}..."
+        aria2c -o "${file}" --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${path}${file}"
+        if [ ! -f "${file}.aria2" ]; then
+            break
+        fi
+    done
+    # 如果还存在aria2，则下载失败
+    if [ -f "${file}.aria2" ]; then
+        echo "Download ${file} failed."
+        rm -rf "${file}"
+        rm -rf "${file}.aria2"
+        return 1
+    fi
 }
 
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then

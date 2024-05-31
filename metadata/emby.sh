@@ -26,11 +26,34 @@ save_user_policy() {
 }
 
 download() {
-    echo "清理旧数据..."
-    rm -f $MEDIA_DIR/temp/config.mp4
+    if [ -f $MEDIA_DIR/temp/config.mp4 ]; then
+        echo "备份旧数据..."
+        mv -f $MEDIA_DIR/temp/config.mp4 $MEDIA_DIR/temp/config.mp4.bak
+    fi
     echo "下载config.mp4数据..."
     cd $MEDIA_DIR/temp
-    aria2c -o config.mp4 --continue=true -x6 --conditional-get=true --allow-overwrite=true "${ALIST_ADDR}/d/元数据/config.mp4"
+    # 重试3次下载config.mp4，包含config.mp4.aria2则重试
+    for i in {1..5}; do
+        echo "下载config.mp4，尝试 $i..."
+        aria2c -o config.mp4 --continue=true -x6 --conditional-get=true --allow-overwrite=true "${ALIST_ADDR}/d/元数据/config.mp4"
+        if [ ! -f $MEDIA_DIR/temp/config.mp4.aria2 ]; then
+            break
+        fi
+    done
+
+    if [ -f $MEDIA_DIR/temp/config.mp4.aria2 ]; then
+        echo "下载config.mp4失败，还原文件..."
+        rm -f $MEDIA_DIR/temp/config.mp4.aria2
+        rm -f $MEDIA_DIR/temp/config.mp4
+        if [ -f $MEDIA_DIR/temp/config.mp4.bak ]; then
+            mv -f $MEDIA_DIR/temp/config.mp4.bak $MEDIA_DIR/temp/config.mp4
+        fi
+        return 1
+    fi
+    
+    rm -rf $MEDIA_DIR/temp/config.mp4.bak
+    return 0
+    
 }
 
 extract() {
@@ -109,10 +132,6 @@ recover_user_policy() {
     echo "更新用户 Policy 中..."
     USER_COUNT=$(jq '.[].Name' /tmp/emby.response | wc -l)
     for ((i = 0; i < USER_COUNT; i++)); do
-        # if [[ "$USER_COUNT" -gt 50 ]]; then
-        #     echo "用户超过 50 位，跳过更新用户 Policy！"
-        #     exit 1
-        # fi
         id=$(jq -r ".[$i].Id" /tmp/emby.response)
         name=$(jq -r ".[$i].Name" /tmp/emby.response)
         policy=$(jq -r ".[$i].Policy | to_entries | from_entries | tojson" /tmp/emby.response)
@@ -156,7 +175,8 @@ reset() {
     if [ ! -f "$MEDIA_DIR/temp/config.mp4" ]; then
         download
     fi
-    rm -rf $MEDIA_DIR/config/*
+    # 不能删除config目录，该目录下有finished标记文件
+    # rm -rf $MEDIA_DIR/config/* 
     cd $MEDIA_DIR
     7z x -aoa -mmt=16 temp/config.mp4
     start_emby
