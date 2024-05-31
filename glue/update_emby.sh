@@ -100,10 +100,10 @@ recover_user_policy() {
     echo "更新用户 Policy 中..."
     USER_COUNT=$(jq '.[].Name' /tmp/emby.response | wc -l)
     for ((i = 0; i < USER_COUNT; i++)); do
-        if [[ "$USER_COUNT" -gt 50 ]]; then
-            echo "用户超过 50 位，跳过更新用户 Policy！"
-            exit 1
-        fi
+        # if [[ "$USER_COUNT" -gt 50 ]]; then
+        #     echo "用户超过 50 位，跳过更新用户 Policy！"
+        #     exit 1
+        # fi
         id=$(jq -r ".[$i].Id" /tmp/emby.response)
         name=$(jq -r ".[$i].Name" /tmp/emby.response)
         policy=$(jq -r ".[$i].Policy | to_entries | from_entries | tojson" /tmp/emby.response)

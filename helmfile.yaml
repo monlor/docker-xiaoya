@@ -92,6 +92,8 @@ releases:
           hostPath: 
             path: /opt/xiaoya/temp
             type: DirectoryOrCreate
+        health:
+          enabled: false
         strategy:
           type: Recreate
         resources: 
@@ -108,6 +110,9 @@ releases:
     version: 0.2.6
     values:
       - port: 6908
+        extraPort:
+          - port: 8080
+            protocol: TCP
         nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
         image:
@@ -139,6 +144,8 @@ releases:
           mountPath: /dev/dri
           hostPath:
             path: /dev/dri
+        health:
+          enabled: false
         strategy:
           type: Recreate
         podSecurityContext:
@@ -183,6 +190,8 @@ releases:
           hostPath: 
             path: /opt/xiaoya/config
             type: DirectoryOrCreate
+        health:
+          enabled: false
         strategy:
           type: Recreate
         resources: 

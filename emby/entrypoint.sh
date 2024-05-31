@@ -22,5 +22,5 @@ start_command="/system/EmbyServer -programdata /config -ffdetect /bin/ffdetect -
 
 ${start_command} &
 
-exec shell2http -port 8080 /stop "killall -15 EmbyServer" /start "${start_command}"
+exec shell2http -port 8080 /stop "killall -15 EmbyServer" /start "LD_LIBRARY_PATH=/lib:/system ${start_command} &"
 
