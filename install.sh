@@ -180,7 +180,7 @@ $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
 echo "服务部署完成，下载并解压60G元数据需要一段时间，请耐心等待..."
 
 echo 
-echo "> 服务管理"
+echo "> 服务管理（请牢记以下命令）"
 # 提示用户compose如何查看日志，启动，重启，停止服务
 echo "查看日志：$DOCKER_COMPOSE -f $install_path/docker-compose.yml logs -f"
 # 更新服务
@@ -197,5 +197,6 @@ echo
 echo "> 等待服务部署完成后访问地址如下"
 echo "alist地址: http://$local_ip:5678, http://$ip:5678"
 echo "webdav地址: http://$local_ip:5678/dav, http://$ip:5678/dav, 默认用户密码: guest/guest_Api789"
+echo "tvbox地址: http://$local_ip:5678/tvbox/my_ext.json, http://$ip:5678/tvbox/my_ext.json"
 echo "emby地址: http://$local_ip:6908, http://$ip:6908, 默认用户密码: xiaoya/1234"
 echo "jellyfin地址: http://$local_ip:8096, http://$ip:8096"

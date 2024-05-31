@@ -59,7 +59,7 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
             download_meta pikpak.mp4
         fi
 
-        echo "Extracting Jellyfin metadata..."
+        echo "Extracting Emby metadata..."
 
         cd ${MEDIA_DIR}
         7z x -aoa -mmt=16 temp/config.mp4
