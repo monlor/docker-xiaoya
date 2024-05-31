@@ -37,12 +37,12 @@ jobs:
       - name: Determine version and tags
         id: vars
         run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/xiaoya-alist"
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
-            echo "IS_TAG=true" >> $GITHUB_ENV
-            echo "VERSION=$VERSION" >> $GITHUB_ENV
+            echo "TAGS=${IMAGE}:latest,${IMAGE}:${VERSION}" >> $GITHUB_ENV
           else
-            echo "IS_TAG=false" >> $GITHUB_ENV
+            echo "TAGS=${IMAGE}:latest" >> $GITHUB_ENV
           fi
 
       - name: Build and push xiaoya-alist
@@ -50,9 +50,7 @@ jobs:
         with:
           context: ./alist
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/xiaoya-alist:latest
-            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-alist:${{ env.VERSION }}' || '' }}
+          tags: ${{ steps.vars.outputs.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -62,9 +60,7 @@ jobs:
         with:
           context: ./glue
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/xiaoya-glue:latest
-            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-glue:${{ env.VERSION }}' || '' }}
+          tags: ${{ steps.vars.outputs.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -74,9 +70,7 @@ jobs:
         with:
           context: ./emby
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/xiaoya-emby:latest
-            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-emby:${{ env.VERSION }}' || '' }}
+          tags: ${{ steps.vars.outputs.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -86,9 +80,7 @@ jobs:
         with:
           context: ./jellyfin
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/xiaoya-jellyfin:latest
-            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-jellyfin:${{ env.VERSION }}' || '' }}
+          tags: ${{ steps.vars.outputs.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -98,9 +90,7 @@ jobs:
         with:
           context: ./resilio
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/xiaoya-resilio:latest
-            ${{ env.IS_TAG == 'true' && 'ghcr.io/${{ github.repository_owner }}/xiaoya-resilio:${{ env.VERSION }}' || '' }}
+          tags: ${{ steps.vars.outputs.TAGS }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
