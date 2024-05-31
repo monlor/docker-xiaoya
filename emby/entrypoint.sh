@@ -18,4 +18,7 @@ EOF
 echo "开始自动更新alist地址..."
 /update_alist_addr.sh &> /dev/null &
 
-exec /init
+/init &
+
+exec shell2http -port 8080 /stop "killall -15 s6-svscan" /start "/init"
+
