@@ -120,13 +120,13 @@ recover_user_policy() {
 
 stop_emby() {
     echo "停止emby服务..."
-    curl -s "${EMBY_CONTROL_URL}/stop"
+    curl -s -f -m 5 "${EMBY_CONTROL_URL}/stop"
     sleep 10
 }
 
 start_emby() {
     echo "启动emby服务..."
-    curl -s "${EMBY_CONTROL_URL}/start"
+    curl -s -f -m 5 "${EMBY_CONTROL_URL}/start" || true
     sleep 10
 }
 
