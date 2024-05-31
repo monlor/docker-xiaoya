@@ -17,10 +17,18 @@
 
 ## 一键部署
 
-> 脚本支持重复执行，部署和更新都可以直接执行以下脚本
+### 部署或更新脚本
+
+> 脚本支持重复执行
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
+```
+
+### 卸载脚本
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/uninstall.sh)"
 ```
 
 ## 部署配置推荐
