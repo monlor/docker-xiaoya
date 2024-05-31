@@ -55,6 +55,14 @@ jobs:
             echo "RESILIO_TAGS=${IMAGE_PREFIX}/xiaoya-resilio:${LATEST_TAG}" >> $GITHUB_ENV
           fi
 
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-
+
       - name: Build and push xiaoya-alist
         uses: docker/build-push-action@v4
         with:
@@ -62,8 +70,8 @@ jobs:
           push: true
           tags: ${{ env.ALIST_TAGS }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Build and push xiaoya-glue
         uses: docker/build-push-action@v4
@@ -72,8 +80,8 @@ jobs:
           push: true
           tags: ${{ env.GLUE_TAGS }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Build and push xiaoya-emby
         uses: docker/build-push-action@v4
@@ -82,8 +90,8 @@ jobs:
           push: true
           tags: ${{ env.EMBY_TAGS }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Build and push xiaoya-jellyfin
         uses: docker/build-push-action@v4
@@ -92,8 +100,8 @@ jobs:
           push: true
           tags: ${{ env.JELLYFIN_TAGS }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
             
       - name: Build and push xiaoya-resilio
         uses: docker/build-push-action@v4
@@ -102,6 +110,12 @@ jobs:
           push: true
           tags: ${{ env.RESILIO_TAGS }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+  
             
