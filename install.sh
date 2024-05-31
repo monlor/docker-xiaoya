@@ -9,12 +9,12 @@ docker_containers=(
   "xiaoya_jellyfin"
 )
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [[ "$(uname -o)" = "Darwin" ]]; then
   # macOS
-  SED_COMMAND="sed -i ''"
+  SED_COMMAND='sed -i ""'
 else
   # Linux
-  SED_COMMAND="sed -i"
+  SED_COMMAND='sed -i'
 fi
 
 # 欢迎信息
@@ -166,9 +166,9 @@ cd $install_path
 
 echo "开始生成配置文件docker-compose${service_type}.yml..."
 curl -#Lo $install_path/docker-compose.yml https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
-$SED_COMMAND -i "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
-$SED_COMMAND -i "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
-$SED_COMMAND -i "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
+$SED_COMMAND "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
+$SED_COMMAND "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
+$SED_COMMAND "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
 
 echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
@@ -187,7 +187,7 @@ echo "停止服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml down"
 # 获取当前服务器ip
 ip=$(curl -s ip.sb 2> /dev/null)
 # 内网ip
-local_ip=$(hostname -I | awk '{print $1}')
+local_ip=$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{ print $2 }' | head -1)
 
 echo 
 echo "> 等待服务部署完成后访问地址如下"
