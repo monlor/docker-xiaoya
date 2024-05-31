@@ -1,10 +1,12 @@
 ## 小雅Alist
 
-alist访问端口：80
+alist访问端口：5678
 
 emby访问端口：2345
 
 jellyfin访问端口：2346
+
+tvbox访问地址：http://ip:5678/tvbox/my_ext.json
 
 ## 启动命令
 
