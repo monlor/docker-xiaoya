@@ -3,8 +3,8 @@
 set -e
 
 EMBY_APIKEY=${EMBY_APIKEY:-e825ed6f7f8f44ffa0563cddaddce14d}
-EMBY_URL=${EMBY_URL:-http://emby:8096}
-ALIST_ADDR=${ALIST_ADDR:=http://alist:80}
+EMBY_URL=${EMBY_URL:-http://emby:6908}
+ALIST_ADDR=${ALIST_ADDR:=http://alist:5678}
 
 MEDIA_DIR="/media"
 

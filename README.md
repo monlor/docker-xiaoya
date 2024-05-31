@@ -108,6 +108,7 @@ docker run -d --name alist \
     -e ALIYUN_FOLDER_ID=阿里云盘文件夹ID \
     -e AUTO_UPDATE_ENABLED=true \
     -e AUTO_CLEAR_ENABLED=true \
+    -e EMBY_ADDR=http://emby:6908 \
     --network=xiaoya \
     ghcr.io/monlor/xiaoya-alist 
 ```
@@ -120,6 +121,8 @@ docker run -d --name glue \
     -e EMBY_ENABLED=true \
     -e JELLYFIN_ENABLED=false \
     -e AUTO_UPDATE_EMBY_CONFIG_ENABLED=true \
+    -e ALIST_ADDR=http://alist:5678 \
+    -e EMBY_ADDR=http://emby:6908 \
     -v xiaoya:/etc/xiaoya \
     -v media:/media/xiaoya \
     -v config:/media/config \

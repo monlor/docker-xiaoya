@@ -17,6 +17,7 @@ services:
       - ALIYUN_FOLDER_ID=
       - AUTO_UPDATE_ENABLED=true
       - AUTO_CLEAR_ENABLED=true
+      # - EMBY_ADDR=http://emby:6908
     restart: unless-stopped
     networks:
       - default
@@ -26,6 +27,7 @@ services:
     environment:
       - LANG=C.UTF-8
       # - ALIST_ADDR=http://alist:5678
+      # - EMBY_ADDR=http://emby:6908
       - EMBY_ENABLED=true
       - JELLYFIN_ENABLED=false
       - AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
