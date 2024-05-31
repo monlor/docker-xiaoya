@@ -18,7 +18,9 @@ EOF
 echo "开始自动更新alist地址..."
 /update_alist_addr.sh &> /dev/null &
 
-/init &
+start_command="/system/EmbyServer -programdata /config -ffdetect /bin/ffdetect -ffmpeg /bin/ffmpeg -ffprobe /bin/ffprobe -restartexitcode 3"
 
-exec shell2http -port 8080 /stop "killall -15 s6-svscan" /start "/init"
+${start_command} &
+
+exec shell2http -port 8080 /stop "killall -15 EmbyServer" /start "${start_command}"
 
