@@ -1,5 +1,7 @@
 FROM monlor/embyserver
 
+LABEL MAINTAINER me@monlor.com
+
 ARG TARGETARCH
 
 ENV SHELL2HTTP_VERSION "1.17.0"

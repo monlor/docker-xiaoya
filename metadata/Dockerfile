@@ -1,4 +1,6 @@
-FROM xiaoyaliu/metadata:latest
+FROM xiaoyaliu/glue:latest
+
+LABEL MAINTAINER me@monlor.com
 
 WORKDIR /media
 
