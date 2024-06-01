@@ -56,19 +56,25 @@ download_files() {
             echo "Downloading file $file..."
             curl -s -o "${DATA_DIR}/${file}" "${remote_url}/${file}"
         done
+        return 0
     else
         echo "No need to download files"
+        return 1
     fi
 }
 
 restart_service() {
-    killall -15 alist
+    kill -15 $(ps ax | grep 'nginx|httpd|alist' | grep -v grep | awk '{print$1}')
     sleep 10
     /entrypoint.sh /opt/alist/alist server --no-prefix &
 }
 
 update() {
     download_files
+    if [ $? -ne 0 ]; then
+        echo "Failed to download files or no need to update"
+        return 1
+    fi
     restart_service
 }
 
