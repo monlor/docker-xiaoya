@@ -11,6 +11,10 @@ on:
       - 'README.md'
       - 'install.sh'
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
