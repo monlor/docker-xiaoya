@@ -37,6 +37,8 @@ releases:
           hostPath: 
             path: /opt/xiaoya/data
             type: DirectoryOrCreate
+        health:
+          enabled: false
         strategy:
           type: Recreate
         resources: 
