@@ -176,11 +176,10 @@ echo "服务开始部署，如果部署emby/jellyfin，下载并解压60G元数�
 echo 
 echo "> 服务管理（请牢记以下命令）"
 # 提示用户compose如何查看日志，启动，重启，停止服务
-echo "查看日志：$DOCKER_COMPOSE -f $install_path/docker-compose.yml logs -f"
+echo "查看日志：$install_path/manage.sh logs"
 # 更新服务
-echo "启动服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml start"
-echo "重启服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml restart"
-echo "停止服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml down"
+echo "启动服务：$install_path/manage.sh start"
+echo "停止服务：$install_path/manage.sh stop"
 echo "高级用户自定义配置：$install_path/env"
 
 # 获取当前服务器ip
@@ -195,3 +194,40 @@ echo "webdav地址: http://$local_ip:5678/dav, http://$ip:5678/dav, 默认用户
 echo "tvbox地址: http://$local_ip:5678/tvbox/my_ext.json, http://$ip:5678/tvbox/my_ext.json"
 echo "emby地址: http://$local_ip:6908, http://$ip:6908, 默认用户密码: xiaoya/1234"
 echo "jellyfin地址: http://$local_ip:8096, http://$ip:8096"
+
+# 添加管理脚本，启动，停止，查看日志
+cat > $install_path/manage.sh <<-EOF
+#!/bin/bash
+
+set -e
+
+start () {
+  $DOCKER_COMPOSE start
+}
+
+stop () {
+  $DOCKER_COMPOSE down
+}
+
+logs () {
+  $DOCKER_COMPOSE logs -f
+}
+
+case \$1 in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  logs)
+    logs
+    ;;
+  *)
+    echo "Usage: \$0 {start|stop|logs}"
+    exit 1
+    ;;
+esac
+EOF
+
+chmod +x $install_path/manage.sh
