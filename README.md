@@ -78,9 +78,10 @@ cd /opt/xiaoya
 
 ```bash
 curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose.yml
+curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/env
 ```
 
-3. 修改配置docker-compose.yml，添加阿里云盘相关变量，启动服务
+3. 修改配置env里面的阿里云盘相关变量，启动服务
 
 ```bash
 docker compose up -d
