@@ -1,6 +1,6 @@
 ## 小雅影视库部署增强版
 
-![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() ![license](https://img.shields.io/github/license/monlor/docker-xiaoya) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya) [![All Contributors](https://img.shields.io/badge/Contributors-1-orange.svg)](#contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
+![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() ![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya) [![All Contributors](https://img.shields.io/badge/Contributors-1-orange.svg)](#contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
 
 
 🚀 使用 Docker Compose 一键部署服务，兼容群晖，Linux，Windows，Mac，包含所有X86和Arm架构
@@ -183,6 +183,10 @@ docker run -d --name resilio \
 ## 赞助
 
 [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
+
+## License
+
+This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
 
 ## 参考
 
