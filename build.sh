@@ -1,10 +1,18 @@
 #!/bin/bash
 
+service="$1"
+services=(
+    "alist"
+    "emby"
+    "jellyfin"
+    "metadata"
+)
 
-docker build -t monlor/xiaoya-alist alist
+if [ -z "$service" ]; then
+    for service in ${services[@]}; do
+        docker build -t monlor/xiaoya-$service $service
+    done
+else
+    docker build -t monlor/xiaoya-$service $service
+fi
 
-docker build -t monlor/xiaoya-metadata metadata
-
-docker build -t monlor/xiaoya-emby emby
-
-docker build -t monlor/xiaoya-jellyfin jellyfin
