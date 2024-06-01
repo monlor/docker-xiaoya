@@ -183,9 +183,14 @@ echo "停止服务：$install_path/manage.sh stop"
 echo "高级用户自定义配置：$install_path/env"
 
 # 获取当前服务器ip
-ip=$(curl -s ip.sb 2> /dev/null)
+ip=$(curl -s ip.3322.net 2> /dev/null)
 # 内网ip
-local_ip=$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{ print $2 }' | head -1)
+local_ip=""
+if [[ "$(uname -o)" = "Darwin" ]]; then
+  local_ip="$(route -n get default | grep gateway | awk -F ':' '{print$2}')"
+else
+  local_ip="$(ip route | grep default | awk '{print$3}')"
+fi
 
 echo 
 echo "> 等待服务部署完成后访问地址如下"
