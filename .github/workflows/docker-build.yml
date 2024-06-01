@@ -11,15 +11,38 @@ on:
       - 'install.sh'
 
 jobs:
-  build-and-push:
+  prepare:
     runs-on: ubuntu-latest
-    permissions:
-        contents: read
-        packages: write
-        # This is used to complete the identity challenge
-        # with sigstore/fulcio when running outside of PRs.
-        id-token: write
+    outputs:
+      alist_tags: ${{ steps.vars.outputs.alist_tags }}
+      metadata_tags: ${{ steps.vars.outputs.metadata_tags }}
+      emby_tags: ${{ steps.vars.outputs.emby_tags }}
+      jellyfin_tags: ${{ steps.vars.outputs.jellyfin_tags }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      - name: Determine version and tags
+        id: vars
+        run: |
+          IMAGE_PREFIX="ghcr.io/${{ github.repository_owner }}"
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "::set-output name=alist_tags::${IMAGE_PREFIX}/xiaoya-alist:latest,${IMAGE_PREFIX}/xiaoya-alist:${VERSION}"
+            echo "::set-output name=metadata_tags::${IMAGE_PREFIX}/xiaoya-metadata:latest,${IMAGE_PREFIX}/xiaoya-metadata:${VERSION}"
+            echo "::set-output name=emby_tags::${IMAGE_PREFIX}/xiaoya-emby:latest,${IMAGE_PREFIX}/xiaoya-emby:${VERSION}"
+            echo "::set-output name=jellyfin_tags::${IMAGE_PREFIX}/xiaoya-jellyfin:latest,${IMAGE_PREFIX}/xiaoya-jellyfin:${VERSION}"
+          else
+            LATEST_TAG=${GITHUB_REF#refs/heads/}
+            echo "::set-output name=alist_tags::${IMAGE_PREFIX}/xiaoya-alist:${LATEST_TAG}"
+            echo "::set-output name=metadata_tags::${IMAGE_PREFIX}/xiaoya-metadata:${LATEST_TAG}"
+            echo "::set-output name=emby_tags::${IMAGE_PREFIX}/xiaoya-emby:${LATEST_TAG}"
+            echo "::set-output name=jellyfin_tags::${IMAGE_PREFIX}/xiaoya-jellyfin:${LATEST_TAG}"
+          fi
+
+  build-alist:
+    runs-on: ubuntu-latest
+    needs: prepare
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,76 +57,85 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Determine version and tags
-        id: vars
-        run: |
-          IMAGE_PREFIX="ghcr.io/${{ github.repository_owner }}"
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/}
-            echo "ALIST_TAGS=${IMAGE_PREFIX}/xiaoya-alist:latest,${IMAGE_PREFIX}/xiaoya-alist:${VERSION}" >> $GITHUB_ENV
-            echo "METADATA_TAGS=${IMAGE_PREFIX}/xiaoya-metadata:latest,${IMAGE_PREFIX}/xiaoya-metadata:${VERSION}" >> $GITHUB_ENV
-            echo "EMBY_TAGS=${IMAGE_PREFIX}/xiaoya-emby:latest,${IMAGE_PREFIX}/xiaoya-emby:${VERSION}" >> $GITHUB_ENV
-            echo "JELLYFIN_TAGS=${IMAGE_PREFIX}/xiaoya-jellyfin:latest,${IMAGE_PREFIX}/xiaoya-jellyfin:${VERSION}" >> $GITHUB_ENV
-          else
-            # 使用分支作为tag
-            LATEST_TAG=${GITHUB_REF#refs/heads/}
-            echo "ALIST_TAGS=${IMAGE_PREFIX}/xiaoya-alist:${LATEST_TAG}" >> $GITHUB_ENV
-            echo "METADATA_TAGS=${IMAGE_PREFIX}/xiaoya-metadata:${LATEST_TAG}" >> $GITHUB_ENV
-            echo "EMBY_TAGS=${IMAGE_PREFIX}/xiaoya-emby:${LATEST_TAG}" >> $GITHUB_ENV
-            echo "JELLYFIN_TAGS=${IMAGE_PREFIX}/xiaoya-jellyfin:${LATEST_TAG}" >> $GITHUB_ENV
-          fi
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-
-
       - name: Build and push xiaoya-alist
         uses: docker/build-push-action@v4
         with:
           context: ./alist
           push: true
-          tags: ${{ env.ALIST_TAGS }}
+          tags: ${{ needs.prepare.outputs.alist_tags }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+  build-metadata:
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push xiaoya-metadata
         uses: docker/build-push-action@v4
         with:
           context: ./metadata
           push: true
-          tags: ${{ env.METADATA_TAGS }}
+          tags: ${{ needs.prepare.outputs.metadata_tags }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+  build-emby:
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push xiaoya-emby
         uses: docker/build-push-action@v4
         with:
           context: ./emby
           push: true
-          tags: ${{ env.EMBY_TAGS }}
+          tags: ${{ needs.prepare.outputs.emby_tags }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+  build-jellyfin:
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push xiaoya-jellyfin
         uses: docker/build-push-action@v4
         with:
           context: ./jellyfin
           push: true
-          tags: ${{ env.JELLYFIN_TAGS }}
+          tags: ${{ needs.prepare.outputs.jellyfin_tags }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
-            
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-  
-            
