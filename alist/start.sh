@@ -72,13 +72,11 @@ else
     rm -rf /data/guestpass.txt
 fi
 
-crond
-
 crontabs=""
 
 if [ "${AUTO_UPDATE_ENABLED:=false}" = "true" ]; then
     echo "启动定时更新定时任务..."
-    crontabs="0 3 * * * /updateall"
+    crontabs="0 3 * * * /data.sh update"
 fi
 
 if [ "${AUTO_CLEAR_ENABLED:=false}" = "true" ]; then
@@ -98,6 +96,14 @@ if [ "${AUTO_UPDATE_MEDIA_ADDR:=true}" = "true" ]; then
     /update_media_addr.sh &> /dev/null &
 fi
 
+# 获取本地数据
+if [ -d "/tmp/data" ]; then
+    echo "开始恢复本地数据..."
+    cp -rf /tmp/data/ /data/
+fi 
+
 /fix_media.sh &
 
-exec /entrypoint.sh /opt/alist/alist server --no-prefix
+/entrypoint.sh /opt/alist/alist server --no-prefix &
+
+exec crond -f
