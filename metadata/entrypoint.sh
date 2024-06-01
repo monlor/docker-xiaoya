@@ -129,8 +129,6 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
     fi
 fi
 
-cron
-
 crontabs=""
 
 if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ] && [ "${EMBY_ENABLED}" = "true" ]; then
@@ -157,4 +155,4 @@ echo "Complete."
 
 touch ${MEDIA_DIR}/config/meta_finished
 
-tail -f /dev/null
+cron -f
