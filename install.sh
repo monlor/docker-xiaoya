@@ -29,7 +29,7 @@ if ! command -v docker &> /dev/null; then
     echo "Docker 未安装，请安装docker后再运行脚本，推荐OrbStack：https://orbstack.dev/"
     exit 1
   fi
-  read -p "Docker 未安装，是否安装？(y/n): " install
+  read -rp "Docker 未安装，是否安装？(y/n): " install
   if [ "$install" = "y" ]; then
     echo "安装docker..."
     curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
@@ -45,7 +45,7 @@ DOCKER_COMPOSE="docker compose"
 
 # 检查是否安装了compose插件,docker compose 命令
 if ! docker compose &> /dev/null && ! which docker-compose &> /dev/null; then
-  read -p "Docker Compose 未安装，是否安装？(y/n): " install
+  read -rp "Docker Compose 未安装，是否安装？(y/n): " install
   if [ "$install" = "y" ]; then
     echo "安装docker compose..."
     # 判断系统是x86还是arm，arm有很多种类，都要判断
@@ -70,14 +70,14 @@ if ! docker compose &> /dev/null; then
 fi
 
 # 让用户输入服务部署目录，默认/opt/xiaoya
-read -p "请输入服务部署目录（默认/opt/xiaoya）: " install_path
+read -rp "请输入服务部署目录（默认/opt/xiaoya）: " install_path
 install_path=${install_path:=/opt/xiaoya}
 
 # 检查服务是否已经运行
 echo "检查服务是否已经存在..."
 if [ -f "$install_path/docker-compose.yml" ]; then
   # 询问用户是否要更新服务
-  read -p "检查到服务已存在，是否更新服务？(y/n): " update
+  read -rp "检查到服务已存在，是否更新服务？(y/n): " update
   if [ "${update}" != "y" ]; then
     echo "退出安装"
     exit 1
@@ -86,15 +86,15 @@ fi
 
 # 如果是更新服务，则从原有的compose配置中获取token等信息
 if [ "${update}" = "y" ]; then
-  token=$(cat $install_path/env 2> /dev/null | grep ALIYUN_TOKEN | awk -F '=' '{print $2}')
-  open_token=$(cat $install_path/env 2> /dev/null | grep ALIYUN_OPEN_TOKEN | awk -F '=' '{print $2}')
-  folder_id=$(cat $install_path/env 2> /dev/null | grep ALIYUN_FOLDER_ID | awk -F '=' '{print $2}')
+  token=$(grep ALIYUN_TOKEN "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
+  open_token=$(grep ALIYUN_OPEN_TOKEN "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
+  folder_id=$(grep ALIYUN_FOLDER_ID "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
 fi
 
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
 echo
 echo "阿里云盘token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html"
-read -p "请输入阿里云盘TOKEN(默认为$token): " res
+read -rp "请输入阿里云盘TOKEN(默认为$token): " res
 token=${res:=$token}
 if [ ${#token} -ne 32 ]; then
   echo "长度不对,阿里云盘 Token是32位"
@@ -104,7 +104,7 @@ fi
 # 让用户输入阿里云盘OpenTOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html
 echo
 echo "阿里云盘Open token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html"
-read -p "请输入阿里云盘Open TOKEN(默认为$open_token): " res
+read -rp "请输入阿里云盘Open TOKEN(默认为$open_token): " res
 open_token=${res:=$open_token}
 if [ ${#open_token} -le 334 ]; then
   echo "长度不对,阿里云盘 Open Token是335位"
@@ -114,7 +114,7 @@ fi
 # 让用户输入阿里云盘转存目录folder_id，folder_id获取方式教程：https://www.aliyundrive.com/s/rP9gP3h9asE
 echo
 echo "转存以下文件到你的网盘，进入文件夹，获取地址栏末尾的文件夹ID：https://www.aliyundrive.com/s/rP9gP3h9asE"
-read -p "请输入阿里云盘转存目录folder_id(默认为$folder_id): " res
+read -rp "请输入阿里云盘转存目录folder_id(默认为$folder_id): " res
 folder_id=${res:=$folder_id}
 if [ ${#folder_id} -ne 40 ]; then
   echo "长度不对,阿里云盘 folder id是40位"
@@ -128,7 +128,7 @@ echo "1. alist + emby (默认)"
 echo "2. alist"
 echo "3. alist + jellyfin"
 echo "4. alist + emby + jellyfin"
-read -p "请选择部署服务类型: " service_type
+read -rp "请选择部署服务类型: " service_type
 case $service_type in
   1)
     service_type=""
@@ -150,15 +150,15 @@ esac
 
 # 检查目录是否存在，不存在则创建
 if [ ! -d "$install_path" ]; then
-  mkdir -p $install_path
+  mkdir -p "$install_path"
 fi
 
-cd $install_path
+cd "$install_path"
 
 echo "开始生成配置文件docker-compose${service_type}.yml..."
-curl -#Lo $install_path/docker-compose.yml "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml"
-if [ ! -f $install_path/env ]; then
-  curl -#Lo $install_path/env "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/env"
+curl -#Lo "$install_path/docker-compose.yml" "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml"
+if [ ! -f "$install_path/env" ]; then
+  curl -#Lo "$install_path/env" "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/env"
 fi
 sedsh "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" env
 sedsh "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" env
@@ -196,7 +196,7 @@ echo "emby地址: http://$local_ip:6908, http://$ip:6908, 默认用户密码: xi
 echo "jellyfin地址: http://$local_ip:8096, http://$ip:8096"
 
 # 添加管理脚本，启动，停止，查看日志
-cat > $install_path/manage.sh <<-EOF
+cat > "$install_path/manage.sh" <<-EOF
 #!/bin/bash
 
 set -e
@@ -230,4 +230,4 @@ case \$1 in
 esac
 EOF
 
-chmod +x $install_path/manage.sh
+chmod +x "$install_path/manage.sh"

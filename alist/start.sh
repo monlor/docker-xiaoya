@@ -46,9 +46,9 @@ fi
 if [ -n "${PIKPAK_LIST:-}" ]; then
     echo "设置PIKPAK用户密码..."
     rm -rf /data/pikpak_list.txt
-    echo ${PIKPAK_LIST} | tr ',' '\n' | while read line; do
-        user=$(echo $line | cut -d':' -f1)
-        pass=$(echo $line | cut -d':' -f2-)
+    echo "${PIKPAK_LIST}" | tr ',' '\n' | while read -r line; do
+        user=$(echo "$line" | cut -d':' -f1)
+        pass=$(echo "$line" | cut -d':' -f2-)
         echo "\"${user}\" \"${pass}\"" >> /data/pikpak_list.txt
     done
 fi

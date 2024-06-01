@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "等待alist启动完成..."
-while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:5678}" &> /dev/null; do
+while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:5678}" > /dev/null 2>&1; do
     sleep 2
 done
 
@@ -16,6 +16,6 @@ networks:   files
 EOF
 
 echo "开始自动更新alist地址..."
-/update_alist_addr.sh &> /dev/null &
+/update_alist_addr.sh > /dev/null 2>&1 &
 
 /jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/lib/jellyfin-ffmpeg/ffmpeg
