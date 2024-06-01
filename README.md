@@ -1,5 +1,8 @@
 ## 小雅影视库部署增强版
 
+![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg) ![license](https://img.shields.io/github/license/monlor/docker-xiaoya) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya) [![All Contributors](https://img.shields.io/badge/Contributors-1-orange.svg)](#contributors)
+
+
 🚀 使用 Docker Compose 一键部署服务，兼容群晖，Linux，Windows，Mac，包含所有X86和Arm架构
 
 ✨ 部署alist+下载元数据+部署emby/jellyfin服务全流程自动，无需人工干预
