@@ -2,7 +2,7 @@
 
 set -e
 
-read -p "请输入服务部署目录（默认/opt/xiaoya）：" install_path
+read -rp "请输入服务部署目录（默认/opt/xiaoya）：" install_path
 install_path=${install_path:=/opt/xiaoya}
 
 if [ ! -d "$install_path" ]; then
@@ -17,7 +17,7 @@ if ! docker compose &> /dev/null; then
 fi
 
 params=""
-read -p "是否删除数据卷？(y/n)" delete_volume
+read -rp "是否删除数据卷？(y/n)" delete_volume
 if [ "$delete_volume" = "y" ]; then
   params="--volumes"
 fi

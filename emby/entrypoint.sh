@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "等待alist启动完成..."
-while ! wget -q -T 1 -O /dev/null "${ALIST_ADDR:=http://alist:5678}" &> /dev/null; do
+while ! wget -q -T 1 -O /dev/null "${ALIST_ADDR:=http://alist:5678}" > /dev/null 2>&1; do
     sleep 2
 done
 
@@ -16,13 +16,12 @@ networks:   files
 EOF
 
 echo "开始自动更新alist地址..."
-/update_alist_addr.sh &> /dev/null &
+/update_alist_addr.sh > /dev/null 2>&1 &
 
-/start_emby.sh &> /dev/null &
+/start_emby.sh > /dev/null 2>&1 &
 
 start_command="/system/EmbyServer -programdata /config -ffdetect /bin/ffdetect -ffmpeg /bin/ffmpeg -ffprobe /bin/ffprobe -restartexitcode 3"
 
 $start_command &
 
 exec shell2http -port 8080 /stop "killall -15 EmbyServer" /start "LD_LIBRARY_PATH=/lib:/system ${start_command} &"
-
