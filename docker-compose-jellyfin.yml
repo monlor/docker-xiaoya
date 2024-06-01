@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   alist:
     image: ghcr.io/monlor/xiaoya-alist

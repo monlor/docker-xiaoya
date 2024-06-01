@@ -29,8 +29,7 @@ if ! command -v docker &> /dev/null; then
     echo "Docker 未安装，请安装docker后再运行脚本，推荐OrbStack：https://orbstack.dev/"
     exit 1
   fi
-  echo "Docker 未安装，是否安装？(y/n)"
-  read install
+  read -p "Docker 未安装，是否安装？(y/n): " install
   if [ "$install" = "y" ]; then
     echo "安装docker..."
     curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
@@ -46,7 +45,7 @@ DOCKER_COMPOSE="docker compose"
 
 # 检查是否安装了compose插件,docker compose 命令
 if ! docker compose &> /dev/null && ! which docker-compose &> /dev/null; then
-  read -p "docker compose 未安装，是否安装？(y/n)" install
+  read -p "Docker Compose 未安装，是否安装？(y/n): " install
   if [ "$install" = "y" ]; then
     echo "安装docker compose..."
     # 判断系统是x86还是arm，arm有很多种类，都要判断
@@ -71,14 +70,14 @@ if ! docker compose &> /dev/null; then
 fi
 
 # 让用户输入服务部署目录，默认/opt/xiaoya
-read -p "请输入服务部署目录（默认/opt/xiaoya）：" install_path
+read -p "请输入服务部署目录（默认/opt/xiaoya）: " install_path
 install_path=${install_path:=/opt/xiaoya}
 
 # 检查服务是否已经运行
 echo "检查服务是否已经存在..."
 if [ -f "$install_path/docker-compose.yml" ]; then
   # 询问用户是否要更新服务
-  read -p "检查到服务已存在，是否更新服务？(y/n)" update
+  read -p "检查到服务已存在，是否更新服务？(y/n): " update
   if [ "${update}" != "y" ]; then
     echo "退出安装"
     exit 1
@@ -95,7 +94,7 @@ fi
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
 echo
 echo "阿里云盘token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html"
-read -p "请输入阿里云盘TOKEN(默认为$token)：" res
+read -p "请输入阿里云盘TOKEN(默认为$token): " res
 token=${res:=$token}
 if [ ${#token} -ne 32 ]; then
   echo "长度不对,阿里云盘 Token是32位"
@@ -105,7 +104,7 @@ fi
 # 让用户输入阿里云盘OpenTOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html
 echo
 echo "阿里云盘Open token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html"
-read -p "请输入阿里云盘Open TOKEN(默认为$open_token)：" res
+read -p "请输入阿里云盘Open TOKEN(默认为$open_token): " res
 open_token=${res:=$open_token}
 if [ ${#open_token} -le 334 ]; then
   echo "长度不对,阿里云盘 Open Token是335位"
@@ -115,7 +114,7 @@ fi
 # 让用户输入阿里云盘转存目录folder_id，folder_id获取方式教程：https://www.aliyundrive.com/s/rP9gP3h9asE
 echo
 echo "转存以下文件到你的网盘，进入文件夹，获取地址栏末尾的文件夹ID：https://www.aliyundrive.com/s/rP9gP3h9asE"
-read -p "请输入阿里云盘转存目录folder_id(默认为$folder_id)：" res
+read -p "请输入阿里云盘转存目录folder_id(默认为$folder_id): " res
 folder_id=${res:=$folder_id}
 if [ ${#folder_id} -ne 40 ]; then
   echo "长度不对,阿里云盘 folder id是40位"
@@ -129,7 +128,7 @@ echo "1. alist + emby (默认)"
 echo "2. alist"
 echo "3. alist + jellyfin"
 echo "4. alist + emby + jellyfin"
-read -p "请选择部署服务类型：" service_type
+read -p "请选择部署服务类型: " service_type
 case $service_type in
   1)
     service_type=""

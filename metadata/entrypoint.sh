@@ -39,6 +39,19 @@ download_meta() {
     file=$1
     path=$2
     echo "Downloading ${file}..."
+    # 检查历史文件，如果存在残留则删除
+    if [ -f "${MEDIA_DIR}/temp/${file}.aria2" ]; then
+        echo "Found ${file}.aria2, delete it."
+        rm -rf "${MEDIA_DIR}/temp/${file}.aria2"
+        rm -rf "${MEDIA_DIR}/temp/${file}"
+    fi
+
+    # 如果已经存在文件，则不下载
+    if [ -f "${MEDIA_DIR}/temp/${file}" ]; then
+        echo "Found ${file}, skip."
+        return
+    fi
+
     # 重试3次下载，包含.aria2则重试
     for i in {1..5}; do
         echo "Downloading ${file}, try ${i}..."
@@ -63,15 +76,9 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
         disk_check 140
         cd "${MEDIA_DIR}/temp"
 
-        if [ ! -f "${MEDIA_DIR}/temp/config.mp4" ]; then
-            download_meta config.mp4
-        fi
-        if [ ! -f "${MEDIA_DIR}/temp/all.mp4" ]; then
-            download_meta all.mp4
-        fi
-        if [ ! -f "${MEDIA_DIR}/temp/pikpak.mp4" ]; then
-            download_meta pikpak.mp4
-        fi
+        download_meta config.mp4
+        download_meta all.mp4
+        download_meta pikpak.mp4
 
         echo "Extracting Emby metadata..."
 
@@ -101,15 +108,9 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
 
         cd ${MEDIA_DIR}/temp
 
-        if [ ! -f "${MEDIA_DIR}/temp/config_jf.mp4" ]; then
-            download_meta config_jf.mp4 Jellyfin/
-        fi
-        if [ ! -f "${MEDIA_DIR}/temp/all_jf.mp4" ]; then
-            download_meta all_jf.mp4 Jellyfin/
-        fi
-        if [ ! -f "${MEDIA_DIR}/temp/PikPak_jf.mp4" ]; then
-            download_meta PikPak_jf.mp4 Jellyfin/
-        fi
+        download_meta config_jf.mp4 Jellyfin/
+        download_meta all_jf.mp4 Jellyfin/
+        download_meta PikPak_jf.mp4 Jellyfin/
         
         echo "Extracting Jellyfin metadata..."
 
