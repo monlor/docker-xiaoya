@@ -1,15 +1,32 @@
-name-template: 'v$NEXT_PATCH_VERSION'
-tag-template: 'v$NEXT_PATCH_VERSION'
+name-template: 'v$RESOLVED_VERSION 🌈'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
-  - title: '🚀 New Features'
+  - title: '🚀 Features'
     labels:
-      - feature
-    commit:
-      - feat
+      - 'feature'
+      - 'enhancement'
+      - 'feat'
   - title: '🐛 Bug Fixes'
     labels:
-      - bug
-    commit:
-      - fix
-change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
-no-changes-template: 'No significant changes.'
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: '🧰 Maintenance'
+    label: 'chore'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+  ## Changes
+
+  $CHANGES
