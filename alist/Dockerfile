@@ -8,10 +8,11 @@ VOLUME /data
 
 ARG TARGETARCH
 
-ENV TINY_VERSION "v0.19.0"
+ENV DUMB_INIT_VERSION "1.2.5"
 
-RUN curl -#Lo /tini https://github.com/krallin/tini/releases/download/${TINY_VERSION}/tini-${TARGETARCH} && \
-    chmod +x /tini
+ADD https://raw.githubusercontent.com/monlor/docker-xiaoya/main/bin/dumb-init_${DUMB_INIT_VERSION}_${TARGETARCH} /dumb-init
+
+RUN chmod +x /dumb-init
 
 COPY ./start.sh /start.sh
 COPY ./clear.sh /clear.sh
@@ -23,6 +24,6 @@ RUN chmod +x /start.sh /clear.sh /update_media_addr.sh /fix_media.sh /data.sh
 
 RUN DATA_DIR=/tmp/data /data.sh download
 
-ENTRYPOINT [ "/tini", "--", "/start.sh" ]
+ENTRYPOINT [ "/dumb-init", "--", "/start.sh" ]
 
 CMD []
