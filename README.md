@@ -25,10 +25,22 @@
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
 ```
 
+使用加速源（我的加速源也可能帮你减速🤣）
+
+```bash
+export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
+```
+
 ### 卸载脚本
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/uninstall.sh)"
+```
+
+使用加速源（我的加速源也可能帮你减速🤣）
+
+```bash
+export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/uninstall.sh)"
 ```
 
 ## 部署配置推荐

@@ -9,26 +9,15 @@ services:
       - "5678:5678"
       - "2345:2345"
       - "2346:2346"
-    environment:
-      - TZ=Asia/Shanghai
-      - ALIYUN_TOKEN=
-      - ALIYUN_OPEN_TOKEN=
-      - ALIYUN_FOLDER_ID=
-      - AUTO_UPDATE_ENABLED=true
-      - AUTO_CLEAR_ENABLED=true
-      # - EMBY_ADDR=http://emby:6908
+    env_file:
+      - env
     restart: unless-stopped
     networks:
       - default
   metadata:
     image: ghcr.io/monlor/xiaoya-metadata
-    environment:
-      - LANG=C.UTF-8
-      # - ALIST_ADDR=http://alist:5678
-      # - EMBY_ADDR=http://emby:6908
-      - EMBY_ENABLED=true
-      - JELLYFIN_ENABLED=false
-      - AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
+    env_file:
+      - env
     volumes:
       - xiaoya:/etc/xiaoya
       - media:/media/xiaoya
@@ -42,10 +31,8 @@ services:
       - default
   emby:
     image: ghcr.io/monlor/xiaoya-emby
-    environment:
-      - TZ=Asia/Shanghai
-      - GIDLIST=0
-      # ALIST_ADDR=http://alist:5678
+    env_file:
+      - env
     privileged: true
     devices:
       - /dev/dri:/dev/dri
@@ -63,8 +50,8 @@ services:
       - default
   resilio:
     image: ghcr.io/monlor/xiaoya-resilio
-    environment:
-      - TZ=Asia/Shanghai
+    env_file:
+      - env
     ports:
       - 8888:8888
       - 55555:55555

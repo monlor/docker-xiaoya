@@ -10,6 +10,11 @@ else
   SED_COMMAND='sed -i'
 fi
 
+# 格式https://xxx.com/
+GH_PROXY="${GH_PROXY:=}"
+# 格式xxx.com
+IMAGE_PROXY="${IMAGE_PROXY:=}"
+
 # 欢迎信息
 echo "欢迎使用xiaoya服务部署脚本"
 echo "项目地址：https://github.com/monlor/docker-xiaoya"
@@ -51,7 +56,7 @@ if ! docker compose &> /dev/null && ! which docker-compose &> /dev/null; then
       echo "不支持的系统架构$(uname -m), 请自行安装docker compose(https://docs.docker.com/compose/install/linux/#install-using-the-repository)"
       exit 1
     fi
-    curl -SL https://github.com/docker/compose/releases/download/v2.27.1/$file -o /usr/local/bin/docker-compose
+    curl -SL "${GH_PROXY}https://github.com/docker/compose/releases/download/v2.27.1/$file" -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
   else
     echo "退出安装"
@@ -80,9 +85,9 @@ fi
 
 # 如果是更新服务，则从原有的compose配置中获取token等信息
 if [ "${update}" = "y" ]; then
-  token=$(cat $install_path/docker-compose.yml | grep ALIYUN_TOKEN | awk -F '=' '{print $2}')
-  open_token=$(cat $install_path/docker-compose.yml | grep ALIYUN_OPEN_TOKEN | awk -F '=' '{print $2}')
-  folder_id=$(cat $install_path/docker-compose.yml | grep ALIYUN_FOLDER_ID | awk -F '=' '{print $2}')
+  token=$(cat $install_path/env 2> /dev/null | grep ALIYUN_TOKEN | awk -F '=' '{print $2}')
+  open_token=$(cat $install_path/env 2> /dev/null | grep ALIYUN_OPEN_TOKEN | awk -F '=' '{print $2}')
+  folder_id=$(cat $install_path/env 2> /dev/null | grep ALIYUN_FOLDER_ID | awk -F '=' '{print $2}')
 fi
 
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
@@ -150,10 +155,17 @@ fi
 cd $install_path
 
 echo "开始生成配置文件docker-compose${service_type}.yml..."
-curl -#Lo $install_path/docker-compose.yml https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml
-$SED_COMMAND "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" docker-compose.yml
-$SED_COMMAND "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" docker-compose.yml
-$SED_COMMAND "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" docker-compose.yml
+curl -#Lo $install_path/docker-compose.yml "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml"
+if [ ! -f $install_path/env ]; then
+  curl -#Lo $install_path/env "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/env"
+fi
+$SED_COMMAND "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" env
+$SED_COMMAND "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" env
+$SED_COMMAND "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" env
+
+if [ -n "$IMAGE_PROXY" ]; then
+  $SED_COMMAND -E "s#image: [^/]+#image: ${IMAGE_PROXY}#g" docker-compose.yml
+fi
 
 echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
@@ -168,6 +180,7 @@ echo "查看日志：$DOCKER_COMPOSE -f $install_path/docker-compose.yml logs -f
 echo "启动服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml start"
 echo "重启服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml restart"
 echo "停止服务：$DOCKER_COMPOSE -f $install_path/docker-compose.yml down"
+echo "高级用户自定义配置：$install_path/env"
 
 # 获取当前服务器ip
 ip=$(curl -s ip.sb 2> /dev/null)

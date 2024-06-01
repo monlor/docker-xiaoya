@@ -1,0 +1,35 @@
+TZ=Asia/Shanghai
+# 阿里云盘token
+ALIYUN_TOKEN=
+# 阿里云盘open token
+ALIYUN_OPEN_TOKEN=
+# 阿里云盘文件夹ID
+ALIYUN_FOLDER_ID=
+# 自动更新小雅alist文件
+AUTO_UPDATE_ENABLED=true
+# 自动清理阿里云盘
+AUTO_CLEAR_ENABLED=true
+# 阿里云盘自动清理间隔，单位小时，默认24小时
+AUTO_CLEAR_INTERVAL=24 
+# pikpak 账号列表，格式：`qqq@qq.com:aaadds,+8613111111111:dasf`，密码中不支持符号,:
+PIKPAK_LIST=
+# 开启登陆功能，true/false
+FORCE_LOGIN= 
+# webdav用户名为dav，设置密码。默认用户密码：guest/guest_Api789
+WEBDAV_PASSWORD=
+
+# emby 地址
+EMBY_ADDR=http://emby:6908
+# alist 地址
+ALIST_ADDR=http://alist:5678
+
+# 是否启用emby
+EMBY_ENABLED=true
+# 是否启用jellyfin
+JELLYFIN_ENABLED=false
+# 自动更新emby的配置，依赖EMBY_APIKEY
+AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
+# 自动更新emby配置，config.mp4间隔，单位天，默认7天
+AUTO_UPDATE_EMBY_INTERVAL=7
+# emby的apikey
+EMBY_APIKEY=e825ed6f7f8f44ffa0563cddaddce14d

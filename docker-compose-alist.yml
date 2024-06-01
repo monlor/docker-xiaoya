@@ -9,14 +9,8 @@ services:
       - "5678:5678"
       - "2345:2345"
       - "2346:2346"
-    environment:
-      - TZ=Asia/Shanghai
-      - ALIYUN_TOKEN=
-      - ALIYUN_OPEN_TOKEN=
-      - ALIYUN_FOLDER_ID=
-      - AUTO_UPDATE_ENABLED=true
-      - AUTO_CLEAR_ENABLED=true
-      - AUTO_UPDATE_MEDIA_ADDR=false
+    env_file:
+      - env
     restart: unless-stopped
     networks:
       - default

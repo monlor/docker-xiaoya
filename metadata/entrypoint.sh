@@ -133,7 +133,7 @@ cron
 
 crontabs=""
 
-if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ]; then
+if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ] && [ "${EMBY_ENABLED}" = "true" ]; then
     echo "启动定时更新Emby任务..."
     crontabs="0 3 */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
 fi
