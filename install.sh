@@ -2,13 +2,15 @@
 
 set -e
 
-if [[ "$(uname -o)" = "Darwin" ]]; then
-  # macOS
-  SED_COMMAND='sed -i ""'
-else
-  # Linux
-  SED_COMMAND='sed -i'
-fi
+sedsh() {
+  if [[ "$(uname -o)" = "Darwin" ]]; then
+    # macOS
+    sed -i '' "$@"
+  else
+    # Linux
+    sed -i "$@"
+  fi
+}
 
 # 格式https://xxx.com/
 GH_PROXY="${GH_PROXY:=}"
@@ -159,12 +161,12 @@ curl -#Lo $install_path/docker-compose.yml "${GH_PROXY}https://raw.githubusercon
 if [ ! -f $install_path/env ]; then
   curl -#Lo $install_path/env "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/env"
 fi
-$SED_COMMAND "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" env
-$SED_COMMAND "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" env
-$SED_COMMAND "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" env
+sedsh "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" env
+sedsh "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" env
+sedsh "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" env
 
 if [ -n "$IMAGE_PROXY" ]; then
-  $SED_COMMAND -E "s#image: [^/]+#image: ${IMAGE_PROXY}#g" docker-compose.yml
+  sedsh -E "s#image: [^/]+#image: ${IMAGE_PROXY}#g" docker-compose.yml
 fi
 
 echo "开始部署服务..."
