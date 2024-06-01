@@ -15,9 +15,6 @@ RUN curl -sL "https://github.com/msoap/shell2http/releases/download/v${SHELL2HTT
     tar -zxvf - -C /usr/bin/ shell2http && \
     rm -rf shell2http_${SHELL2HTTP_VERSION}_linux_${TARGETARCH}.tar.gz
 
-COPY ./entrypoint.sh /entrypoint.sh
-COPY ./update_alist_addr.sh /update_alist_addr.sh
-
-RUN chmod +x /entrypoint.sh /update_alist_addr.sh 
+COPY --chmod=755 ./*.sh /
 
 ENTRYPOINT [ "/dumb-init", "/entrypoint.sh" ]
