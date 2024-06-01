@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   update_release_draft:
-    if: github.event.pull_request.merged == true 
+    if: github.event.pull_request.merged
     permissions:
       # write permission is required to create a github release
       contents: write
