@@ -141,10 +141,6 @@ releases:
           hostPath: 
             path: /opt/xiaoya/config/cache
             type: DirectoryOrCreate
-        - name: dri
-          mountPath: /dev/dri
-          hostPath:
-            path: /dev/dri
         health:
           enabled: false
         strategy:

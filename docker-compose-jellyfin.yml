@@ -36,8 +36,6 @@ services:
     env_file:
       - env
     privileged: true
-    devices:
-      - /dev/dri:/dev/dri
     depends_on:
       - metadata
       - alist

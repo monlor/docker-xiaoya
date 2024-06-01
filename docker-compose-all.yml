@@ -35,9 +35,6 @@ services:
     image: ghcr.io/monlor/xiaoya-emby
     env_file:
       - env
-    privileged: true
-    devices:
-      - /dev/dri:/dev/dri
     depends_on:
       - metadata
       - alist
@@ -55,8 +52,6 @@ services:
     env_file:
       - env
     privileged: true
-    devices:
-      - /dev/dri:/dev/dri
     depends_on:
       - metadata
       - alist

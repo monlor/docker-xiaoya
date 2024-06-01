@@ -8,6 +8,8 @@ ENV SHELL2HTTP_VERSION "1.17.0"
 
 ENV TINY_VERSION "v0.19.0"
 
+ENV PUID=0 PGID=0
+
 # emby自带的wget下载失败，只能用ADD
 ADD https://github.com/msoap/shell2http/releases/download/v${SHELL2HTTP_VERSION}/shell2http_${SHELL2HTTP_VERSION}_linux_${TARGETARCH}.tar.gz .
 ADD https://github.com/krallin/tini/releases/download/${TINY_VERSION}/tini-${TARGETARCH} /tini
