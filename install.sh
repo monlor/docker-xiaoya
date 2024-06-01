@@ -183,9 +183,20 @@ echo "停止服务：$install_path/manage.sh stop"
 echo "高级用户自定义配置：$install_path/env"
 
 # 获取当前服务器ip
-ip=$(curl -s ip.sb 2> /dev/null)
+ip=$(curl -s ip.3322.net 2> /dev/null)
 # 内网ip
-local_ip=$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{ print $2 }' | head -1)
+if command -v sudo >/dev/null 2>&1; then
+        COMMAND_SUDO="sudo "
+else
+        COMMAND_SUDO=""
+fi
+
+defaultroute=$($COMMAND_SUDO route | grep default | awk '{print $NF}')
+if command -v ifconfig >/dev/null 2>&1; then
+        local_ip=$($COMMAND_SUDO ifconfig $defaultroute | awk '/inet / {print $2}'|tr -d "addr:")
+else
+        local_ip=$($COMMAND_SUDO ip addr show $defaultroute | awk '/inet / {print $2}' | cut -d '/' -f 1)
+fi
 
 echo 
 echo "> 等待服务部署完成后访问地址如下"
