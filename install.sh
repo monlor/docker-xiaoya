@@ -172,7 +172,7 @@ fi
 echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
 
-echo "服务部署完成，下载并解压60G元数据需要一段时间，请耐心等待..."
+echo "服务开始部署，如果部署emby/jellyfin，下载并解压60G元数据需要一段时间，请耐心等待..."
 
 echo 
 echo "> 服务管理（请牢记以下命令）"

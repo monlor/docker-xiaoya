@@ -50,22 +50,6 @@ services:
     restart: unless-stopped
     networks:
       - default
-  resilio:
-    image: ghcr.io/monlor/xiaoya-resilio
-    environment:
-      - TZ=Asia/Shanghai
-    ports:
-      - 8888:8888
-      - 55555:55555
-    volumes:
-      - media:/sync/xiaoya
-      - config:/sync/config
-    depends_on:
-      - metadata
-      - alist
-    restart: unless-stopped
-    networks:
-      - default
   jellyfin:
     image: ghcr.io/monlor/xiaoya-jellyfin
     env_file:

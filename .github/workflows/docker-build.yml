@@ -44,7 +44,6 @@ jobs:
             echo "METADATA_TAGS=${IMAGE_PREFIX}/xiaoya-metadata:latest,${IMAGE_PREFIX}/xiaoya-metadata:${VERSION}" >> $GITHUB_ENV
             echo "EMBY_TAGS=${IMAGE_PREFIX}/xiaoya-emby:latest,${IMAGE_PREFIX}/xiaoya-emby:${VERSION}" >> $GITHUB_ENV
             echo "JELLYFIN_TAGS=${IMAGE_PREFIX}/xiaoya-jellyfin:latest,${IMAGE_PREFIX}/xiaoya-jellyfin:${VERSION}" >> $GITHUB_ENV
-            echo "RESILIO_TAGS=${IMAGE_PREFIX}/xiaoya-resilio:latest,${IMAGE_PREFIX}/xiaoya-resilio:${VERSION}" >> $GITHUB_ENV
           else
             # 使用分支作为tag
             LATEST_TAG=${GITHUB_REF#refs/heads/}
@@ -52,7 +51,6 @@ jobs:
             echo "METADATA_TAGS=${IMAGE_PREFIX}/xiaoya-metadata:${LATEST_TAG}" >> $GITHUB_ENV
             echo "EMBY_TAGS=${IMAGE_PREFIX}/xiaoya-emby:${LATEST_TAG}" >> $GITHUB_ENV
             echo "JELLYFIN_TAGS=${IMAGE_PREFIX}/xiaoya-jellyfin:${LATEST_TAG}" >> $GITHUB_ENV
-            echo "RESILIO_TAGS=${IMAGE_PREFIX}/xiaoya-resilio:${LATEST_TAG}" >> $GITHUB_ENV
           fi
 
       - name: Cache Docker layers
@@ -103,16 +101,6 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
             
-      - name: Build and push xiaoya-resilio
-        uses: docker/build-push-action@v4
-        with:
-          context: ./resilio
-          push: true
-          tags: ${{ env.RESILIO_TAGS }}
-          platforms: linux/amd64,linux/arm64
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
-
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache

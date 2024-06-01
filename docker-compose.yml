@@ -48,22 +48,6 @@ services:
     restart: unless-stopped
     networks:
       - default
-  resilio:
-    image: ghcr.io/monlor/xiaoya-resilio
-    env_file:
-      - env
-    ports:
-      - 8888:8888
-      - 55555:55555
-    volumes:
-      - media:/sync/xiaoya
-      - config:/sync/config
-    depends_on:
-      - metadata
-      - alist
-    restart: unless-stopped
-    networks:
-      - default
 
 networks:
   default:

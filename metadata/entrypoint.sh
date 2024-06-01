@@ -134,8 +134,19 @@ cron
 crontabs=""
 
 if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ] && [ "${EMBY_ENABLED}" = "true" ]; then
-    echo "启动定时更新Emby任务..."
-    crontabs="0 3 */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
+    echo "启动定时更新Emby配置任务..."
+    # 随机生成一个时间，避免给服务器造成压力
+    random_min=$(shuf -i 0-59 -n 1)
+    random_hour=$(shuf -i 1-6 -n 1)
+    crontabs="${random_min} ${random_hour} */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
+fi
+
+if [ "${AUTO_UPDATE_EMBY_METADATA_ENABLED:=false}" = "true" ] && [ "${EMBY_ENABLED}" = "true" ]; then
+    echo "启动定时更新Emby元数据任务..."
+    # 随机生成一个时间，避免给服务器造成压力
+    random_min=$(shuf -i 0-59 -n 1)
+    random_hour=$(shuf -i 1-6 -n 1)
+    crontabs="${crontabs}\n${random_min} ${random_hour} * * * python3 /solid.py --media ${MEDIA_DIR}/xiaoya"
 fi
 
 if [ -n "${crontabs}" ]; then

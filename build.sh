@@ -8,5 +8,3 @@ docker build -t monlor/xiaoya-metadata metadata
 docker build -t monlor/xiaoya-emby emby
 
 docker build -t monlor/xiaoya-jellyfin jellyfin
-
-docker build -t monlor/xiaoya-resilio resilio
