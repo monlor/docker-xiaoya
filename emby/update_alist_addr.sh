@@ -9,7 +9,7 @@ ALIST_DOMAIN=$(echo "${ALIST_ADDR}" | sed -e 's#http://##' -e 's#https://##' -e 
 add_hosts() {
   # 容器里不能使用sed -i，所以使用临时文件
   sed -e "/xiaoya.host/d" /etc/hosts > /tmp/hosts
-  echo -e "$1\txiaoya.host" >> /tmp/hosts
+  printf "%s\txiaoya.host\n" "$1" >> /tmp/hosts
   cat /tmp/hosts > /etc/hosts
 }
 

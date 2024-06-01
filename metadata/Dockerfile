@@ -33,9 +33,6 @@ RUN curl -#LO https://github.com/Rik-F5/xiaoya_db/archive/refs/heads/main.zip &&
     mv xiaoya_db-main/solid.py / && \
     rm -rf main.zip xiaoya_db-main
 
-COPY ./entrypoint.sh /entrypoint.sh
-COPY ./emby.sh /emby.sh
-
-RUN chmod +x /entrypoint.sh /emby.sh
+COPY --chmod=755 ./*.sh /
 
 ENTRYPOINT [ "/entrypoint.sh" ]

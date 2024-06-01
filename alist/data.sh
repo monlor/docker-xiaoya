@@ -64,14 +64,13 @@ download_files() {
 }
 
 restart_service() {
-    kill -15 $(ps ax | grep 'nginx|httpd|alist' | grep -v grep | awk '{print$1}')
+    kill -15 $(pgrep -f 'nginx|httpd|alist')
     sleep 10
     /entrypoint.sh /opt/alist/alist server --no-prefix &
 }
 
 update() {
-    download_files
-    if [ $? -ne 0 ]; then
+    if ! download_files; then
         echo "Failed to download files or no need to update"
         return 1
     fi

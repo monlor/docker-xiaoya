@@ -112,7 +112,8 @@ wait_for_emby() {
     echo "Waiting for Emby service to start at $EMBY_URL..."
 
     while true; do
-        local http_code=$(curl -s -o /dev/null -w "%{http_code}" "${EMBY_URL}/Users")
+        local http_code
+        http_code=$(curl -s -o /dev/null -w "%{http_code}" "${EMBY_URL}/Users")
         if [ "$http_code" -eq 401 ]; then
             echo "Emby service is up and running."
             return 0
