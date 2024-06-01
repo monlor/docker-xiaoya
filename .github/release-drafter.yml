@@ -1,0 +1,15 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+categories:
+  - title: '🚀 New Features'
+    labels:
+      - feature
+    commit:
+      - feat
+  - title: '🐛 Bug Fixes'
+    labels:
+      - bug
+    commit:
+      - fix
+change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
+no-changes-template: 'No significant changes.'
