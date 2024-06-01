@@ -177,6 +177,10 @@ docker run -d --name resilio \
 * 开启alist的登陆，alist服务设置`FORCE_LOGIN=true`，设置webdav的密码`WEBDAV_PASSWORD`
 * 在emby控制台修改ApiKey，metadata服务设置`EMBY_APIKEY`，用于定期同步emby配置
 
+## 赞助
+
+<a href="https://afdian.net/a/monlor">< img width="200" src="https://pic1.afdiancdn.com/static/img/welcome/button-sponsorme.png" alt=""></a >
+
 ## 参考
 
 https://github.com/DDS-Derek/xiaoya-alist
