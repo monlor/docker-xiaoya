@@ -78,7 +78,7 @@ install_path=${install_path:=/opt/xiaoya}
 echo "检查服务是否已经存在..."
 if [ -f "$install_path/docker-compose.yml" ]; then
   # 询问用户是否要更新服务
-  read "检查到服务已存在，是否更新服务？(y/n)" update
+  read -p "检查到服务已存在，是否更新服务？(y/n)" update
   if [ "${update}" != "y" ]; then
     echo "退出安装"
     exit 1

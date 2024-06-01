@@ -11,6 +11,10 @@ on:
       - 'README.md'
       - 'install.sh'
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -68,9 +72,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ github.sha }}
+          key: ${{ github.job }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-
+            ${{ github.job }}-
 
       - name: Build and push xiaoya-alist
         uses: docker/build-push-action@v4
@@ -114,9 +118,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ github.sha }}
+          key: ${{ github.job }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-
+            ${{ github.job }}-
 
       - name: Build and push xiaoya-metadata
         uses: docker/build-push-action@v4
@@ -160,9 +164,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ github.sha }}
+          key: ${{ github.job }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-
+            ${{ github.job }}-
 
       - name: Build and push xiaoya-emby
         uses: docker/build-push-action@v4
@@ -206,9 +210,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ github.sha }}
+          key: ${{ github.job }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-
+            ${{ github.job }}-
 
       - name: Build and push xiaoya-jellyfin
         uses: docker/build-push-action@v4
