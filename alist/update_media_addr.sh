@@ -44,7 +44,7 @@ get_addr() {
     fi
 
     # 解析域名为 IP
-    IP=$(nslookup "$DOMAIN_OR_IP" | awk '/^Address: / { print $2 }' | tail -n 1)
+    IP=$(ping -c 1 "$DOMAIN_OR_IP" | grep -o '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
     if [ -z "$IP" ]; then
       return 1
     fi

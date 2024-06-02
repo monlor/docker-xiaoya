@@ -206,7 +206,7 @@ start () {
 }
 
 stop () {
-  $DOCKER_COMPOSE down
+  $DOCKER_COMPOSE stop
 }
 
 logs () {
