@@ -26,11 +26,13 @@ echo "开始下载元数据，如果有问题无法解决，请删除目录 ${ME
 
 disk_check() {
     # 磁盘检测
-    free_size=$(df -P "${MEDIA_DIR}" | tail -n1 | awk '{print $4}')
+    dir="$1"
+    size="$2"
+    free_size=$(df -P "${dir}" | tail -n1 | awk '{print $4}')
     free_size=$((free_size))
     free_size_G=$((free_size / 1024 / 1024))
-    if [ $free_size_G -lt "${1}" ]; then
-        echo "Error: Insufficient disk space, at least ${1}G of free space is required."
+    if [ $free_size_G -lt "${size}" ]; then
+        echo "目录${dir}最少需要剩余空间：${size}G，目前仅剩：${free_size_G}G"
         exit 1
     fi
 }  
@@ -73,7 +75,8 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
         echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-download."
     else
-        disk_check 140
+        disk_check ${MEDIA_DIR}/temp 70
+        disk_check ${MEDIA_DIR}/config 70
         cd "${MEDIA_DIR}/temp"
 
         download_meta config.mp4
@@ -102,7 +105,8 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
         echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-download."
     else
 
-        disk_check 140
+        disk_check ${MEDIA_DIR}/temp 70
+        disk_check ${MEDIA_DIR}/config 70
 
         echo "Downloading Jellyfin metadata..."
 
