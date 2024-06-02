@@ -72,6 +72,9 @@ else
     rm -rf /data/guestpass.txt
 fi
 
+# 设置数据下载目录
+echo "http://127.0.0.1:5233/data" > /data/download_url.txt
+
 crontabs=""
 
 if [ "${AUTO_UPDATE_ENABLED:=false}" = "true" ]; then
@@ -95,12 +98,6 @@ if [ "${AUTO_UPDATE_MEDIA_ADDR:=true}" = "true" ]; then
     echo "开始自动更新媒体服务地址..."
     /update_media_addr.sh &> /dev/null &
 fi
-
-# 获取本地数据
-if [ -d "/tmp/data" ]; then
-    echo "开始恢复本地数据..."
-    cp -rf /tmp/data/ /data/
-fi 
 
 /fix_media.sh &
 
