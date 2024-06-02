@@ -60,8 +60,8 @@ download_meta() {
             break
         fi
     done
-    # 如果还存在aria2，则下载失败
-    if [ -f "${file}.aria2" ]; then
+    # 如果还存在aria2，或者下载的文件小于10M，则删除
+    if [ -f "${file}.aria2" ] || [ "$(stat -c %s "${file}")" -lt 10000000 ]; then
         echo "Download ${file} failed."
         rm -rf "${file}"
         rm -rf "${file}.aria2"
