@@ -1,4 +1,6 @@
-FROM monlor/embyserver
+ARG BASE_IMAGE=embyserver
+
+FROM monlor/${BASE_IMAGE}:latest
 
 LABEL MAINTAINER me@monlor.com
 
