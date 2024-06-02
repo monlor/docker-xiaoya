@@ -20,7 +20,7 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `ALIYUN_OPEN_TOKEN`: 阿里云 open-token https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html
 
-`ALIYUN_FOLDER_ID`: 阿里云小雅文件夹id，转存以下文件到你的云盘，获取文件夹id，共享链接：https://www.aliyundrive.com/s/rP9gP3h9asE
+`ALIYUN_FOLDER_ID`: 进入阿里云盘网页版，创建一个文件夹，点击文件夹，复制浏览器阿里云盘地址末尾的文件夹ID（最后一个斜杠/后面的一串字符串）
 
 `PIKPAK_LIST`: pikpak 账号列表，格式：`qqq@qq.com:aaadds,+8613111111111:dasf`，密码中不支持符号,:
 
