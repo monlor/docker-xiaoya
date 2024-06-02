@@ -172,6 +172,7 @@ echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
 
 echo "服务开始部署，如果部署emby/jellyfin，下载并解压60G元数据需要一段时间，请耐心等待..."
+echo "脚本执行完成不代表服务启动完成，请执行下面的命令查看日志来检查部署情况."
 
 echo 
 echo "> 服务管理（请牢记以下命令）"
@@ -193,13 +194,15 @@ else
 fi
 
 echo 
-echo "> 等待服务部署完成后访问地址如下"
+echo "> 服务正在部署，请查看日志等待部署成功后，尝试访问下面的地址"
 echo "alist地址: http://$local_ip:5678, http://$ip:5678"
 echo "webdav地址: http://$local_ip:5678/dav, http://$ip:5678/dav, 默认用户密码: guest/guest_Api789"
 echo "tvbox地址: http://$local_ip:5678/tvbox/my_ext.json, http://$ip:5678/tvbox/my_ext.json"
 echo "emby地址: http://$local_ip:6908, http://$ip:6908, 默认用户密码: xiaoya/1234"
 echo "jellyfin地址: http://$local_ip:8096, http://$ip:8096"
 
+echo
+echo "还没有部署完，执行这个命令查看日志：$install_path/manage.sh logs"
 # 添加管理脚本，启动，停止，查看日志
 cat > "$install_path/manage.sh" <<-EOF
 #!/bin/bash
