@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eu
 
 sedsh() {
   if [[ "$(uname -o)" = "Darwin" ]]; then
@@ -84,8 +84,12 @@ if [ -f "$install_path/docker-compose.yml" ]; then
   fi
 fi
 
+token=""
+open_token=""
+folder_id=""
+
 # 如果是更新服务，则从原有的compose配置中获取token等信息
-if [ "${update}" = "y" ]; then
+if [ "${update:-}" = "y" ]; then
   token=$(grep ALIYUN_TOKEN "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
   open_token=$(grep ALIYUN_OPEN_TOKEN "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
   folder_id=$(grep ALIYUN_FOLDER_ID "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
