@@ -185,6 +185,7 @@ echo "查看日志：$install_path/manage.sh logs"
 # 更新服务
 echo "启动服务：$install_path/manage.sh start"
 echo "停止服务：$install_path/manage.sh stop"
+echo "重启服务：$install_path/manage.sh restart"
 echo "高级用户自定义配置：$install_path/env"
 
 # 获取当前服务器ip
@@ -192,9 +193,11 @@ ip=$(curl -s ip.3322.net 2> /dev/null)
 # 内网ip
 local_ip=""
 if [[ "$(uname -o)" = "Darwin" ]]; then
-  local_ip="$(route -n get default | grep gateway | awk -F ':' '{print$2}')"
+  interface="$(route -n get default | grep interface | awk -F ':' '{print$2}' | awk '{$1=$1};1')"
+  local_ip="$(ifconfig "${interface}" | grep 'inet ' | awk '{print$2}')"
 else
-  local_ip="$(ip route | grep default | awk '{print$3}')"
+  interface="$(ip route | grep default | awk '{print$5}')"
+  local_ip="$(ip -o -4 addr show "${interface}" | awk '{print $4}' | cut -d/ -f1)"
 fi
 
 echo 
@@ -213,27 +216,17 @@ cat > "$install_path/manage.sh" <<-EOF
 
 set -e
 
-start () {
-  $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" start
-}
-
-stop () {
-  $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" stop
-}
-
-logs () {
-  $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" logs -f
-}
-
 case \$1 in
   start)
-    start
+    $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" start
     ;;
   stop)
-    stop
+    $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" stop
     ;;
+  restart)
+    $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" restart
   logs)
-    logs
+    $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" logs -f
     ;;
   *)
     echo "Usage: \$0 {start|stop|logs}"
