@@ -210,15 +210,15 @@ cat > "$install_path/manage.sh" <<-EOF
 set -e
 
 start () {
-  $DOCKER_COMPOSE start
+  $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" start
 }
 
 stop () {
-  $DOCKER_COMPOSE stop
+  $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" stop
 }
 
 logs () {
-  $DOCKER_COMPOSE logs -f
+  $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" logs -f
 }
 
 case \$1 in
