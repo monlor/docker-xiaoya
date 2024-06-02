@@ -14,7 +14,7 @@ ADD --chmod=755 https://raw.githubusercontent.com/monlor/docker-xiaoya/main/bin/
 
 COPY --chmod=755 ./*.sh /
 
-RUN DATA_DIR=/tmp/data /data.sh download
+RUN /data.sh download
 
 ENTRYPOINT [ "/dumb-init", "--", "/start.sh" ]
 

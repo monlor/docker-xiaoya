@@ -2,7 +2,7 @@
 
 set -e
 
-DATA_DIR="${DATA_DIR:-/data/data}"
+DATA_DIR="/www/data"
 
 base_urls=(
     "https://gitlab.com/xiaoyaliu/data/-/raw/main"
