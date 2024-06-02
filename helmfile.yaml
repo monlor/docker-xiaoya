@@ -120,7 +120,7 @@ releases:
           kubernetes.io/hostname: nuc-1-node-1
         image:
           repository: ghcr.io
-          name: monlor/xiaoya-emby
+          name: monlor/xiaoya-embyserver
           tag: latest
           pullPolicy: Always  
         env:

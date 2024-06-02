@@ -168,7 +168,7 @@ docker run -d --name emby
     -v cache:/cache \
     -p 6908:6908 \
     --network=xiaoya \
-    ghcr.io/monlor/xiaoya-emby
+    ghcr.io/monlor/xiaoya-embyserver
 ```
 
 6. 查看日志

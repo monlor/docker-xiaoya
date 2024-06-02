@@ -1,4 +1,4 @@
-FROM monlor/jellyfin
+FROM jellyfin/jellyfin
 
 LABEL MAINTAINER me@monlor.com
 

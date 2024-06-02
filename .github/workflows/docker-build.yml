@@ -21,7 +21,8 @@ jobs:
     outputs:
       alist_tags: ${{ steps.vars.outputs.alist_tags }}
       metadata_tags: ${{ steps.vars.outputs.metadata_tags }}
-      emby_tags: ${{ steps.vars.outputs.emby_tags }}
+      embyserver_tags: ${{ steps.vars.outputs.embyserver_tags }}
+      embyhack_tags: ${{ steps.vars.outputs.embyhack_tags }}
       jellyfin_tags: ${{ steps.vars.outputs.jellyfin_tags }}
     steps:
       - name: Checkout code
@@ -35,13 +36,15 @@ jobs:
             VERSION=${GITHUB_REF#refs/tags/}
             echo "::set-output name=alist_tags::${IMAGE_PREFIX}/xiaoya-alist:latest,${IMAGE_PREFIX}/xiaoya-alist:${VERSION}"
             echo "::set-output name=metadata_tags::${IMAGE_PREFIX}/xiaoya-metadata:latest,${IMAGE_PREFIX}/xiaoya-metadata:${VERSION}"
-            echo "::set-output name=emby_tags::${IMAGE_PREFIX}/xiaoya-emby:latest,${IMAGE_PREFIX}/xiaoya-emby:${VERSION}"
+            echo "::set-output name=embyserver_tags::${IMAGE_PREFIX}/xiaoya-embyserver:latest,${IMAGE_PREFIX}/xiaoya-embyserver:${VERSION}"
+            echo "::set-output name=embyhack_tags::${IMAGE_PREFIX}/xiaoya-embyhack:latest,${IMAGE_PREFIX}/xiaoya-embyhack:${VERSION}"
             echo "::set-output name=jellyfin_tags::${IMAGE_PREFIX}/xiaoya-jellyfin:latest,${IMAGE_PREFIX}/xiaoya-jellyfin:${VERSION}"
           else
             LATEST_TAG=${GITHUB_REF#refs/heads/}
             echo "::set-output name=alist_tags::${IMAGE_PREFIX}/xiaoya-alist:${LATEST_TAG}"
             echo "::set-output name=metadata_tags::${IMAGE_PREFIX}/xiaoya-metadata:${LATEST_TAG}"
-            echo "::set-output name=emby_tags::${IMAGE_PREFIX}/xiaoya-emby:${LATEST_TAG}"
+            echo "::set-output name=embyserver_tags::${IMAGE_PREFIX}/xiaoya-embyserver:${LATEST_TAG}"
+            echo "::set-output name=embyhack_tags::${IMAGE_PREFIX}/xiaoya-embyhack:${LATEST_TAG}"
             echo "::set-output name=jellyfin_tags::${IMAGE_PREFIX}/xiaoya-jellyfin:${LATEST_TAG}"
           fi
 
@@ -168,13 +171,27 @@ jobs:
           restore-keys: |
             ${{ github.job }}-
 
-      - name: Build and push xiaoya-emby
+      - name: Build and push xiaoya-embyserver
         uses: docker/build-push-action@v4
         with:
           context: ./emby
           push: true
-          tags: ${{ needs.prepare.outputs.emby_tags }}
+          tags: ${{ needs.prepare.outputs.embyserver_tags }}
           platforms: linux/amd64,linux/arm64
+          build-args: |
+            BASE_IMAGE=embyserver
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Build and push xiaoya-embyhack
+        uses: docker/build-push-action@v4
+        with:
+          context: ./emby
+          push: true
+          tags: ${{ needs.prepare.outputs.embyhack_tags }}
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            BASE_IMAGE=embyhack
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       

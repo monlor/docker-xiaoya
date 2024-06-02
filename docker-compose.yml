@@ -28,7 +28,7 @@ services:
     networks:
       - default
   emby:
-    image: ghcr.io/monlor/xiaoya-emby
+    image: ghcr.io/monlor/xiaoya-embyserver
     env_file:
       - env
     depends_on:
