@@ -182,7 +182,7 @@ docker logs emby
 ## 安全建议
 
 * 开启alist的登陆，alist服务设置`FORCE_LOGIN=true`，设置webdav的密码`WEBDAV_PASSWORD`
-* 在emby控制台修改ApiKey，metadata服务设置`EMBY_APIKEY`，用于定期同步emby配置
+* 在emby控制台修改ApiKey，这个key需要配置到metadata和alist服务，变量名：`EMBY_APIKEY`
 
 ## 赞助
 

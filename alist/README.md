@@ -32,6 +32,8 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `JELLYFIN_ADDR`: jellyfin部署地址，默认http://jellyfin:8096
 
+`EMBY_APIKEY`: 填入一个emby的api key，用于在infuse中播放emby
+
 `AUTO_UPDATE_ENABLED`: 自动更新小雅的文件，true/false，默认false
 
 `AUTO_CLEAR_ENABLED`: 自动清理阿里云云盘的文件，true/false，默认false
