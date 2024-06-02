@@ -87,10 +87,10 @@ curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/env
 docker compose up -d
 ```
 
-4. 卸载服务
+4. 查看日志
 
 ```bash
-docker compose down 
+docker compose logs
 ```
 
 ### 使用docker部署【不推荐】
@@ -164,16 +164,12 @@ docker run -d --name emby
     ghcr.io/monlor/xiaoya-emby
 ```
 
-6. 启动resilio自动同步元数据
+6. 查看日志
 
-```bash
-docker run -d --name resilio \
-    -e TZ=Asia/Shanghai \
-    -p 8888:8888 -p 55555:55555 \
-    -v media:/sync/xiaoya \
-    -v config:/sync/config \
-    --network=xiaoya \
-    ghcr.io/monlor/xiaoya-resilio
+```
+docker logs alist
+docker logs metadata
+docker logs emby
 ```
 
 ## 安全建议
