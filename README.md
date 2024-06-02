@@ -61,6 +61,13 @@ export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$
 * [部署小雅alist+jellyfin](/docker-compose-jellyfin.yml)
 * [部署小雅alist+emby+jellyfin](/docker-compose-all.yml)
 
+## 服务组件介绍
+
+* [Alist](/alist): 提供资源在线播放，WebDav服务
+* [Metadata](/metadata): Emby和Jellyfin的元数据管理
+* [Emby](/emby): 用家庭影视库的方式，可视化展示Alist中的资源
+* [Jellyfin](/jellyfin): Emby的开源版本，功能是一样的
+
 ## 手动部署
 
 仅展示小雅alist+emby的部署方式
