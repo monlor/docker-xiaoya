@@ -225,6 +225,7 @@ case \$1 in
     ;;
   restart)
     $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" restart
+    ;;
   logs)
     $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" logs -f
     ;;
