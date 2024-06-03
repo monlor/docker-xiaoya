@@ -1,6 +1,6 @@
 services:
   alist:
-    image: ghcr.io/monlor/xiaoya-alist
+    image: ghcr.io/monlor/xiaoya-alist:latest
     volumes:
       - xiaoya:/data
     ports:

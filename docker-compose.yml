@@ -1,6 +1,6 @@
 services:
   alist:
-    image: ghcr.io/monlor/xiaoya-alist
+    image: ghcr.io/monlor/xiaoya-alist:latest
     volumes:
       - xiaoya:/data
     ports:
@@ -13,7 +13,7 @@ services:
     networks:
       - default
   metadata:
-    image: ghcr.io/monlor/xiaoya-metadata
+    image: ghcr.io/monlor/xiaoya-metadata:latest
     env_file:
       - env
     volumes:
@@ -28,7 +28,7 @@ services:
     networks:
       - default
   emby:
-    image: ghcr.io/monlor/xiaoya-embyserver
+    image: ghcr.io/monlor/xiaoya-embyserver:latest
     env_file:
       - env
     depends_on:
