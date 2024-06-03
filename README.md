@@ -1,6 +1,8 @@
-## 小雅影视库部署增强版
+## 小雅影视库部署
 
-![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() ![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya) [![All Contributors](https://img.shields.io/badge/Contributors-3-orange.svg)](#contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
+![](https://cdn.monlor.com/2024/6/3/SCR-20240603-kpvb.jpeg)
+
+[![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg)](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() [![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya)](https://github.com/monlor/docker-xiaoya/releases/latest) [![All Contributors](https://img.shields.io/badge/Contributors-3-orange.svg)](https://github.com/monlor/docker-xiaoya/graphs/contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
 
 
 🚀 使用 Docker Compose 一键部署服务，兼容群晖，Linux，Windows，Mac，包含所有X86和Arm架构
@@ -182,7 +184,7 @@ docker logs emby
 ## 安全建议
 
 * 开启alist的登陆，alist服务设置`FORCE_LOGIN=true`，设置webdav的密码`WEBDAV_PASSWORD`
-* 在emby控制台修改ApiKey，metadata服务设置`EMBY_APIKEY`，用于定期同步emby配置
+* 在emby控制台修改ApiKey，这个key需要配置到metadata和alist服务，变量名：`EMBY_APIKEY`
 
 ## 赞助
 
