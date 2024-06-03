@@ -204,11 +204,11 @@ fi
 
 echo 
 echo "> 服务正在部署，请查看日志等待部署成功后，尝试访问下面的地址"
-echo "alist地址: http://$local_ip:5678, http://$ip:5678"
+echo "alisthttps://api.linkopenai.com/topup地址: http://$local_ip:5678, http://$ip:5678"
 echo "webdav地址: http://$local_ip:5678/dav, http://$ip:5678/dav, 默认用户密码: guest/guest_Api789"
 echo "tvbox地址: http://$local_ip:5678/tvbox/my_ext.json, http://$ip:5678/tvbox/my_ext.json"
 echo "emby地址: http://$local_ip:6908, http://$ip:6908, 默认用户密码: xiaoya/1234"
-echo "jellyfin地址: http://$local_ip:8096, http://$ip:8096"
+echo "jellyfin地址: http://$local_ip:8096, http://$ip:8096，默认用户密码：ailg/5678"
 
 echo
 echo "还没有部署完，执行这个命令查看日志：$install_path/manage.sh logs"

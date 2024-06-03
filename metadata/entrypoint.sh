@@ -54,7 +54,7 @@ download_meta() {
         return
     fi
 
-    # 重试3次下载，包含.aria2则重试
+    # 重试5次下载，包含.aria2则重试
     for i in {1..5}; do
         echo "Downloading ${file}, try ${i}..."
         aria2c -o "${file}" --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${path}${file}"
@@ -75,8 +75,12 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
         echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-download."
     else
-        disk_check ${MEDIA_DIR}/temp 70
-        disk_check ${MEDIA_DIR}/config 70
+        disk_check ${MEDIA_DIR}/temp 65
+        disk_check ${MEDIA_DIR}/config 5 
+        disk_check ${MEDIA_DIR}/xiaoya 70
+
+        echo "Downloading Emby metadata..."
+
         cd "${MEDIA_DIR}/temp"
 
         download_meta config.mp4
@@ -101,12 +105,13 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
 fi
 
 if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
-    if [ -f ${MEDIA_DIR}/config/jellyfin_meta_finished ]; then
+    if [ -f ${MEDIA_DIR}/jf_config/jellyfin_meta_finished ]; then
         echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-download."
     else
 
-        disk_check ${MEDIA_DIR}/temp 70
-        disk_check ${MEDIA_DIR}/config 70
+        disk_check ${MEDIA_DIR}/temp 65
+        disk_check ${MEDIA_DIR}/jf_config 5 
+        disk_check ${MEDIA_DIR}/jf_xiaoya 70
 
         echo "Downloading Jellyfin metadata..."
 
@@ -121,15 +126,15 @@ if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
         cd ${MEDIA_DIR}
         7z x -aoa -mmt=16 temp/config_jf.mp4
 
-        cd ${MEDIA_DIR}/xiaoya
+        cd ${MEDIA_DIR}/jf_xiaoya
         7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/all_jf.mp4
 
-        cd ${MEDIA_DIR}/xiaoya
+        cd ${MEDIA_DIR}/jf_xiaoya
         7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/PikPak_jf.mp4
 
-        chmod -R 777 ${MEDIA_DIR}/xiaoya
+        chmod -R 777 ${MEDIA_DIR}/jf_xiaoya
 
-        touch ${MEDIA_DIR}/config/jellyfin_meta_finished
+        touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
     
     fi
 fi
@@ -157,7 +162,5 @@ if [ -n "${crontabs}" ]; then
 fi
 
 echo "Complete." 
-
-touch ${MEDIA_DIR}/config/meta_finished
 
 cron -f
