@@ -186,7 +186,9 @@ echo "查看日志：$install_path/manage.sh logs"
 echo "启动服务：$install_path/manage.sh start"
 echo "停止服务：$install_path/manage.sh stop"
 echo "重启服务：$install_path/manage.sh restart"
+echo "加载配置：$install_path/manage.sh reload"
 echo "高级用户自定义配置：$install_path/env"
+echo "修改env或者compose配置后，需要执行上面的加载配置reload命令生效！"
 
 # 获取当前服务器ip
 ip=$(curl -s ip.3322.net 2> /dev/null)
@@ -226,11 +228,14 @@ case \$1 in
   restart)
     $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" restart
     ;;
+  reload)
+    $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" up --remove-orphans -d
+    ;;
   logs)
     $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" logs -f
     ;;
   *)
-    echo "Usage: \$0 {start|stop|logs}"
+    echo "Usage: \$0 {start|stop|restart|reload|logs}"
     exit 1
     ;;
 esac
