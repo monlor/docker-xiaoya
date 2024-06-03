@@ -1,6 +1,6 @@
 services:
   alist:
-    image: ghcr.io/monlor/xiaoya-alist
+    image: ghcr.io/monlor/xiaoya-alist:latest
     volumes:
       - xiaoya:/data
     ports:
@@ -13,7 +13,7 @@ services:
     networks:
       - default
   metadata:
-    image: ghcr.io/monlor/xiaoya-metadata
+    image: ghcr.io/monlor/xiaoya-metadata:latest
     environment:
       - EMBY_ENABLED=false
       - JELLYFIN_ENABLED=true
@@ -31,7 +31,7 @@ services:
     networks:
       - default
   jellyfin:
-    image: ghcr.io/monlor/xiaoya-jellyfin
+    image: ghcr.io/monlor/xiaoya-jellyfin:latest
     env_file:
       - env
     privileged: true

@@ -17,6 +17,11 @@ GH_PROXY="${GH_PROXY:=}"
 # 格式xxx.com
 IMAGE_PROXY="${IMAGE_PROXY:=}"
 
+# 服务镜像
+IMAGE_TAG="${VERSION:-latest}"
+# 服务下载地址
+DOWNLOAD_URL="${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/${VERSION:-main}"
+
 # 欢迎信息
 echo "欢迎使用xiaoya服务部署脚本"
 echo "项目地址：https://github.com/monlor/docker-xiaoya"
@@ -160,9 +165,9 @@ fi
 cd "$install_path"
 
 echo "开始生成配置文件docker-compose${service_type}.yml..."
-curl -#Lo "$install_path/docker-compose.yml" "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/docker-compose${service_type}.yml"
+curl -#Lo "$install_path/docker-compose.yml" "${DOWNLOAD_URL}/docker-compose${service_type}.yml"
 if [ ! -f "$install_path/env" ]; then
-  curl -#Lo "$install_path/env" "${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/env"
+  curl -#Lo "$install_path/env" "${DOWNLOAD_URL}/env"
 fi
 sedsh "s#ALIYUN_TOKEN=.*#ALIYUN_TOKEN=$token#g" env
 sedsh "s#ALIYUN_OPEN_TOKEN=.*#ALIYUN_OPEN_TOKEN=$open_token#g" env
@@ -171,6 +176,9 @@ sedsh "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" env
 if [ -n "$IMAGE_PROXY" ]; then
   sedsh -E "s#image: [^/]+#image: ${IMAGE_PROXY}#g" docker-compose.yml
 fi
+
+# 修改镜像版本
+sedsh "s#:latest#:$IMAGE_TAG#g" docker-compose.yml
 
 echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
