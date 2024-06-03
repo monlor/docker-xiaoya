@@ -73,7 +73,7 @@ download_meta() {
 
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
-        echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-download."
+        echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-extract."
     else
         disk_check ${MEDIA_DIR}/temp 65
         disk_check ${MEDIA_DIR}/config 5 
@@ -106,33 +106,22 @@ fi
 
 if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/jf_config/jellyfin_meta_finished ]; then
-        echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-download."
+        echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-extract."
     else
 
-        disk_check ${MEDIA_DIR}/temp 65
-        disk_check ${MEDIA_DIR}/jf_config 5 
-        disk_check ${MEDIA_DIR}/jf_xiaoya 70
+        disk_check ${MEDIA_DIR}/temp 5
+        disk_check ${MEDIA_DIR}/jf_config 20
 
         echo "Downloading Jellyfin metadata..."
 
         cd ${MEDIA_DIR}/temp
 
         download_meta config_jf.mp4 Jellyfin/
-        download_meta all_jf.mp4 Jellyfin/
-        download_meta PikPak_jf.mp4 Jellyfin/
         
         echo "Extracting Jellyfin metadata..."
 
         cd ${MEDIA_DIR}
         7z x -aoa -mmt=16 temp/config_jf.mp4
-
-        cd ${MEDIA_DIR}/jf_xiaoya
-        7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/all_jf.mp4
-
-        cd ${MEDIA_DIR}/jf_xiaoya
-        7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/PikPak_jf.mp4
-
-        chmod -R 777 ${MEDIA_DIR}/jf_xiaoya
 
         touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
     
@@ -149,8 +138,8 @@ if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ] && [ "${EMBY_ENABLED
     crontabs="${random_min} ${random_hour} */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
 fi
 
-if [ "${AUTO_UPDATE_EMBY_METADATA_ENABLED:=false}" = "true" ] && [ "${EMBY_ENABLED}" = "true" ]; then
-    echo "启动定时更新Emby元数据任务..."
+if [ "${AUTO_UPDATE_METADATA_ENABLED:=false}" = "true" ]; then
+    echo "启动定时更新元数据任务..."
     # 随机生成一个时间，避免给服务器造成压力
     random_min=$(shuf -i 0-59 -n 1)
     random_hour=$(shuf -i 1-6 -n 1)
