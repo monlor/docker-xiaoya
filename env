@@ -31,7 +31,7 @@ JELLYFIN_ENABLED=false
 AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
 # 自动更新emby配置，config.mp4间隔，单位天，默认7天
 AUTO_UPDATE_EMBY_INTERVAL=7
-# 自动更新emby元数据
-AUTO_UPDATE_EMBY_METADATA_ENABLED=true
+# 自动更新元数据
+AUTO_UPDATE_METADATA_ENABLED=true
 # emby的apikey
 EMBY_APIKEY=e825ed6f7f8f44ffa0563cddaddce14d
