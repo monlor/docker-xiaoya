@@ -21,8 +21,9 @@ services:
       - env
     volumes:
       - xiaoya:/etc/xiaoya
-      - media:/media/xiaoya
-      - config:/media/config
+      - jf_media:/media/jf_xiaoya
+      - jf_config:/media/jf_config
+      - jf_cache:/media/jf_config/cache
       - meta:/media/temp
     depends_on:
       - alist
@@ -38,9 +39,9 @@ services:
       - metadata
       - alist
     volumes:
-      - media:/media
-      - config:/config
-      - cache:/cache
+      - jf_media:/media
+      - jf_config:/config
+      - jf_cache:/cache
     ports:
       - 8096:8096
     restart: unless-stopped
@@ -52,7 +53,7 @@ networks:
 
 volumes:
   xiaoya:
-  media:
-  config:
+  jf_media:
+  jf_config:
+  jf_cache:
   meta:
-  cache:
