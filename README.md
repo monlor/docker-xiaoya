@@ -2,7 +2,7 @@
 
 ![](https://cdn.monlor.com/2024/6/3/SCR-20240603-kpvb.jpeg)
 
-![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() ![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya) [![All Contributors](https://img.shields.io/badge/Contributors-3-orange.svg)](#contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
+[![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg)](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() [![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya)](https://github.com/monlor/docker-xiaoya/releases/latest) [![All Contributors](https://img.shields.io/badge/Contributors-3-orange.svg)](https://github.com/monlor/docker-xiaoya/graphs/contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
 
 
 🚀 使用 Docker Compose 一键部署服务，兼容群晖，Linux，Windows，Mac，包含所有X86和Arm架构
