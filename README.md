@@ -53,7 +53,7 @@ export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$
 | ----------------- | -------- | --------- | --------- |
 | Alist + Emby      | 2核   | 4G    | 150G  |
 | 仅部署 Alist      | 1核   | 512M  | 512M  |
-| Alist + Emby + Jellyfin      | 2核   | 4G    | 300G  |
+| Alist + Emby + Jellyfin      | 2核   | 4G    | 200G  |
 | Alist + Jellyfin      | 2核   | 4G    | 150G  |
 
 ## 配置示例
@@ -69,6 +69,14 @@ export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$
 * [Metadata](/metadata): Emby和Jellyfin的元数据管理
 * [Emby](/emby): 用家庭影视库的方式，可视化展示Alist中的资源
 * [Jellyfin](/jellyfin): Emby的开源版本，功能是一样的
+
+## 发烧友测试版
+
+以下是测试版一键部署脚本，使用此脚本可以体验最新的功能，具体可以查看[commit](https://github.com/monlor/docker-xiaoya/commits/main/)更新了哪些测试版专属功能，**此脚本仅限发烧友使用，需要有一定的解决问题能力**
+
+```bash
+export VERSION=main && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/${VERSION:-main}/install.sh)"
+```
 
 ## 手动部署
 
