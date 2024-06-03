@@ -1,4 +1,6 @@
-## 小雅影视库部署增强版
+## 小雅影视库部署
+
+![](https://cdn.monlor.com/2024/6/3/SCR-20240603-kpvb.jpeg)
 
 ![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() ![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya) [![All Contributors](https://img.shields.io/badge/Contributors-3-orange.svg)](#contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
 
