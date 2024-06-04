@@ -47,6 +47,15 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/mai
 export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/uninstall.sh)"
 ```
 
+### 自定义配置
+
+【**非必须，小白跳过这一步**】脚本没有计划支持硬解，在我看来这个功能没有必要。如果你需要修改硬解，端口，数据目录，环境变量，请自行修改docker-compose.yml和env文件，修改完成后执行下面的命令，使配置生效。**修改后注意**：执行更新脚本会覆盖docker-compose.yml，不会覆盖env文件。
+
+```bash
+cd 你的安装目录
+docker-compose up --remove-orphans -d
+```
+
 ## 部署配置推荐
 
 | 部署方案          | CPU      | 内存      | 硬盘      |
