@@ -18,10 +18,11 @@ EOF
 echo "开始自动更新alist地址..."
 /update_alist_addr.sh > /dev/null 2>&1 &
 
-/start_emby.sh > /dev/null 2>&1 &
+echo "启动emby服务..."
+/emby.sh start
+sleep 2
 
-start_command="/system/EmbyServer -programdata /config -ffdetect /bin/ffdetect -ffmpeg /bin/ffmpeg -ffprobe /bin/ffprobe -restartexitcode 3"
+echo "启动进程守护..."
+/emby.sh daemon &
 
-$start_command &
-
-exec shell2http -port 8080 /stop "killall -15 EmbyServer" /start "LD_LIBRARY_PATH=/lib:/system ${start_command} &"
+exec shell2http -port 8080 /stop "/emby.sh stop" /start "/emby.sh start"
