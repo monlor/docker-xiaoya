@@ -1,9 +1,21 @@
-## 小雅影视库部署
+![docker-xiaoya](https://socialify.git.ci/monlor/docker-xiaoya/image?description=0&font=Rokkitt&forks=1&issues=1&language=1&logo=https%3A%2F%2Fcdn.monlor.com%2F2024%2F6%2F4%2F2024-06-04%252017.30.47.jpeg&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
 
-![](https://cdn.monlor.com/2024/6/3/SCR-20240603-kpvb.jpeg)
+<div align="center">
+<h2>小雅全家桶部署</h2>
+<p><em>使用 Docker Compose 一键部署 Alist + Emby + Jellyfin</em></p>
+</div>
 
-[![Build Status](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg)](https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml) [![repo size](https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat)]() [![GitHub release (latest by date)](https://img.shields.io/github/v/release/monlor/docker-xiaoya)](https://github.com/monlor/docker-xiaoya/releases/latest) [![All Contributors](https://img.shields.io/badge/Contributors-3-orange.svg)](https://github.com/monlor/docker-xiaoya/graphs/contributors) [![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
+<p align="center">
+<a href="https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml"><img src="https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg" alt="Build Status"></a> 
+<a><img src="https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat" alt="repo size"></a> 
+<a href="https://github.com/monlor/docker-xiaoya/releases/latest"><img src="https://img.shields.io/github/v/release/monlor/docker-xiaoya" alt="GitHub release (latest by date)"></a> 
+<a href="https://github.com/monlor/docker-xiaoya/graphs/contributors"><img src="https://img.shields.io/badge/Contributors-3-orange.svg" alt="All Contributors"></a> 
+<a href="https://afdian.net/a/monlor"><img src="https://img.shields.io/badge/爱发电-monlor-purple" alt="爱发电"></a>
+</p>
 
+## 功能特性
+
+![](https://cdn.monlor.com/2024/6/4/SCR-20240603-kpvb.jpeg)
 
 🚀 使用 Docker Compose 一键部署服务，兼容群晖，Linux，Windows，Mac，包含所有X86和Arm架构
 
@@ -56,6 +68,14 @@ cd 你的安装目录
 docker-compose up --remove-orphans -d
 ```
 
+### 发烧友测试版
+
+以下是测试版一键部署脚本，使用此脚本可以体验最新的功能，具体可以查看[commit](https://github.com/monlor/docker-xiaoya/commits/main/)更新了哪些测试版专属功能，**此脚本仅限发烧友使用，需要有一定的解决问题能力**
+
+```bash
+export VERSION=main && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/${VERSION:-main}/install.sh)"
+```
+
 ## 部署配置推荐
 
 | 部署方案          | CPU      | 内存      | 硬盘      |
@@ -78,14 +98,6 @@ docker-compose up --remove-orphans -d
 * [Metadata](/metadata): Emby和Jellyfin的元数据管理
 * [Emby](/emby): 用家庭影视库的方式，可视化展示Alist中的资源
 * [Jellyfin](/jellyfin): Emby的开源版本，功能是一样的
-
-## 发烧友测试版
-
-以下是测试版一键部署脚本，使用此脚本可以体验最新的功能，具体可以查看[commit](https://github.com/monlor/docker-xiaoya/commits/main/)更新了哪些测试版专属功能，**此脚本仅限发烧友使用，需要有一定的解决问题能力**
-
-```bash
-export VERSION=main && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/${VERSION:-main}/install.sh)"
-```
 
 ## 手动部署
 
