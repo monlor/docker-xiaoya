@@ -101,7 +101,7 @@ download_media() {
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
         echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-extract."
-        return
+        exit 0
     fi
 
     disk_check ${MEDIA_DIR}/temp 5
@@ -126,6 +126,7 @@ fi
 if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/jf_config/jellyfin_meta_finished ]; then
         echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-extract."
+        exit 0
     fi
 
     disk_check ${MEDIA_DIR}/temp 5
