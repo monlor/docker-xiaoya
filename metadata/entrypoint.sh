@@ -101,50 +101,51 @@ download_media() {
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
         echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-extract."
-        exit 0
+    else
+
+        disk_check ${MEDIA_DIR}/temp 5
+        disk_check ${MEDIA_DIR}/config 5 
+
+        echo "Downloading Emby config..."
+
+        cd "${MEDIA_DIR}/temp"
+        download_meta config.mp4
+
+        echo "Extracting Emby config..."
+
+        cd ${MEDIA_DIR}
+        7z x -aoa -mmt=16 temp/config.mp4
+
+        download_media
+
+        touch ${MEDIA_DIR}/config/emby_meta_finished
+
     fi
-
-    disk_check ${MEDIA_DIR}/temp 5
-    disk_check ${MEDIA_DIR}/config 5 
-
-    echo "Downloading Emby config..."
-
-    cd "${MEDIA_DIR}/temp"
-    download_meta config.mp4
-
-    echo "Extracting Emby config..."
-
-    cd ${MEDIA_DIR}
-    7z x -aoa -mmt=16 temp/config.mp4
-
-    download_media
-
-    touch ${MEDIA_DIR}/config/emby_meta_finished
-
 fi
 
 if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
     if [ -f ${MEDIA_DIR}/jf_config/jellyfin_meta_finished ]; then
         echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-extract."
-        exit 0
+    else
+
+        disk_check ${MEDIA_DIR}/temp 5
+        disk_check ${MEDIA_DIR}/jf_config 20
+
+        echo "Downloading Jellyfin config..."
+
+        cd ${MEDIA_DIR}/temp
+        download_meta config_jf.mp4 Jellyfin/
+        
+        echo "Extracting Jellyfin config..."
+
+        cd ${MEDIA_DIR}
+        7z x -aoa -mmt=16 temp/config_jf.mp4
+
+        download_media
+
+        touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
+
     fi
-
-    disk_check ${MEDIA_DIR}/temp 5
-    disk_check ${MEDIA_DIR}/jf_config 20
-
-    echo "Downloading Jellyfin config..."
-
-    cd ${MEDIA_DIR}/temp
-    download_meta config_jf.mp4 Jellyfin/
-    
-    echo "Extracting Jellyfin config..."
-
-    cd ${MEDIA_DIR}
-    7z x -aoa -mmt=16 temp/config_jf.mp4
-
-    download_media
-
-    touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
 
 fi
 
