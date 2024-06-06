@@ -122,7 +122,7 @@ fi
 
 # 让用户输入阿里云盘转存目录folder_id，folder_id获取方式教程：https://www.aliyundrive.com/s/rP9gP3h9asE
 echo
-echo "进入阿里云盘网页版，创建一个文件夹，点击文件夹，复制浏览器阿里云盘地址末尾的文件夹ID（最后一个斜杠/后面的一串字符串）"
+echo "进入阿里云盘网页版，资源盘里面创建一个文件夹，点击文件夹，复制浏览器阿里云盘地址末尾的文件夹ID（最后一个斜杠/后面的一串字符串）"
 read -rp "请输入阿里云盘缓存目录ID(默认为$folder_id): " res
 folder_id=${res:=$folder_id}
 if [ ${#folder_id} -ne 40 ]; then
