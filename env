@@ -9,8 +9,8 @@ ALIYUN_FOLDER_ID=
 AUTO_UPDATE_ENABLED=true
 # 自动清理阿里云盘
 AUTO_CLEAR_ENABLED=true
-# 阿里云盘自动清理间隔，单位小时，默认24小时
-AUTO_CLEAR_INTERVAL=24 
+# 阿里云盘自动清理间隔，单位分钟，默认1分钟
+AUTO_CLEAR_INTERVAL=
 # pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
 PIKPAK_USER=
 # 开启tvbox随机订阅地址，true/false，默认false
@@ -32,8 +32,8 @@ JELLYFIN_ENABLED=false
 # 自动更新emby的配置，依赖EMBY_APIKEY
 AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
 # 自动更新emby配置，config.mp4间隔，单位天，默认7天
-AUTO_UPDATE_EMBY_INTERVAL=7
+AUTO_UPDATE_EMBY_INTERVAL=
 # 自动更新元数据
 AUTO_UPDATE_METADATA_ENABLED=true
 # emby的apikey
-EMBY_APIKEY=e825ed6f7f8f44ffa0563cddaddce14d
+EMBY_APIKEY=
