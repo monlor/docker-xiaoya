@@ -26,7 +26,7 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `PIKPAK_LIST`: 挂载你自己 pikpak 账号，格式：`挂载名:qqq@qq.com:aaadds,aaa:+8613111111111:dasf`，密码中不支持符号,:
 
-`PIKPAK_SHARE_LIST`: 挂载额外的pikpak分享内容，格式：`挂载名1:分享ID1:分享目录ID1,挂载名2:分享ID2:分享目录ID2`
+`PIKPAK_SHARE_LIST`: 挂载自定义的pikpak分享内容，会覆盖小雅的分享，格式：`挂载名1:分享ID1:分享目录ID1,挂载名2:分享ID2:分享目录ID2`
 
 `ALI_SHARE_LIST`: 挂载额外的阿里云盘分享内容，格式：`挂载名1:分享ID1:文件夹ID1,挂载名2:分享ID2:文件夹ID2`
 
