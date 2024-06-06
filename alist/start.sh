@@ -67,7 +67,7 @@ else
     rm -rf /data/pikpak_list.txt
 fi
 
-# 挂载额外的pikpak分享
+# 挂载pikpak分享，覆盖小雅的分享
 if [ -n "${PIKPAK_SHARE_LIST:-}" ]; then
     echo "挂载额外的PIKPAK分享..."
     rm -rf /data/pikpakshare_list.txt
