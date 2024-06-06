@@ -107,11 +107,6 @@ delete_File() {
     _file_id=$1
     _name="$(echo "$raw_list" | grep -o "\"name\":\"[^\"]*\"" | cut -d':' -f2- | tr -d '"' | grep -n . | grep "^$(echo "$raw_list" | grep -o "\"file_id\":\"[^\"]*\"" | cut -d':' -f2- | tr -d '"' | grep -n . | grep "$_file_id" | awk -F: '{print $1}'):" | awk -F: '{print $2}')"
 
-    if [ "${_name}" = "配置文件示范" ] || [ "${_name}" = "常用软件" ]; then
-        echo "跳过删除文件：$_name"
-        return 0
-    fi
-
     _res=$(curl --connect-timeout 5 -m 5 -s -H "$HEADER" -H "Content-Type: application/json" -X POST -d '{
   "requests": [
     {
