@@ -46,9 +46,9 @@ fi
 if [ -n "${PIKPAK_USER:-}" ]; then
     echo "设置PIKPAK用户密码..."
     rm -rf /data/pikpak.txt
-    PIKPAK_USER=$(echo "${PIKPAK_USER}" | cut -d':' -f1)
-    PIKPAK_PASS=$(echo "${PIKPAK_USER}" | cut -d':' -f2-)
-    echo "\"${PIKPAK_USER}\" \"${PIKPAK_PASS}\"" > /data/pikpak.txt
+    user=$(echo "${PIKPAK_USER}" | cut -d':' -f1)
+    pass=$(echo "${PIKPAK_USER}" | cut -d':' -f2-)
+    echo "\"${user}\" \"${pass}\"" > /data/pikpak.txt
 else
     rm -rf /data/pikpak.txt
 fi
