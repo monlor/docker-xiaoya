@@ -1,38 +1,49 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Bug 报告
+about: 创建一个报告来帮助我们改进，不使用模板的问题将直接被关闭
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**提交检查**
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+- [] 确认你已经搜索过相关Issue，没有找到类似问题
+- [] 确认你已经检查过当前页面底部的常见问题列表，没有找到类似问题
+- [] 确认你已经删除底部的【常见问题】板块
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**描述 bug**
+对 bug 的清晰简洁的描述。
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**重现步骤**
+复现问题的步骤:
+1. 进入 '...'
+2. 点击 '....'
+3. 滚动到 '....'
+4. 出现错误
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**预期行为**
+对您期望发生的行为的清晰简洁的描述。
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**截图**
+如果适用,添加截图以帮助解释您的问题。
 
-**Additional context**
-Add any other context about the problem here.
+**设备 (请填写以下信息):**
+ - [] Linux
+ - [] Windows
+ - [] Mac
+ - [] 群晖
+ - [] 绿联
+ - [] 其他（在下面填写）
+
+**其他信息**
+在此添加有关问题的任何其他上下文。
+
+---
+
+**常见问题**
+
+如果你的问题不在此列表中，仍然需要提问，请删除**常见问题**这块内容再提交问题
+
+* 获取file id失败：1. 请检查你的阿里云盘token，opentoken和folderid配置是否正确，2. 阿里云盘空间是否饱和，3. 多次尝试更换token和opentoken。
