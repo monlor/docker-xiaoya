@@ -71,21 +71,48 @@ download_meta() {
     fi
 }
 
-download_media() {    
-    if [ -f "${MEDIA_DIR}/xiaoya/media_finished" ]; then
-        echo "Media has been downloaded. Delete the file ${MEDIA_DIR}/xiaoya/media_finished to re-extract."
+download_emby_config() {
+    if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
+        echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-extract."
+    fi
+
+    disk_check ${MEDIA_DIR}/temp 5
+    disk_check ${MEDIA_DIR}/config 5 
+
+    echo "Downloading Emby config..."
+
+    cd "${MEDIA_DIR}/temp"
+    download_meta config.mp4
+
+    echo "Extracting Emby config..."
+
+    cd ${MEDIA_DIR}
+    7z x -aoa -mmt=16 temp/config.mp4
+
+    download_media
+
+    touch ${MEDIA_DIR}/config/emby_meta_finished
+}
+
+download_emby_media() {    
+    if [ -f "${MEDIA_DIR}/xiaoya/emby_media_finished" ]; then
+        echo "Emby media has been downloaded. Delete the file ${MEDIA_DIR}/xiaoya/media_finished to re-extract."
         return
     fi
+
+    echo "Cleaning up Emby media..."
+    rm -rf ${MEDIA_DIR}/xiaoya/*
+
     disk_check ${MEDIA_DIR}/temp 60
     disk_check ${MEDIA_DIR}/xiaoya 70
     
-    echo "Downloading media..."
+    echo "Downloading Emby media..."
 
     cd "${MEDIA_DIR}/temp"
     download_meta all.mp4
     download_meta pikpak.mp4
 
-    echo "Extracting media..."
+    echo "Extracting Emby media..."
 
     cd ${MEDIA_DIR}/xiaoya
     7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/all.mp4
@@ -98,55 +125,68 @@ download_media() {
     touch ${MEDIA_DIR}/xiaoya/media_finished
 }
 
-if [ "${EMBY_ENABLED:=false}" = "true" ]; then
-    if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
-        echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-extract."
-    else
-
-        disk_check ${MEDIA_DIR}/temp 5
-        disk_check ${MEDIA_DIR}/config 5 
-
-        echo "Downloading Emby config..."
-
-        cd "${MEDIA_DIR}/temp"
-        download_meta config.mp4
-
-        echo "Extracting Emby config..."
-
-        cd ${MEDIA_DIR}
-        7z x -aoa -mmt=16 temp/config.mp4
-
-        download_media
-
-        touch ${MEDIA_DIR}/config/emby_meta_finished
-
+download_jellyfin_config() {
+    if [ -f ${MEDIA_DIR}/jf_config/jellyfin_meta_finished ]; then
+        echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/jf_config/jellyfin_meta_finished to re-extract."
+        return
     fi
+
+    disk_check ${MEDIA_DIR}/temp 5
+    disk_check ${MEDIA_DIR}/jf_config 20
+
+    echo "Downloading Jellyfin config..."
+
+    cd ${MEDIA_DIR}/temp
+    download_meta config_jf.mp4 Jellyfin/
+    
+    echo "Extracting Jellyfin config..."
+
+    cd ${MEDIA_DIR}
+    7z x -aoa -mmt=16 temp/config_jf.mp4
+
+    download_media
+
+    touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
+}
+
+download_jellyfin_media() {    
+    if [ -f "${MEDIA_DIR}/jf_xiaoya/jellyfin_media_finished" ]; then
+        echo "Jellyfin media has been downloaded. Delete the file ${MEDIA_DIR}/jf_xiaoya/jellyfin_media_finished to re-extract."
+        return
+    fi
+    echo "Cleaning up Jellyfin media..."
+    rm -rf ${MEDIA_DIR}/jf_xiaoya/*
+
+    disk_check ${MEDIA_DIR}/temp 60
+    disk_check ${MEDIA_DIR}/jf_xiaoya 70
+    
+    echo "Downloading Jellyfin media..."
+
+    cd "${MEDIA_DIR}/temp"
+    download_meta all_jf.mp4 Jellyfin/
+    download_meta PikPak_jf.mp4 Jellyfin/
+
+    echo "Extracting Jellyfin media..."
+
+    cd ${MEDIA_DIR}/jf_xiaoya
+    7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/all_jf.mp4
+
+    cd ${MEDIA_DIR}/jf_xiaoya
+    7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/PikPak_jf.mp4
+
+    chmod -R 777 ${MEDIA_DIR}/jf_xiaoya
+
+    touch ${MEDIA_DIR}/jf_xiaoya/media_finished
+}
+
+if [ "${EMBY_ENABLED:=false}" = "true" ]; then
+    download_emby_config
+    download_emby_media
 fi
 
 if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
-    if [ -f ${MEDIA_DIR}/jf_config/jellyfin_meta_finished ]; then
-        echo "Jellyfin metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/jellyfin_meta_finished to re-extract."
-    else
-
-        disk_check ${MEDIA_DIR}/temp 5
-        disk_check ${MEDIA_DIR}/jf_config 20
-
-        echo "Downloading Jellyfin config..."
-
-        cd ${MEDIA_DIR}/temp
-        download_meta config_jf.mp4 Jellyfin/
-        
-        echo "Extracting Jellyfin config..."
-
-        cd ${MEDIA_DIR}
-        7z x -aoa -mmt=16 temp/config_jf.mp4
-
-        download_media
-
-        touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
-
-    fi
-
+    download_jellyfin_config
+    download_jellyfin_media
 fi
 
 crontabs=""
