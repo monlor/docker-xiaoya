@@ -212,7 +212,7 @@ fi
 
 echo 
 echo "> 服务正在部署，请查看日志等待部署成功后，尝试访问下面的地址"
-echo "alist：https://api.linkopenai.com/topup地址: http://$local_ip:5678, http://$ip:5678"
+echo "alist: http://$local_ip:5678, http://$ip:5678"
 echo "webdav: http://$local_ip:5678/dav, http://$ip:5678/dav, 默认用户密码: guest/guest_Api789"
 echo "tvbox: http://$local_ip:5678/tvbox/my_ext.json, http://$ip:5678/tvbox/my_ext.json"
 echo "emby: http://$local_ip:6908, http://$ip:6908, 默认用户密码: xiaoya/1234"
