@@ -21,7 +21,7 @@ services:
       - env
     volumes:
       - xiaoya:/etc/xiaoya
-      - media:/media/xiaoya
+      - jf_media:/media/jf_xiaoya
       - jf_config:/media/jf_config
       - jf_cache:/media/jf_config/cache
       - meta:/media/temp
@@ -39,7 +39,7 @@ services:
       - metadata
       - alist
     volumes:
-      - media:/media
+      - jf_media:/media
       - jf_config:/config
       - jf_cache:/cache
     ports:
@@ -53,7 +53,7 @@ networks:
 
 volumes:
   xiaoya:
-  media:
+  jf_media:
   jf_config:
   jf_cache:
   meta:

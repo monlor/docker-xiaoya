@@ -80,10 +80,10 @@ export VERSION=main && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubuserco
 
 | 部署方案          | CPU      | 内存      | 硬盘      |
 | ----------------- | -------- | --------- | --------- |
-| Alist + Emby      | 2核   | 4G    | 150G  |
+| Alist + Emby      | 2核   | 4G    | 140  |
 | 仅部署 Alist      | 1核   | 512M  | 512M  |
-| Alist + Emby + Jellyfin      | 2核   | 4G    | 200G  |
-| Alist + Jellyfin      | 2核   | 4G    | 150G  |
+| Alist + Emby + Jellyfin      | 2核   | 4G    | 300G  |
+| Alist + Jellyfin      | 2核   | 4G    | 155G  |
 
 ## 配置示例
 
