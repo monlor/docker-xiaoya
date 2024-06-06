@@ -5,8 +5,13 @@ while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:5678}" > /dev/null 2>&1; do
     sleep 2
 done
 
-echo "等待元数据下载完成..."
+echo "等待配置数据下载完成..."
 while test ! -f /config/jellyfin_meta_finished; do
+    sleep 2
+done
+
+echo "等待媒体数据下载完成..."
+while test ! -f /media/jellyfin_media_finished; do
     sleep 2
 done
 
