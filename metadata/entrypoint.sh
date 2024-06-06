@@ -90,14 +90,12 @@ download_emby_config() {
     cd ${MEDIA_DIR}
     7z x -aoa -mmt=16 temp/config.mp4
 
-    download_media
-
     touch ${MEDIA_DIR}/config/emby_meta_finished
 }
 
 download_emby_media() {    
     if [ -f "${MEDIA_DIR}/xiaoya/emby_media_finished" ]; then
-        echo "Emby media has been downloaded. Delete the file ${MEDIA_DIR}/xiaoya/media_finished to re-extract."
+        echo "Emby media has been downloaded. Delete the file ${MEDIA_DIR}/xiaoya/emby_media_finished to re-extract."
         return
     fi
 
@@ -123,7 +121,7 @@ download_emby_media() {
 
     chmod -R 777 ${MEDIA_DIR}/xiaoya
 
-    touch ${MEDIA_DIR}/xiaoya/media_finished
+    touch ${MEDIA_DIR}/xiaoya/emby_media_finished
 }
 
 download_jellyfin_config() {
@@ -145,8 +143,6 @@ download_jellyfin_config() {
     cd ${MEDIA_DIR}
     7z x -aoa -mmt=16 temp/config_jf.mp4
 
-    download_media
-
     touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
 }
 
@@ -155,7 +151,7 @@ download_jellyfin_media() {
         echo "Jellyfin media has been downloaded. Delete the file ${MEDIA_DIR}/jf_xiaoya/jellyfin_media_finished to re-extract."
         return
     fi
-    
+
     echo "Cleaning up Jellyfin media..."
     rm -rf ${MEDIA_DIR}/jf_xiaoya/*
 
@@ -178,7 +174,7 @@ download_jellyfin_media() {
 
     chmod -R 777 ${MEDIA_DIR}/jf_xiaoya
 
-    touch ${MEDIA_DIR}/jf_xiaoya/media_finished
+    touch ${MEDIA_DIR}/jf_xiaoya/jellyfin_media_finished
 }
 
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then
