@@ -74,6 +74,7 @@ download_meta() {
 download_emby_config() {
     if [ -f ${MEDIA_DIR}/config/emby_meta_finished ]; then
         echo "Emby metadata has been downloaded. Delete the file ${MEDIA_DIR}/config/emby_meta_finished to re-extract."
+        return
     fi
 
     disk_check ${MEDIA_DIR}/temp 5
@@ -154,6 +155,7 @@ download_jellyfin_media() {
         echo "Jellyfin media has been downloaded. Delete the file ${MEDIA_DIR}/jf_xiaoya/jellyfin_media_finished to re-extract."
         return
     fi
+    
     echo "Cleaning up Jellyfin media..."
     rm -rf ${MEDIA_DIR}/jf_xiaoya/*
 
