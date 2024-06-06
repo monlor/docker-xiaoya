@@ -11,9 +11,11 @@ AUTO_UPDATE_ENABLED=true
 AUTO_CLEAR_ENABLED=true
 # 阿里云盘自动清理间隔，单位小时，默认24小时
 AUTO_CLEAR_INTERVAL=24 
-# pikpak 账号列表，格式：`qqq@qq.com:aaadds,+8613111111111:dasf`，密码中不支持符号,:
-PIKPAK_LIST=
-# 开启登陆功能，true/false
+# pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
+PIKPAK_USER=
+# 开启tvbox随机订阅地址，true/false，默认false
+TVBOX_SECURITY=
+# 开启登陆功能，true/false，默认false
 FORCE_LOGIN= 
 # webdav用户名为dav，设置密码。默认用户密码：guest/guest_Api789
 WEBDAV_PASSWORD=

@@ -20,9 +20,19 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `ALIYUN_OPEN_TOKEN`: 阿里云 open-token https://alist.nn.ci/zh/guide/drivers/aliyundrive_open.html
 
-`ALIYUN_FOLDER_ID`: 进入阿里云盘网页版，创建一个文件夹，点击文件夹，复制浏览器阿里云盘地址末尾的文件夹ID（最后一个斜杠/后面的一串字符串）
+`ALIYUN_FOLDER_ID`: 进入阿里云盘网页版，资源盘里面创建一个文件夹，点击文件夹，复制浏览器阿里云盘地址末尾的文件夹ID（最后一个斜杠/后面的一串字符串）
 
-`PIKPAK_LIST`: pikpak 账号列表，格式：`qqq@qq.com:aaadds,+8613111111111:dasf`，密码中不支持符号,:
+`PIKPAK_USER`: pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
+
+`PIKPAK_LIST`: 挂载你自己 pikpak 账号，格式：`挂载名:qqq@qq.com:aaadds,aaa:+8613111111111:dasf`，密码中不支持符号,:
+
+`PIKPAK_SHARE_LIST`: 挂载额外的pikpak分享内容，格式：`挂载名1:分享ID1:分享目录ID1,挂载名2:分享ID2:分享目录ID2`
+
+`ALI_SHARE_LIST`: 挂载额外的阿里云盘分享内容，格式：`挂载名1:分享ID1:文件夹ID1,挂载名2:分享ID2:文件夹ID2`
+
+`TVBOX_SECURITY`: 开启tvbox随机订阅地址，true/false，默认：false
+
+`PROXY`: 使用代理，支持http、https、socks5协议，格式：http://ip:7890 或 socks5://ip:7890
 
 `FORCE_LOGIN`: 开启登陆功能，true/false
 

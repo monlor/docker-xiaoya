@@ -42,15 +42,68 @@ else
     echo "${ALIYUN_FOLDER_ID}" > /data/temp_transfer_folder_id.txt
 fi
 
-# 设置pikpak用户
-if [ -n "${PIKPAK_LIST:-}" ]; then
+# 设置pikpak用户密码观看pikpak资源
+if [ -n "${PIKPAK_USER:-}" ]; then
     echo "设置PIKPAK用户密码..."
+    rm -rf /data/pikpak.txt
+    PIKPAK_USER=$(echo "${PIKPAK_USER}" | cut -d':' -f1)
+    PIKPAK_PASS=$(echo "${PIKPAK_USER}" | cut -d':' -f2-)
+    echo "\"${PIKPAK_USER}\" \"${PIKPAK_PASS}\"" > /data/pikpak.txt
+fi
+
+# 挂载你自己 pikpak 账号
+if [ -n "${PIKPAK_LIST:-}" ]; then
+    echo "挂载PIKPAK分享..."
     rm -rf /data/pikpak_list.txt
     echo "${PIKPAK_LIST}" | tr ',' '\n' | while read -r line; do
-        user=$(echo "$line" | cut -d':' -f1)
-        pass=$(echo "$line" | cut -d':' -f2-)
-        echo "\"${user}\" \"${pass}\"" >> /data/pikpak_list.txt
+        name=$(echo "$line" | cut -d':' -f1)
+        user=$(echo "$line" | cut -d':' -f2)
+        pass=$(echo "$line" | cut -d':' -f3-)
+        echo "${name} \"${user}\" \"${pass}\"" >> /data/pikpak_list.txt
     done
+fi
+
+# 挂载额外的pikpak分享
+if [ -n "${PIKPAK_SHARE_LIST:-}" ]; then
+    echo "挂载额外的PIKPAK分享..."
+    rm -rf /data/pikpakshare_list.txt
+    echo "${PIKPAK_SHARE_LIST}" | tr ',' '\n' | while read -r line; do
+        name=$(echo "$line" | cut -d':' -f1)
+        share_id=$(echo "$line" | cut -d':' -f2)
+        folder_id=$(echo "$line" | cut -d':' -f3)
+        echo "${name} ${share_id} ${folder_id}" >> /data/pikpakshare_list.txt
+    done
+fi
+
+# 挂载额外的阿里云盘分享
+if [ -n "${ALI_SHARE_LIST:-}" ]; then
+    echo "挂载额外的PIKPAK分享..."
+    rm -rf /data/alishare_list.txt
+    echo "${ALI_SHARE_LIST}" | tr ',' '\n' | while read -r line; do
+        name=$(echo "$line" | cut -d':' -f1)
+        share_id=$(echo "$line" | cut -d':' -f2)
+        folder_id=$(echo "$line" | cut -d':' -f3)
+        echo "${name} ${share_id} ${folder_id}" >> /data/alishare_list.txt
+    done
+fi
+
+# 开启tvbox随机订阅
+if [ "${TVBOX_SECURITY:=false}" = "true" ]; then
+    echo "已开启TVBOX安全模式..."
+    if [ ! -f /data/tvbox_security.txt ]; then
+        touch /data/tvbox_security.txt
+    fi
+else
+    echo "已关闭TVBOX安全模式..."
+    rm -rf /data/tvbox_security.txt
+fi
+
+# 开启代理
+if [ -n "${PROXY}" ]; then
+    echo "已开启代理..."
+    echo "${PROXY}" > /data/proxy.txt
+else
+    rm -rf /data/proxy.txt
 fi
 
 # 开启强制登陆
