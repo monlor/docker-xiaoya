@@ -49,6 +49,8 @@ if [ -n "${PIKPAK_USER:-}" ]; then
     PIKPAK_USER=$(echo "${PIKPAK_USER}" | cut -d':' -f1)
     PIKPAK_PASS=$(echo "${PIKPAK_USER}" | cut -d':' -f2-)
     echo "\"${PIKPAK_USER}\" \"${PIKPAK_PASS}\"" > /data/pikpak.txt
+else
+    rm -rf /data/pikpak.txt
 fi
 
 # 挂载你自己 pikpak 账号
@@ -61,6 +63,8 @@ if [ -n "${PIKPAK_LIST:-}" ]; then
         pass=$(echo "$line" | cut -d':' -f3-)
         echo "${name} \"${user}\" \"${pass}\"" >> /data/pikpak_list.txt
     done
+else
+    rm -rf /data/pikpak_list.txt
 fi
 
 # 挂载额外的pikpak分享
@@ -73,6 +77,8 @@ if [ -n "${PIKPAK_SHARE_LIST:-}" ]; then
         folder_id=$(echo "$line" | cut -d':' -f3)
         echo "${name} ${share_id} ${folder_id}" >> /data/pikpakshare_list.txt
     done
+else
+    rm -rf /data/pikpakshare_list.txt
 fi
 
 # 挂载额外的阿里云盘分享
@@ -85,6 +91,8 @@ if [ -n "${ALI_SHARE_LIST:-}" ]; then
         folder_id=$(echo "$line" | cut -d':' -f3)
         echo "${name} ${share_id} ${folder_id}" >> /data/alishare_list.txt
     done
+else
+    rm -rf /data/alishare_list.txt
 fi
 
 # 开启tvbox随机订阅
@@ -99,7 +107,7 @@ else
 fi
 
 # 开启代理
-if [ -n "${PROXY}" ]; then
+if [ -n "${PROXY:-}" ]; then
     echo "已开启代理..."
     echo "${PROXY}" > /data/proxy.txt
 else
