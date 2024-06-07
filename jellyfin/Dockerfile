@@ -1,4 +1,6 @@
-FROM jellyfin/jellyfin
+ARG BASE_IMAGE=jellyfin/jellyfin:latest
+
+FROM ${BASE_IMAGE}
 
 LABEL MAINTAINER me@monlor.com
 

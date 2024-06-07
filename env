@@ -20,9 +20,11 @@ FORCE_LOGIN=
 # webdav用户名为dav，设置密码。默认用户密码：guest/guest_Api789
 WEBDAV_PASSWORD=
 
-# emby 地址
+# emby 地址，容器内部使用地址，一般不用改
 EMBY_ADDR=http://emby:6908
-# alist 地址
+# jellyfin 地址，容器内部使用地址，一般不用改
+JELLYFIN_ADDR=http://jellyfin:8096
+# alist 地址，容器内部使用地址，一般不用改
 ALIST_ADDR=http://alist:5678
 
 # 是否启用emby

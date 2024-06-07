@@ -5,10 +5,10 @@
 
 ## 环境变量
 
-`ALIST_ADDR`: 小雅alist的地址，默认http://alist:5678
+`ALIST_ADDR`: 小雅alist的地址，默认http://alist:5678，容器内部使用地址，一般不用改
 
-## 开心版镜像
+## 其他镜像
 
 ```
-ghcr.io/monlor/xiaoya-embyhack
+ghcr.io/monlor/xiaoya-embyserver-amilys
 ```
