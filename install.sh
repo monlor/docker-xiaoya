@@ -199,7 +199,10 @@ sedsh "s#:latest#:$IMAGE_TAG#g" docker-compose.yml
 
 # 修改数据保存位置
 if [ "$data_location" = "2" ]; then
-  sed -n '/^volumes/,$p' ./docker-compose.yml | sed -e 's/://g' | grep -v '^$' | grep -v volumes | while read -r volume; do
+  sed -n '/^volumes/,$p' ./docker-compose.yml | sed -e 's/://g' | grep -v volumes | while read -r volume; do
+    if [ -z "${volume}" ]; then
+      continue
+    fi
     if [ ! -d "$install_path/data/$volume" ]; then
       mkdir -p "$install_path/data/$volume"
     fi
