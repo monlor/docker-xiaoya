@@ -104,7 +104,7 @@ cat <<-EOF
 2. 服务部署目录（数据保存在: ${install_path}）
 EOF
 read -rp "请选择数据保存位置（默认为${data_location}）: " res
-data_location=${res:-1}
+data_location=${res:-${data_location}}
 
 token=""
 open_token=""
