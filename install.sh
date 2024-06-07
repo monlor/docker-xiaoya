@@ -206,7 +206,7 @@ if [ "$data_location" = "2" ]; then
     if [ ! -d "$install_path/data/$volume" ]; then
       mkdir -p "$install_path/data/$volume"
     fi
-    sedsh "s#$volume:#$install_path/data/$volume:#g" docker-compose.yml
+    sedsh "s#- $volume:#- $install_path/data/$volume:#g" docker-compose.yml
   done
   sedsh "/^volumes/,\$d" docker-compose.yml
 fi
