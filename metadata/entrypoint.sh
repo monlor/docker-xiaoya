@@ -11,6 +11,7 @@ echo "alist启动完成，可能需要一段时间加载数据，等待5分钟�
 sleep "${WAIT_ALIT_TIME:=300}"
 
 MEDIA_DIR="/media"
+crontabs=""
 
 if [ ! -d "${MEDIA_DIR}/temp" ]; then
     mkdir -p "${MEDIA_DIR}/temp"
@@ -177,34 +178,35 @@ download_jellyfin_media() {
     touch ${MEDIA_DIR}/jf_xiaoya/jellyfin_media_finished
 }
 
+# emby
 if [ "${EMBY_ENABLED:=false}" = "true" ]; then
     download_emby_config
     download_emby_media
+
+    if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ]; then
+        echo "启动定时更新Emby配置任务..."
+        # 随机生成一个时间，避免给服务器造成压力
+        random_min=$(shuf -i 0-59 -n 1)
+        random_hour=$(shuf -i 1-6 -n 1)
+        crontabs="${crontabs}\n${random_min} ${random_hour} */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
+    fi
+
+    if [ "${AUTO_UPDATE_METADATA_ENABLED:=false}" = "true" ]; then
+        echo "启动定时更新Emby媒体数据任务..."
+        # 随机生成一个时间，避免给服务器造成压力
+        random_min=$(shuf -i 0-59 -n 1)
+        random_hour=$(shuf -i 1-6 -n 1)
+        crontabs="${crontabs}\n${random_min} ${random_hour} * * * python3 /solid.py --media ${MEDIA_DIR}/xiaoya"
+    fi
 fi
 
+# jellyfin
 if [ "${JELLYFIN_ENABLED:=false}" = "true" ]; then
     download_jellyfin_config
     download_jellyfin_media
 fi
 
-crontabs=""
-
-if [ "${AUTO_UPDATE_EMBY_CONFIG_ENABLED:=false}" = "true" ] && [ "${EMBY_ENABLED}" = "true" ]; then
-    echo "启动定时更新Emby配置任务..."
-    # 随机生成一个时间，避免给服务器造成压力
-    random_min=$(shuf -i 0-59 -n 1)
-    random_hour=$(shuf -i 1-6 -n 1)
-    crontabs="${random_min} ${random_hour} */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
-fi
-
-if [ "${AUTO_UPDATE_METADATA_ENABLED:=false}" = "true" ]; then
-    echo "启动定时更新元数据任务..."
-    # 随机生成一个时间，避免给服务器造成压力
-    random_min=$(shuf -i 0-59 -n 1)
-    random_hour=$(shuf -i 1-6 -n 1)
-    crontabs="${crontabs}\n${random_min} ${random_hour} * * * python3 /solid.py --media ${MEDIA_DIR}/xiaoya"
-fi
-
+# 添加定时任务
 if [ -n "${crontabs}" ]; then
     echo -e "$crontabs" | crontab -
 fi
