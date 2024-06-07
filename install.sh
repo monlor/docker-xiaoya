@@ -79,10 +79,11 @@ read -rp "请输入服务部署目录（默认/opt/xiaoya）: " install_path
 install_path=${install_path:=/opt/xiaoya}
 
 # 检查服务是否已经运行
-echo "检查服务是否已经存在..."
 if [ -f "$install_path/docker-compose.yml" ]; then
   # 询问用户是否要更新服务
-  read -rp "检查到服务已存在，是否更新服务？(y/n): " update
+  echo
+  echo "检查到服务已存在，更新会覆盖docker-compose.yml文件，不会覆盖env文件"
+  read -rp "是否更新服务？(y/n): " update
   if [ "${update}" != "y" ]; then
     echo "退出安装"
     exit 1
@@ -242,8 +243,8 @@ echo "> 服务正在部署，请查看日志等待部署成功后，尝试访问
 echo "alist: http://$local_ip:5678, http://$ip:5678"
 echo "webdav: http://$local_ip:5678/dav, http://$ip:5678/dav, 默认用户密码: guest/guest_Api789"
 echo "tvbox: http://$local_ip:5678/tvbox/my_ext.json, http://$ip:5678/tvbox/my_ext.json"
-echo "emby: http://$local_ip:6908, http://$ip:6908, 默认用户密码: xiaoya/1234"
-echo "jellyfin: http://$local_ip:8096, http://$ip:8096，默认用户密码：ailg/5678"
+echo "emby: http://$local_ip:2345, http://$ip:2345, 默认用户密码: xiaoya/1234"
+echo "jellyfin: http://$local_ip:2346, http://$ip:2346, 默认用户密码：ailg/5678"
 
 echo
 echo "还没有部署完，执行这个命令查看日志：$install_path/manage.sh logs"
