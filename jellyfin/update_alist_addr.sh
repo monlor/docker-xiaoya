@@ -21,7 +21,7 @@ if echo "${ALIST_DOMAIN}" | grep -E -q '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-
 fi
 
 while true; do
-  IP=$(nslookup "${ALIST_DOMAIN}" | awk '/^Address: / { print $2 }' | tail -n 1)
+  IP=$(ping -c 1 "${ALIST_DOMAIN}" | grep -Eo '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
   if [ -n "$IP" ]; then
     echo "Alist IP address: $IP"
     add_hosts "$IP"

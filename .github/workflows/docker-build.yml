@@ -18,12 +18,19 @@ concurrency:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
     outputs:
       alist_tags: ${{ steps.vars.outputs.alist_tags }}
       metadata_tags: ${{ steps.vars.outputs.metadata_tags }}
       embyserver_tags: ${{ steps.vars.outputs.embyserver_tags }}
-      embyhack_tags: ${{ steps.vars.outputs.embyhack_tags }}
+      embyserver-amilys_tags: ${{ steps.vars.outputs.embyserver-amilys_tags }}
       jellyfin_tags: ${{ steps.vars.outputs.jellyfin_tags }}
+      jellyfin-nyanmisaka_tags: ${{ steps.vars.outputs.jellyfin-nyanmisaka_tags }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -32,21 +39,52 @@ jobs:
         id: vars
         run: |
           IMAGE_PREFIX="ghcr.io/${{ github.repository_owner }}"
+          vars=(
+            "alist"
+            "metadata"
+            "embyserver"
+            "embyserver-amilys"
+            "jellyfin"
+            "jellyfin-nyanmisaka"
+          )
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
-            echo "::set-output name=alist_tags::${IMAGE_PREFIX}/xiaoya-alist:latest,${IMAGE_PREFIX}/xiaoya-alist:${VERSION}"
-            echo "::set-output name=metadata_tags::${IMAGE_PREFIX}/xiaoya-metadata:latest,${IMAGE_PREFIX}/xiaoya-metadata:${VERSION}"
-            echo "::set-output name=embyserver_tags::${IMAGE_PREFIX}/xiaoya-embyserver:latest,${IMAGE_PREFIX}/xiaoya-embyserver:${VERSION}"
-            echo "::set-output name=embyhack_tags::${IMAGE_PREFIX}/xiaoya-embyhack:latest,${IMAGE_PREFIX}/xiaoya-embyhack:${VERSION}"
-            echo "::set-output name=jellyfin_tags::${IMAGE_PREFIX}/xiaoya-jellyfin:latest,${IMAGE_PREFIX}/xiaoya-jellyfin:${VERSION}"
+            for var in "${vars[@]}"; do
+              echo "::set-output name=${var}_tags::${IMAGE_PREFIX}/xiaoya-${var}:latest,${IMAGE_PREFIX}/xiaoya-${var}:${VERSION}"
+            done
           else
             LATEST_TAG=${GITHUB_REF#refs/heads/}
-            echo "::set-output name=alist_tags::${IMAGE_PREFIX}/xiaoya-alist:${LATEST_TAG}"
-            echo "::set-output name=metadata_tags::${IMAGE_PREFIX}/xiaoya-metadata:${LATEST_TAG}"
-            echo "::set-output name=embyserver_tags::${IMAGE_PREFIX}/xiaoya-embyserver:${LATEST_TAG}"
-            echo "::set-output name=embyhack_tags::${IMAGE_PREFIX}/xiaoya-embyhack:${LATEST_TAG}"
-            echo "::set-output name=jellyfin_tags::${IMAGE_PREFIX}/xiaoya-jellyfin:${LATEST_TAG}"
+            for var in "${vars[@]}"; do
+              echo "::set-output name=${var}_tags::${IMAGE_PREFIX}/xiaoya-${var}:${LATEST_TAG}"
+            done
           fi
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+  
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build base image
+        run: |
+          docker buildx imagetools create \
+            --tag ghcr.io/monlor/embyserver:latest \
+            amilys/embyserver:latest \
+            amilys/embyserver_arm64v8:latest
+
+          docker buildx imagetools create \
+            --tag ghcr.io/monlor/embyserver-amilys:latest \
+            amilys/embyserver:latest \
+            amilys/embyserver_arm64v8:latest
+
+          docker buildx imagetools create \
+            --tag ghcr.io/monlor/jellyfin-nyanmisaka:latest \
+            nyanmisaka/jellyfin:240401-amd64 \
+            nyanmisaka/jellyfin:240401-arm64
 
   build-alist:
     runs-on: ubuntu-latest
@@ -179,19 +217,19 @@ jobs:
           tags: ${{ needs.prepare.outputs.embyserver_tags }}
           platforms: linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE=embyserver
+            BASE_IMAGE=ghcr.io/monlor/embyserver:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      - name: Build and push xiaoya-embyhack
+      - name: Build and push xiaoya-embyserver-amilys
         uses: docker/build-push-action@v4
         with:
           context: ./emby
           push: true
-          tags: ${{ needs.prepare.outputs.embyhack_tags }}
+          tags: ${{ needs.prepare.outputs.embyserver-amilys_tags }}
           platforms: linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE=embyhack
+            BASE_IMAGE=ghcr.io/monlor/embyserver-amilys:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       
@@ -238,6 +276,20 @@ jobs:
           push: true
           tags: ${{ needs.prepare.outputs.jellyfin_tags }}
           platforms: linux/amd64,linux/arm64
+          build-args: |
+            BASE_IMAGE=jellyfin/jellyfin:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Build and push xiaoya-jellyfin-nyanmisaka
+        uses: docker/build-push-action@v4
+        with:
+          context: ./jellyfin
+          push: true
+          tags: ${{ needs.prepare.outputs.jellyfin-nyanmisaka_tags }}
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            BASE_IMAGE=ghcr.io/monlor/jellyfin-nyanmisaka:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       

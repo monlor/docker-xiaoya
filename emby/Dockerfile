@@ -1,6 +1,6 @@
-ARG BASE_IMAGE=embyserver
+ARG BASE_IMAGE=ghcr.io/monlor/embyserver:latest
 
-FROM monlor/${BASE_IMAGE}:latest
+FROM ${BASE_IMAGE}
 
 LABEL MAINTAINER me@monlor.com
 
