@@ -16,13 +16,17 @@ if ! docker compose &> /dev/null; then
   DOCKER_COMPOSE="docker-compose"
 fi
 
-params=""
+docker_params=""
 read -rp "是否删除数据卷？(y/n): " delete_volume
 if [ "$delete_volume" = "y" ]; then
-  params="--volumes"
+  docker_params="--volumes"
 fi
 
 echo "停止服务..."
-$DOCKER_COMPOSE -f "$install_path/docker-compose.yml" down $params
+$DOCKER_COMPOSE -f "$install_path/docker-compose.yml" down $docker_params
 
-rm -rf "${install_path:?}"/*
+if [ "$delete_volume" = "y" ]; then
+  rm -rf "${install_path:?}/*"
+else
+  find "${install_path:?}" -type f -not -path "${install_path}/data/*" -delete
+fi

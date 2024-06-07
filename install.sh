@@ -89,6 +89,22 @@ if [ -f "$install_path/docker-compose.yml" ]; then
   fi
 fi
 
+DOCKER_HOME="$(docker info | grep "Docker Root Dir" | awk -F ':' '{print$2}')"
+
+# 选择数据保存位置
+data_location=1
+if [ -d "$install_path/data" ]; then
+  data_location=2
+fi
+cat <<-EOF
+
+请选择数据保存位置：
+1. Docker卷（数据保存在: ${DOCKER_HOME}/volumes）
+2. 服务部署目录（数据保存在: ${install_path}）
+EOF
+read -rp "请选择数据保存位置（默认为${data_location}）: " res
+data_location=${res:-1}
+
 token=""
 open_token=""
 folder_id=""
@@ -179,6 +195,17 @@ fi
 
 # 修改镜像版本
 sedsh "s#:latest#:$IMAGE_TAG#g" docker-compose.yml
+
+# 修改数据保存位置
+if [ "$data_location" = "2" ]; then
+  sed -n '/^volumes/,$p' ./docker-compose.yml | sed -e 's/://g' | grep -v '^$' | grep -v volumes | while read -r volume; do
+    if [ ! -d "$install_path/data/$volume" ]; then
+      mkdir -p "$install_path/data/$volume"
+    fi
+    sedsh "s#$volume:#$install_path/data/$volume:#g" docker-compose.yml
+  done
+  sedsh "/^volumes/,\$d" docker-compose.yml
+fi
 
 echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
