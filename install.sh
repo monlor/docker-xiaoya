@@ -250,7 +250,8 @@ echo "emby: http://$local_ip:2345, http://$ip:2345, 默认用户密码: xiaoya/1
 echo "jellyfin: http://$local_ip:2346, http://$ip:2346, 默认用户密码：ailg/5678"
 
 echo
-echo "还没有部署完，执行这个命令查看日志：$install_path/manage.sh logs"
+echo "服务正在后台部署，执行这个命令查看日志：$install_path/manage.sh logs"
+echo "部署alist需要10分钟，emby/jellyfin需要1-24小时，请耐心等待..."
 # 添加管理脚本，启动，停止，查看日志
 cat > "$install_path/manage.sh" <<-EOF
 #!/bin/bash
