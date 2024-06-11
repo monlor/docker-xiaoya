@@ -3,6 +3,7 @@
 set -e
 
 DATA_DIR=/data
+AUTO_CLEAR_THRESHOLD=${AUTO_CLEAR_THRESHOLD:=10}
 
 retry_command() {
     # 重试次数和最大重试次数
@@ -76,6 +77,15 @@ get_rawList() {
         waittime="$1"
     fi
     _res=$(curl --connect-timeout 5 -m 5 -s -H "$HEADER" -H "Content-Type: application/json" -X POST -d '{"drive_id": "'$drive_id'","parent_file_id": "'$file_id'"}' "https://api.aliyundrive.com/adrive/v2/file/list")
+
+    # 过滤掉最近的文件文件
+    # 获取当前时间的 Unix 时间戳
+    current_time=$(date +%s)
+    # 定义时间间隔（30分钟）的秒数
+    max_file_age_seconds=$((AUTO_CLEAR_THRESHOLD * 60))
+    # 使用 jq 解析和筛选 JSON 数据
+    _res=$(echo "$_res" | jq -c --argjson now "$current_time" --argjson interval "$max_file_age_seconds" '.items |= map(select(($now - ( .created_at | sub("\\.[0-9]+Z$"; "Z") | fromdateiso8601)) > $interval))')
+
     if [ ! $? -eq 0 ] || [ -z "$(echo "$_res" | grep "items")" ]; then
         echo "获取文件列表失败：folder_id=$file_id,drive_id=$drive_id" >&2
         return 1
