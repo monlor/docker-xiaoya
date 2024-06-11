@@ -9,7 +9,7 @@ ALIYUN_FOLDER_ID=
 AUTO_UPDATE_ENABLED=true
 # 自动清理阿里云盘
 AUTO_CLEAR_ENABLED=true
-# 阿里云盘自动清理间隔，单位分钟，默认1分钟
+# 阿里云盘自动清理间隔，单位分钟，默认10分钟
 AUTO_CLEAR_INTERVAL=
 # pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
 PIKPAK_USER=
