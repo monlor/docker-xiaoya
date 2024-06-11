@@ -3,7 +3,7 @@
 set -e
 
 DATA_DIR=/data
-AUTO_CLEAR_THRESHOLD=${AUTO_CLEAR_THRESHOLD:=10}
+AUTO_CLEAR_THRESHOLD=${AUTO_CLEAR_THRESHOLD:-10}
 
 retry_command() {
     # 重试次数和最大重试次数

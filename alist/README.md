@@ -49,3 +49,5 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 `AUTO_CLEAR_ENABLED`: 自动清理阿里云云盘的文件，true/false，默认false
 
 `AUTO_CLEAR_INTERVAL`: 自动清理间隔，单位分钟，默认10分钟
+
+`AUTO_CLEAR_THRESHOLD`: 阿里云盘自动清理文件存在时间阈值，单位分钟，默认10分钟
