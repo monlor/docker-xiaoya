@@ -11,6 +11,8 @@ AUTO_UPDATE_ENABLED=true
 AUTO_CLEAR_ENABLED=true
 # 阿里云盘自动清理间隔，单位分钟，默认10分钟
 AUTO_CLEAR_INTERVAL=
+# 阿里云盘自动清理文件存在时间阈值，单位分钟，默认10分钟
+AUTO_CLEAR_THRESHOLD=
 # pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
 PIKPAK_USER=
 # 开启tvbox随机订阅地址，true/false，默认false
