@@ -143,13 +143,16 @@ if [ "${AUTO_UPDATE_ENABLED:=false}" = "true" ]; then
     # 随机生成一个时间，避免给服务器造成压力
     random_min=$(shuf -i 0-59 -n 1)
     random_hour=$(shuf -i 2-6 -n 1)
-    crontabs="${random_min} ${random_hour} * * * /data.sh update"
+    crontabs="${random_min} ${random_hour} * * * /service.sh update"
 fi
 
 if [ "${AUTO_CLEAR_ENABLED:=false}" = "true" ]; then
     echo "启动定时清理定时任务..."
     crontabs="${crontabs}\n*/${AUTO_CLEAR_INTERVAL:=10} * * * * /clear.sh"
 fi
+
+# 添加后台守护
+crontabs="${crontabs}\n* * * * * /service.sh daemon"
 
 if [ -n "${crontabs}" ]; then
     echo -e "$crontabs" | crontab -

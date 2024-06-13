@@ -1,7 +1,9 @@
 #!/bin/sh
 
-echo "等待alist启动完成..."
-while ! wget -q -T 1 -O /dev/null "${ALIST_ADDR:=http://alist:5678}" > /dev/null 2>&1; do
+ALIST_ADDR=${ALIST_ADDR:-http://alist:5678}
+
+echo "检查alist连通性..."
+while ! wget -q -T 1 -O - "${ALIST_ADDR}/api/public/settings" | grep -q 200; do
     sleep 2
 done
 
@@ -24,10 +26,10 @@ echo "开始自动更新alist地址..."
 /update_alist_addr.sh > /dev/null 2>&1 &
 
 echo "启动emby服务..."
-/emby.sh start
+/service.sh start
 sleep 2
 
 echo "启动进程守护..."
-/emby.sh daemon &
+/service.sh daemon &
 
-exec shell2http -port 8080 /stop "/emby.sh stop" /start "/emby.sh start"
+exec shell2http -port 8080 /stop "/service.sh stop" /start "/service.sh start"
