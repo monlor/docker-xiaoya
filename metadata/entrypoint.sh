@@ -5,12 +5,12 @@ set -e
 ALIST_ADDR=${ALIST_ADDR:-http://alist:5678}
 
 echo "检查alist连通性..."
-while ! curl --silent --show-error --fail "${ALIST_ADDR}/api/public/settings" | grep -q 200; do
+while ! curl -s --fail "${ALIST_ADDR}/api/public/settings" | grep -q 200; do
     sleep 2
 done
 
-echo "alist启动完成，可能需要一段时间加载数据，等待5分钟后开始下载元数据..."
-sleep "${WAIT_ALIT_TIME:=300}"
+echo "alist启动完成，等待10秒后开始下载元数据..."
+sleep 10
 
 MEDIA_DIR="/media"
 crontabs=""
