@@ -63,10 +63,18 @@ download_files() {
     fi
 }
 
-restart_service() {
-    kill -15 $(pgrep -f 'nginx|httpd|alist')
-    sleep 10
+start() {
     /entrypoint.sh /opt/alist/alist server --no-prefix &
+}
+
+stop() {
+    kill -15 $(pgrep -f 'nginx|httpd|alist')
+}
+
+restart() {
+    stop
+    sleep 10
+    start
 }
 
 update() {
@@ -74,7 +82,16 @@ update() {
         echo "Failed to download files or no need to update"
         return 1
     fi
-    restart_service
+    restart
+}
+
+# 进程守护函数
+daemon() {
+
+    if [ -z "$(pgrep alist)" ]; then
+        start
+    fi
+
 }
 
 case "$1" in
@@ -83,6 +100,18 @@ case "$1" in
         ;;
     download)
         download_files
+        ;;
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    daemon)
+        daemon
         ;;
     *)
         echo "Usage: $0 {update|download}"

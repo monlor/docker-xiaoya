@@ -2,8 +2,10 @@
 
 set -e
 
-echo "等待alist启动完成..."
-while ! curl -s -f -m 1 "${ALIST_ADDR:=http://alist:5678}" > /dev/null; do
+ALIST_ADDR=${ALIST_ADDR:-http://alist:5678}
+
+echo "检查alist连通性..."
+while ! curl --silent --show-error --fail "${ALIST_ADDR}/api/public/settings" | grep -q 200; do
     sleep 2
 done
 
