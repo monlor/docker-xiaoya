@@ -26,7 +26,7 @@ echo "停止服务..."
 $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" down $docker_params
 
 if [ "$delete_volume" = "y" ]; then
-  rm -rf "${install_path:?}/*"
+  rm -rf "${install_path:?}"/*
 else
   find "${install_path:?}" -type f -not -path "${install_path}/data/*" -delete
 fi
