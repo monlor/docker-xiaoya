@@ -56,15 +56,25 @@ download_meta() {
     fi
 
     # 重试5次下载，包含.aria2则重试
+    success=false
     for i in {1..5}; do
         echo "Downloading ${file}, try ${i}..."
-        aria2c -o "${file}" --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${path}${file}"
-        if [ ! -f "${file}.aria2" ]; then
+        if aria2c -o "${file}" --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${path}${file}"; then
+            # 下载的文件小于10M，下载失败，删除
+            if [ "$(stat -c %s "${file}")" -lt 10000000 ]; then
+                echo "Download ${file} failed, file size less than 10M, retry after 10 seconds."
+                rm -rf "${file}"
+                rm -rf "${file}.aria2"
+                sleep 10
+                continue
+            fi
+            # 下载成功
+            success=true
             break
         fi
     done
-    # 如果还存在aria2，或者下载的文件小于10M，则删除
-    if [ -f "${file}.aria2" ] || [ "$(stat -c %s "${file}")" -lt 10000000 ]; then
+    # 如果还存在aria2
+    if [ "${success}" = "false" ]; then
         echo "Download ${file} failed."
         rm -rf "${file}"
         rm -rf "${file}.aria2"
