@@ -190,6 +190,21 @@ init_para() {
 
     folder_type=$(cat "${DATA_DIR}/folder_type.txt")
 
+    if [ -z "$refresh_token" ]; then
+        echo "未找到refresh_token"
+        return 1
+    fi
+
+    if [ -z "$file_id" ]; then
+        echo "未找到file_id"
+        return 1
+    fi
+
+    if [ -z "$folder_type" ]; then
+        echo "未找到folder_type"
+        return 1
+    fi
+
 }
 
 init_para
