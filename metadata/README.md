@@ -8,7 +8,7 @@
 
 `AUTO_UPDATE_EMBY_INTERVAL`: 自动更新emby配置间隔，默认7，单位天
 
-`AUTO_UPDATE_METADATA_ENABLED`: 自动更新每日元数据，你们所说的爬虫，true/false，默认false
+`AUTO_UPDATE_EMBY_METADATA_ENABLED`: 每天自动更新emby元数据，你们所说的爬虫，true/false，默认false
 
 `EMBY_APIKEY`: emby api 密钥，建议修改emby的api密钥，设置此变量，用于定期同步emby配置
 

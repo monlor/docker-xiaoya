@@ -42,7 +42,6 @@ disk_check() {
 
 download_meta() {
     file=$1
-    path=$2
     echo "Downloading ${file}..."
     # 检查历史文件，如果存在残留则删除
     if [ -f "${MEDIA_DIR}/temp/${file}.aria2" ]; then
@@ -61,7 +60,8 @@ download_meta() {
     success=false
     for i in {1..5}; do
         echo "Downloading ${file}, try ${i}..."
-        if aria2c -o "${file}" --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${path}${file}"; then
+        echo "Link is ${ALIST_ADDR}/d/元数据/${file}"
+        if aria2c -o "${file}" --allow-overwrite=true --auto-file-renaming=false --enable-color=false -c -x6 "${ALIST_ADDR}/d/元数据/${file}"; then
             # 下载的文件小于10M，下载失败，删除
             if [ "$(stat -c %s "${file}")" -lt 10000000 ]; then
                 echo "Download ${file} failed, file size less than 10M, retry after 10 seconds."
@@ -149,7 +149,7 @@ download_jellyfin_config() {
     echo "Downloading Jellyfin config..."
 
     cd ${MEDIA_DIR}/temp
-    download_meta config_jf.mp4 Jellyfin/
+    download_meta Jellyfin/config_jf.mp4
     
     echo "Extracting Jellyfin config..."
 
@@ -174,8 +174,8 @@ download_jellyfin_media() {
     echo "Downloading Jellyfin media..."
 
     cd "${MEDIA_DIR}/temp"
-    download_meta all_jf.mp4 Jellyfin/
-    download_meta PikPak_jf.mp4 Jellyfin/
+    download_meta Jellyfin/all_jf.mp4
+    download_meta Jellyfin/PikPak_jf.mp4
 
     echo "Extracting Jellyfin media..."
 
@@ -203,7 +203,7 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
         crontabs="${crontabs}\n${random_min} ${random_hour} */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
     fi
 
-    if [ "${AUTO_UPDATE_METADATA_ENABLED:=false}" = "true" ]; then
+    if [ "${AUTO_UPDATE_EMBY_METADATA_ENABLED:=false}" = "true" ]; then
         echo "启动定时更新Emby媒体数据任务..."
         # 随机生成一个时间，避免给服务器造成压力
         random_min=$(shuf -i 0-59 -n 1)
