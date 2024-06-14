@@ -203,7 +203,7 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
         crontabs="${crontabs}\n${random_min} ${random_hour} */${AUTO_UPDATE_EMBY_INTERVAL:=7} * * /emby.sh update"
     fi
 
-    if [ "${AUTO_UPDATE_METADATA_ENABLED:=false}" = "true" ]; then
+    if [ "${AUTO_UPDATE_EMBY_METADATA_ENABLED:=false}" = "true" ]; then
         echo "启动定时更新Emby媒体数据任务..."
         # 随机生成一个时间，避免给服务器造成压力
         random_min=$(shuf -i 0-59 -n 1)

@@ -73,7 +73,7 @@ releases:
           EMBY_ENABLED: true
           JELLYFIN_ENABLED: false
           AUTO_UPDATE_EMBY_CONFIG_ENABLED: true
-          AUTO_UPDATE_METADATA_ENABLED: true
+          AUTO_UPDATE_EMBY_METADATA_ENABLED: true
         volumes:
         - name: data
           mountPath: /etc/xiaoya
