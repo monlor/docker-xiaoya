@@ -9,7 +9,11 @@ if [ ! -d "/data" ]; then
 fi
 
 # 设置端口
-local_ip=$(ip a | grep inet | grep -v '127.0.0.1|inet6' | awk '{print $2}' | cut -d/ -f1)
+if [ -n "${HOST_IP}" ]; then
+    local_ip=${HOST_IP}
+else
+    local_ip=$(ip a | grep inet | grep -v '127.0.0.1|inet6' | awk '{print $2}' | cut -d/ -f1)
+fi
 echo "http://$local_ip:5678" > /data/docker_address.txt
 
 # 生成配置，阿里云token
