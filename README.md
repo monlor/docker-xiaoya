@@ -41,11 +41,21 @@
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
 ```
 
-使用加速源（我的加速源也可能帮你减速🤣）
+**使用加速源**
 
 ```bash
 export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
 ```
+
+**环境信息**
+
+| 类型  | 地址 | 默认用户密码 |
+| --- | --- | --- |
+| alist | http://ip:5678 | - |
+| webdav | http://ip:5678/dav | guest/guest_Api789 |
+| tvbox | http://ip:5678/tvbox/my_ext.json | - |
+| emby | http://ip:2345 | xiaoya/1234 |
+| jellyfin | http://ip:2346 | ailg/5678 |
 
 ### 卸载脚本
 
@@ -53,7 +63,7 @@ export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/uninstall.sh)"
 ```
 
-使用加速源（我的加速源也可能帮你减速🤣）
+**使用加速源**
 
 ```bash
 export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/uninstall.sh)"
@@ -82,8 +92,8 @@ export VERSION=main && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubuserco
 | ----------------- | -------- | --------- | --------- |
 | Alist + Emby      | 2核   | 4G    | 140G  |
 | 仅部署 Alist      | 1核   | 512M  | 512M  |
-| Alist + Emby + Jellyfin      | 2核   | 4G    | 300G  |
-| Alist + Jellyfin      | 2核   | 4G    | 155G  |
+| Alist + Emby + Jellyfin      | 4核   | 8G    | 300G  |
+| Alist + Jellyfin      | 4核   | 8G    | 155G  |
 
 ## 配置示例
 
