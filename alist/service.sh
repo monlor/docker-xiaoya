@@ -65,9 +65,12 @@ download_files() {
 
 start() {
     /entrypoint.sh /opt/alist/alist server --no-prefix &
+    sleep 30
+    echo "1" > /tmp/status
 }
 
 stop() {
+    echo "0" > /tmp/status
     kill -15 $(pgrep -f 'nginx|httpd|alist')
 }
 
@@ -88,7 +91,7 @@ update() {
 # 进程守护函数
 daemon() {
 
-    if [ -z "$(pgrep alist)" ]; then
+    if [ -z "$(pgrep alist)" ] && [ "$(cat /tmp/status)" = "1" ]; then
         start
     fi
 
