@@ -154,7 +154,7 @@ download_jellyfin_config() {
     echo "Extracting Jellyfin config..."
 
     cd ${MEDIA_DIR}
-    7z x -aoa -mmt=16 temp/config_jf.mp4
+    7z x -aoa -mmt=16 temp/Jellyfin/config_jf.mp4
 
     touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
 }
@@ -180,10 +180,10 @@ download_jellyfin_media() {
     echo "Extracting Jellyfin media..."
 
     cd ${MEDIA_DIR}/jf_xiaoya
-    7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/all_jf.mp4
+    7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/Jellyfin/all_jf.mp4
 
     cd ${MEDIA_DIR}/jf_xiaoya
-    7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/PikPak_jf.mp4
+    7z x -aoa -mmt=16 ${MEDIA_DIR}/temp/Jellyfin/PikPak_jf.mp4
 
     chmod -R 777 ${MEDIA_DIR}/jf_xiaoya
 
