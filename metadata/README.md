@@ -16,6 +16,8 @@
 
 `ALIST_ADDR`: alist地址，默认：http://alist:5678
 
+`DISK_CHECK_ENABLED`: 磁盘剩余空间检测开关，true/false，默认true
+
 ## emby数据管理
 
 > 进入容器执行

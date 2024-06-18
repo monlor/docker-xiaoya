@@ -28,6 +28,9 @@ fi
 echo "开始下载元数据，如果有问题无法解决，请删除目录 ${MEDIA_DIR}/temp 下的所有文件重新启动."
 
 disk_check() {
+    if [ "${DISK_CHECK_ENABLED:-true}" = "false" ]; then
+        return
+    fi
     # 磁盘检测
     dir="$1"
     size="$2"
