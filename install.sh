@@ -172,7 +172,7 @@ fi
 echo 
 echo "登陆夸克网盘，浏览器F12，点击network，随便点一个请求，找到里面的Cookie值"
 read -rp "请输入夸克网盘Cookie值(默认为$quark_cookie): " res
-quark_cookie=${res:=quark_cookie}
+quark_cookie=${res:=$quark_cookie}
 
 # 选择部署服务类型，alist + emby (默认), alist, alist + jellyfin, alist + emby + jellyfin
 echo
