@@ -22,6 +22,8 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `ALIYUN_FOLDER_ID`: 进入阿里云盘网页版，资源盘里面创建一个文件夹，点击文件夹，复制浏览器阿里云盘地址末尾的文件夹ID（最后一个斜杠/后面的一串字符串）
 
+`QUARK_COOKIE`: 夸克的cookie，登陆夸克网盘，F12找一个请求，查看请求中的Cookie信息
+
 `PIKPAK_USER`: pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
 
 `PIKPAK_LIST`: 挂载你自己 pikpak 账号，格式：`挂载名:qqq@qq.com:aaadds,aaa:+8613111111111:dasf`，密码中不支持符号,:
@@ -29,6 +31,8 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 `PIKPAK_SHARE_LIST`: 挂载自定义的pikpak分享内容，会覆盖小雅的分享，格式：`挂载名1:分享ID1:分享目录ID1,挂载名2:分享ID2:分享目录ID2`
 
 `ALI_SHARE_LIST`: 挂载额外的阿里云盘分享内容，格式：`挂载名1:分享ID1:文件夹ID1,挂载名2:分享ID2:文件夹ID2`
+
+`QUARK_SHARE_LIST`: 挂载额外的夸克网盘分享内容，格式：`挂载名1:分享ID1:文件夹ID1(不存在填root):提取码1(没有留空),挂载名2:分享ID2:文件夹ID2(不存在填root):提取码2`
 
 `TVBOX_SECURITY`: 开启tvbox随机订阅地址，true/false，默认：false
 
