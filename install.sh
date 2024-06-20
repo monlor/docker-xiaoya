@@ -12,6 +12,11 @@ sedsh() {
   fi
 }
 
+# 解除read输入长度限制
+if [[ "$(uname -o)" = "Darwin" ]]; then
+  stty -icanon
+fi
+
 # 格式https://xxx.com/
 GH_PROXY="${GH_PROXY:=}"
 # 格式xxx.com
@@ -128,10 +133,10 @@ quark_cookie=""
 
 # 如果是更新服务，则从原有的compose配置中获取token等信息
 if [ "${update}" != "0" ]; then
-  token=$(grep ALIYUN_TOKEN "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
-  open_token=$(grep ALIYUN_OPEN_TOKEN "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
-  folder_id=$(grep ALIYUN_FOLDER_ID "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
-  quark_cookie=$(grep QUARK_COOKIE "$install_path/env" 2> /dev/null | awk -F '=' '{print $2}')
+  token=$(grep ALIYUN_TOKEN "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
+  open_token=$(grep ALIYUN_OPEN_TOKEN "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
+  folder_id=$(grep ALIYUN_FOLDER_ID "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
+  quark_cookie=$(grep QUARK_COOKIE "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
 fi
 
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
@@ -166,7 +171,7 @@ fi
 
 echo 
 echo "登陆夸克网盘，浏览器F12，点击network，随便点一个请求，找到里面的Cookie值"
-read -rp "请输入夸克网盘Cookie值: " res
+read -rp "请输入夸克网盘Cookie值(默认为$quark_cookie): " res
 quark_cookie=${res:=quark_cookie}
 
 # 选择部署服务类型，alist + emby (默认), alist, alist + jellyfin, alist + emby + jellyfin
