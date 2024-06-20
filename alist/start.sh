@@ -42,6 +42,14 @@ else
     echo "${ALIYUN_FOLDER_ID}" > /data/temp_transfer_folder_id.txt
 fi
 
+# 设置夸克网盘cookie
+if [ -n "${QUARK_COOKIE:-}" ]; then
+    echo "添加夸克网盘 Cookie..."
+    echo "${QUARK_COOKIE}" > /data/quark_cookie.txt
+else
+    rm -rf /data/quark_cookie.txt
+fi  
+
 # 设置pikpak用户密码观看pikpak资源
 if [ -n "${PIKPAK_USER:-}" ]; then
     echo "设置PIKPAK用户密码..."
@@ -94,6 +102,21 @@ if [ -n "${ALI_SHARE_LIST:-}" ]; then
 else
     rm -rf /data/alishare_list.txt
 fi
+
+# 挂载额外的夸克网盘分享
+if [ -n "${QUARK_SHARE_LIST:-}" ]; then
+    echo "挂载额外的夸克网盘分享..."
+    rm -rf /data/quarkshare_list.txt
+    echo "${QUARK_SHARE_LIST}" | tr ',' '\n' | while read -r line; do
+        name=$(echo "$line" | cut -d':' -f1)
+        share_id=$(echo "$line" | cut -d':' -f2)
+        folder_id=$(echo "$line" | cut -d':' -f3)
+        code=$(echo "$line" | cut -d':' -f4)
+        echo "${name} ${share_id} ${folder_id} ${code}" >> /data/quarkshare_list.txt
+    done
+else
+    rm -rf /data/quarkshare_list.txt
+fi  
 
 # 开启tvbox随机订阅
 if [ "${TVBOX_SECURITY:=false}" = "true" ]; then
