@@ -16,21 +16,13 @@ categories:
 autolabeler:
   - label: 'chore'
     title:
-      - '/chore:/i'
       - '/docs:/i'
-      - '/ci:/i'
-    branch:
-      - '/fix-/'
   - label: 'bug'
     title:
       - '/fix:/i'
-    branch:
-      - '/fix-/'
   - label: 'feature'
     title:
       - '/feat:/i'
-    branch:
-      - '/feat-/'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:

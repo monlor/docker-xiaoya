@@ -1,20 +1,66 @@
----
 name: 功能建议
-about: 为这个项目提供建议，不使用模板的问题将直接被关闭
-title: ''
-labels: ''
-assignees: ''
+about: 为这个项目提供建议,不使用模板的问题将直接被关闭
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees: 
+  - monlor
 
----
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 功能建议的描述
+      description: 简洁地描述您的功能建议,包括它如何改善当前的产品或解决现有问题。
+    validations:
+      required: true
 
-**您的功能建议是否与某个问题有关？请描述。**
-对问题的明确简洁描述。
+  - type: textarea
+    id: user-story
+    attributes:
+      label: 功能背景
+      description: 请描述一下这个功能的使用背景。
+    validations:
+      required: false
 
-**描述您想要的解决方案**
-对您想要发生的事情的明确简洁描述。
+  - type: textarea
+    id: benefit
+    attributes:
+      label: 预期的收益
+      description: 解释一下您认为这个功能将带来哪些好处。
+    validations:
+      required: false
 
-**描述您考虑过的替代方案**
-对您考虑过的任何替代解决方案或功能的明确简洁描述。
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 考虑过的替代方案
+      description: 您是否考虑过其他的解决方案?如果有,请简单描述一下。
+    validations:
+      required: false
 
-**其他背景信息**
-在此添加任何其他与该功能建议有关的内容或截图。
+  - type: textarea
+    id: implementation
+    attributes:
+      label: 实现建议
+      description: 如果您有任何关于如何实现这个功能的想法,请分享出来。
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      description: 您认为这个功能建议的优先级有多高?
+      options:
+        - 低
+        - 中
+        - 高
+        - 非常高
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他信息
+      description: 您还有什么其他想补充的内容吗?
