@@ -14,7 +14,7 @@ body:
       options:
         - label: 我已经搜索过相关Issue，没有找到类似问题
         - label: 我已经检查过当前页面底部的常见问题列表，没有找到类似问题 
-        - label: 我已经检查过[问题清单](https://github.com/monlor/docker-xiaoya/blob/main/Questions.md)，没有找到类似问题
+        - label: 我已经检查过[常见问题](https://github.com/monlor/docker-xiaoya/blob/main/Questions.md)，没有找到类似问题
     validations:
       required: true
 

@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: 常见问题
     url: https://github.com/monlor/docker-xiaoya/blob/main/Questions.md
-    about: 提问题先先查看常见问题中是否有解决方案
+    about: 提问前先查看常见问题中是否有解决方案
