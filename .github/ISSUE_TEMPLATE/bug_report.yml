@@ -12,8 +12,8 @@ body:
       label: 提交检查
       description: 请确认以下内容
       options:
-        - label: 我已经搜索过相关Issue，没有找到类似问题
-        - label: 我已经检查过当前页面底部的常见问题列表，没有找到类似问题 
+        - label: 我已经搜索过 Issues，没有找到类似问题
+        - label: 我已经使用[百度](https://www.baidu.com)或[谷歌](https://www.google.com)搜索过，没有找到类似问题
         - label: 我已经检查过[常见问题](https://github.com/monlor/docker-xiaoya/blob/main/Questions.md)，没有找到类似问题
     validations:
       required: true
