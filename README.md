@@ -33,7 +33,7 @@
 
 ## 提问规则
 
-1. 提BUG和需求，在 [Issues](https://github.com/monlor/docker-xiaoya/issues) 里提，**不使用模块提Issues直接关闭**
+1. 提BUG和需求，在 [Issues](https://github.com/monlor/docker-xiaoya/issues) 里提
 2. 相关问题讨论或其他内容，在 [Discussions](https://github.com/monlor/docker-xiaoya/discussions) 里提
 
 ## 一键部署

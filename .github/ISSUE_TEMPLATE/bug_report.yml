@@ -6,10 +6,6 @@ assignees:
   - monlor
 
 body:
-  - type: markdown
-    attributes:
-      value: |
-        💡 感谢反馈问题，花一点时间补充下面的信息，方便我解决问题。
   - type: checkboxes
     id: checklist
     attributes:
