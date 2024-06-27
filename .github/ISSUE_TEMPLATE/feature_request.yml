@@ -1,6 +1,6 @@
 name: 功能建议
-about: 为这个项目提供建议,不使用模板的问题将直接被关闭
-title: "[Feature]: "
+description: 为这个项目提供建议
+title: "[FEATURE]: "
 labels: ["enhancement"]
 assignees: 
   - monlor
