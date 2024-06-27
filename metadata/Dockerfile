@@ -2,6 +2,8 @@ FROM xiaoyaliu/glue:latest
 
 LABEL MAINTAINER me@monlor.com
 
+ENV TZ=Asia/Shanghai
+
 WORKDIR /media
 
 # 设置非交互模式，以避免安装过程中提示用户输入

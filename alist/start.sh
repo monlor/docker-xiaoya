@@ -137,23 +137,18 @@ else
     rm -rf /data/proxy.txt
 fi
 
-# 开启强制登陆
-if [ "${FORCE_LOGIN:=false}" = "true" ]; then
-    echo "已开启强制登陆..."
+# 设置webdav密码
+if [ -n "${WEBDAV_PASSWORD:-}" ]; then
+    echo "设置webdav密码..."
+    # 设置webdav密码后自动开启强制登陆
+    echo "${WEBDAV_PASSWORD}" > /data/guestpass.txt
     if [ ! -f /data/guestlogin.txt ]; then
         touch /data/guestlogin.txt
     fi
 else
-    echo "已关闭强制登陆..."
-    rm -rf /data/guestlogin.txt
-fi
-
-# 设置webdav密码
-if [ -n "${WEBDAV_PASSWORD:-}" ]; then
-    echo "设置webdav密码..."
-    echo "${WEBDAV_PASSWORD}" > /data/guestpass.txt
-else
     rm -rf /data/guestpass.txt
+    # 关闭强制登陆
+    rm -rf /data/guestlogin.txt
 fi
 
 # 设置数据下载目录
