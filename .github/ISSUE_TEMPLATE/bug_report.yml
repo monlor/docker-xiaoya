@@ -37,7 +37,7 @@ body:
           3. 滚动到 '....'
           4. 出现错误
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: expected
