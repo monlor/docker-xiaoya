@@ -38,8 +38,6 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `PROXY`: 使用代理，支持http、https、socks5协议，格式：http://ip:7890 或 socks5://ip:7890
 
-`FORCE_LOGIN`: 开启登陆功能，true/false
-
 `WEBDAV_PASSWORD`: webdav用户名为dav，设置密码。默认用户密码：guest/guest_Api789
 
 `EMBY_ADDR`: emby部署地址，默认http://emby:6908，容器内部使用地址，一般不用改
@@ -52,6 +50,6 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `AUTO_CLEAR_ENABLED`: 自动清理阿里云云盘的文件，true/false，默认false
 
-`AUTO_CLEAR_INTERVAL`: 自动清理间隔，单位分钟，默认10分钟
+`AUTO_CLEAR_INTERVAL`: 自动清理间隔，单位分钟，范围0-60分钟，默认10分钟
 
-`AUTO_CLEAR_THRESHOLD`: 阿里云盘自动清理文件存在时间阈值，单位分钟，默认10分钟
+`AUTO_CLEAR_THRESHOLD`: 阿里云盘自动清理文件存在时间阈值，单位分钟，范围0-60分钟，默认10分钟

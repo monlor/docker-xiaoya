@@ -23,13 +23,14 @@
 
 * 所有脚本集成到 Docker 镜像，避免污染系统环境
 * 合并jellyfin和emby的x86和arm镜像，部署时无需区分镜像名
-* 集成云盘清理脚本到alist服务，无需单独部署
-* 通过环境变量配置阿里云盘token，无需映射文件
-* jellyfin和emby启动时自动进行依赖检查，等待元数据下载完成，自动添加hosts
-* 完全兼容所有能运行docker的x86和arm设备
-* 支持自动清理阿里云盘，自动同步小雅元数据
-* 自动更新内部的alist，emby，jellyfin访问地址，无需手动配置
-* 通过metadata服务自动更新emby配置和元数据
+* 自动清理阿里云盘，默认每10分钟一次
+* 自动更新小雅alist中的云盘数据，默认每天一次
+* 自动更新emby服务配置，默认每周一次
+* 自动更新emby媒体数据，默认每天一次
+* 支持小雅夸克网盘资源，挂载自定义夸克网盘资源
+* 支持小雅PikPak网盘资源，挂载自定义PikPak资源
+* 支持小雅阿里云盘资源，挂载自定义阿里云盘资源
+* 支持WebDav，TvBox服务
 
 ## 提问规则
 
@@ -174,9 +175,9 @@ docker run -d --name alist \
     -e ALIYUN_TOKEN=阿里云盘TOKEN \
     -e ALIYUN_OPEN_TOKEN=阿里云盘Open Token \
     -e ALIYUN_FOLDER_ID=阿里云盘文件夹ID \
+    -e QUARK_COOKIE=夸克网盘cookie \
     -e AUTO_UPDATE_ENABLED=true \
     -e AUTO_CLEAR_ENABLED=true \
-    -e EMBY_ADDR=http://emby:6908 \
     --network=xiaoya \
     ghcr.io/monlor/xiaoya-alist 
 ```
@@ -189,8 +190,6 @@ docker run -d --name metadata \
     -e EMBY_ENABLED=true \
     -e JELLYFIN_ENABLED=false \
     -e AUTO_UPDATE_EMBY_CONFIG_ENABLED=true \
-    -e ALIST_ADDR=http://alist:5678 \
-    -e EMBY_ADDR=http://emby:6908 \
     -v xiaoya:/etc/xiaoya \
     -v media:/media/xiaoya \
     -v config:/media/config \
@@ -207,8 +206,6 @@ docker run -d --name emby
     -e TZ=Asia/Shanghai \
     -e GIDLIST=0 \
     -e ALIST_ADDR=http://alist:5678 \
-    --privileged \
-    --device /dev/dri:/dev/dri \
     -v media:/media \
     -v config:/config \
     -v cache:/cache \
@@ -227,7 +224,7 @@ docker logs emby
 
 ## 安全建议
 
-* 开启alist的登陆，alist服务设置`FORCE_LOGIN=true`，设置webdav的密码`WEBDAV_PASSWORD`
+* 开启alist的登陆，alist服务设置webdav的密码`WEBDAV_PASSWORD`
 * 在emby控制台修改ApiKey，这个key需要配置到metadata和alist服务，变量名：`EMBY_APIKEY`
 
 ## 赞助

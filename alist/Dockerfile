@@ -2,6 +2,8 @@ FROM xiaoyaliu/alist:hostmode
 
 LABEL MAINTAINER me@monlor.com
 
+ENV TZ=Asia/Shanghai
+
 EXPOSE 5678 2345 2346
 
 VOLUME /data

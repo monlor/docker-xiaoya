@@ -9,10 +9,10 @@ services=(
 )
 
 if [ -z "$service" ]; then
-    for service in ${services[@]}; do
-        docker build -t monlor/xiaoya-$service $service
+    for service in "${services[@]}"; do
+        docker build -t "monlor/xiaoya-$service" "$service"
     done
 else
-    docker build -t monlor/xiaoya-$service $service
+    docker build -t "monlor/xiaoya-$service" "$service"
 fi
 
