@@ -19,6 +19,8 @@ services:
       - JELLYFIN_ENABLED=true
     env_file:
       - env
+    devices:
+      - /dev/dri
     volumes:
       - xiaoya:/etc/xiaoya
       - jf_media:/media/jf_xiaoya
