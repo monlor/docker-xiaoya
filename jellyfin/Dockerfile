@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=jellyfin/jellyfin:latest
+ARG BASE_IMAGE=nyanmisaka/jellyfin:latest
 
 FROM ${BASE_IMAGE}
 
