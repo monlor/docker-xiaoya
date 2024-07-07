@@ -7,6 +7,8 @@ ALIYUN_OPEN_TOKEN=
 ALIYUN_FOLDER_ID=
 # 夸克网盘的cookie
 QUARK_COOKIE=
+# 115网盘的cookie
+PAN115_COOKIE=
 # 自动更新小雅alist文件
 AUTO_UPDATE_ENABLED=true
 # 自动清理阿里云盘
