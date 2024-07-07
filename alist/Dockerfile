@@ -14,6 +14,8 @@ ENV DUMB_INIT_VERSION "1.2.5"
 
 ADD --chmod=755 https://raw.githubusercontent.com/monlor/docker-xiaoya/main/bin/dumb-init_${DUMB_INIT_VERSION}_${TARGETARCH} /dumb-init
 
+RUN apk add --no-cache tzdata
+
 COPY --chmod=755 ./*.sh /
 
 RUN /service.sh download
