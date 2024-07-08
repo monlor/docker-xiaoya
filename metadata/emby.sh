@@ -3,15 +3,15 @@
 set -e
 
 EMBY_APIKEY=${EMBY_APIKEY:-e825ed6f7f8f44ffa0563cddaddce14d}
-EMBY_URL=${EMBY_URL:-http://emby:6908}
+EMBY_ADDR=${EMBY_ADDR:-http://emby:6908}
 ALIST_ADDR=${ALIST_ADDR:=http://alist:5678}
 
-EMBY_CONTROL_URL="${EMBY_URL/6908/8080}"
+EMBY_CONTROL_URL="${EMBY_ADDR/6908/8080}"
 
 MEDIA_DIR="/media"
 
 check_emby_status() {
-    curl -s -f -m 5 "${EMBY_URL}" > /dev/null
+    curl -s -f -m 5 "${EMBY_ADDR}" > /dev/null
 }
 
 save_user_policy() {
@@ -22,7 +22,7 @@ save_user_policy() {
     fi
 
     echo "保留用户 Policy 中..."
-    curl -s "${EMBY_URL}/Users?api_key=${EMBY_APIKEY}" > /tmp/emby.response
+    curl -s "${EMBY_ADDR}/Users?api_key=${EMBY_APIKEY}" > /tmp/emby.response
 }
 
 download() {
@@ -109,11 +109,11 @@ update_data() {
 wait_for_emby() {
     local MAX_WAIT="300"
 
-    echo "Waiting for Emby service to start at $EMBY_URL..."
+    echo "Waiting for Emby service to start at $EMBY_ADDR..."
 
     while true; do
         local http_code
-        http_code=$(curl -s -o /dev/null -w "%{http_code}" "${EMBY_URL}/Users")
+        http_code=$(curl -s -o /dev/null -w "%{http_code}" "${EMBY_ADDR}/Users")
         if [ "$http_code" -eq 401 ]; then
             echo "Emby service is up and running."
             return 0
@@ -136,7 +136,7 @@ recover_user_policy() {
         id=$(jq -r ".[$i].Id" /tmp/emby.response)
         name=$(jq -r ".[$i].Name" /tmp/emby.response)
         policy=$(jq -r ".[$i].Policy | to_entries | from_entries | tojson" /tmp/emby.response)
-        USER_URL_2="${EMBY_URL}/Users/$id/Policy?api_key=${EMBY_APIKEY}"
+        USER_URL_2="${EMBY_ADDR}/Users/$id/Policy?api_key=${EMBY_APIKEY}"
         status_code=$(curl -s -w "%{http_code}" -H "Content-Type: application/json" -X POST -d "$policy" "$USER_URL_2")
         if [ "$status_code" == "204" ]; then
             echo "成功更新 $name 用户Policy"

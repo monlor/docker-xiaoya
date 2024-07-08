@@ -147,6 +147,52 @@ docker compose up -d
 docker compose logs
 ```
 
+### 部署在 Kubernetes
+
+1. 安装helm
+
+```bash
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+```
+
+2. 安装helmfile
+
+```bash
+ver=0.161.0
+curl -LO https://github.com/helmfile/helmfile/releases/download/v${ver}/helmfile_${ver}_linux_arm64.tar.gz
+tar zxvf helmfile_${ver}_linux_arm64.tar.gz -C helmfile
+mv helmfile/helmfile /usr/local/bin
+rm -rf helmfile helmfile_${ver}_linux_arm64.tar.gz
+helm plugin install https://github.com/databus23/helm-diff
+```
+
+3. 下载helmfile配置
+
+```bash
+curl -#LO https://raw.githubusercontent.com/monlor/docker-xiaoya/main/helmfile.yaml
+```
+
+4. 修改helmfile的环境变量，环境变量含义看这里[alist](/alist)
+
+```yaml
+env:
+    ...
+    WEBDAV_PASSWORD: 
+    ALIYUN_TOKEN: 
+    ALIYUN_OPEN_TOKEN: 
+    ALIYUN_FOLDER_ID: 
+    QUARK_COOKIE:
+    PAN115_COOKIE:
+    PIKPAK_USER:
+    ...
+```
+
+5. 部署helm服务
+
+```bash
+helmfile sync -f helmfile.yaml
+```
+
 ### 使用docker部署【不推荐】
 
 1. 创建volume
