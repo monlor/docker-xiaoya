@@ -12,7 +12,7 @@
 
 `EMBY_APIKEY`: emby api 密钥，建议修改emby的api密钥，设置此变量，用于定期同步emby配置
 
-`EMBY_URL`: emby地址，默认：http://emby:6908
+`EMBY_ADDR`: emby地址，默认：http://emby:6908
 
 `ALIST_ADDR`: alist地址，默认：http://alist:5678
 

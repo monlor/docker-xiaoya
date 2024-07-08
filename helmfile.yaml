@@ -7,7 +7,7 @@ releases:
   - name: alist
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.6
+    version: 0.3.2
     values:
       - port: 5678
         extraPort:
@@ -24,12 +24,15 @@ releases:
           pullPolicy: Always
         env:
           TZ: Asia/Shanghai
-          ALIYUN_TOKEN: 
-          ALIYUN_OPEN_TOKEN: 
-          ALIYUN_FOLDER_ID: 
           AUTO_UPDATE_ENABLED: true
           AUTO_CLEAR_ENABLED: true
           WEBDAV_PASSWORD: 
+          ALIYUN_TOKEN: 
+          ALIYUN_OPEN_TOKEN: 
+          ALIYUN_FOLDER_ID: 
+          QUARK_COOKIE:
+          PAN115_COOKIE:
+          PIKPAK_USER:
         volumes:
         - name: data
           mountPath: /data
@@ -57,7 +60,7 @@ releases:
   - name: metadata
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.6
+    version: 0.3.2
     values:
       - nodeSelector:
           kubernetes.io/hostname: nuc-1-node-1
@@ -109,7 +112,7 @@ releases:
   - name: emby
     namespace: media
     chart: monlor/quickchart
-    version: 0.2.6
+    version: 0.3.2
     values:
       - port: 6908
         extraPort:
@@ -124,7 +127,6 @@ releases:
           pullPolicy: Always  
         env:
           TZ: Asia/Shanghai
-          GIDLIST: 0,0
           # ALIST_ADDR: http://alist:5678
         volumes:
         - name: media
@@ -146,8 +148,6 @@ releases:
           enabled: false
         strategy:
           type: Recreate
-        podSecurityContext:
-          privileged: true
         resources: 
           limits:
             cpu: 4
