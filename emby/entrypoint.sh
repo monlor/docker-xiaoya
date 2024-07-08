@@ -3,7 +3,7 @@
 ALIST_ADDR=${ALIST_ADDR:-http://alist:5678}
 
 echo "检查alist连通性..."
-while ! wget -q -T 1 -O - "${ALIST_ADDR}/api/public/settings" 2> /dev/null | grep -q 200; do
+while ! wget -Y off -q -T 1 -O - "${ALIST_ADDR}/api/public/settings" 2> /dev/null | grep -q 200; do
     sleep 2
 done
 
