@@ -109,6 +109,11 @@ download_emby_config() {
     7z x -aoa -mmt=16 temp/config.mp4
 
     touch ${MEDIA_DIR}/config/emby_meta_finished
+
+    #删除临时文件config.mp4
+    if [ "${CLEAR_TEMP:=false}" = "true" ]; then
+    rm -f $MEDIA_DIR/temp/config.mp4
+    fi
 }
 
 download_emby_media() {    
@@ -140,6 +145,12 @@ download_emby_media() {
     chmod -R 777 ${MEDIA_DIR}/xiaoya
 
     touch ${MEDIA_DIR}/xiaoya/emby_media_finished
+
+    #删除临时文件all.mp4,pikpak.mo4
+    if [ "${CLEAR_TEMP:=false}" = "true" ]; then
+    rm -f $MEDIA_DIR/temp/all.mp4
+    rm -f $MEDIA_DIR/temp/pikpak.mp4
+    fi
 }
 
 download_jellyfin_config() {
@@ -162,6 +173,11 @@ download_jellyfin_config() {
     7z x -aoa -mmt=16 temp/config_jf.mp4
 
     touch ${MEDIA_DIR}/jf_config/jellyfin_meta_finished
+
+    #删除临时文件 config_jf.mp4
+    if [ "${CLEAR_TEMP:=false}" = "true" ]; then
+    rm -f $MEDIA_DIR/temp/config_jf.mp4
+    fi
 }
 
 download_jellyfin_media() {    
@@ -193,6 +209,12 @@ download_jellyfin_media() {
     chmod -R 777 ${MEDIA_DIR}/jf_xiaoya
 
     touch ${MEDIA_DIR}/jf_xiaoya/jellyfin_media_finished
+
+    #删除临时文件all_jf.mp4,pikpak_jf.mo4
+    if [ "${CLEAR_TEMP:=false}" = "true" ]; then
+    rm -f $MEDIA_DIR/temp/all_jf.mp4
+    rm -f $MEDIA_DIR/temp/pikpak_jf.mp4
+    fi
 }
 
 # emby

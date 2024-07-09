@@ -60,6 +60,10 @@ extract() {
     echo "解压config.mp4数据..."
     cd $MEDIA_DIR/temp
     7z x -aoa -mmt=16 config.mp4
+    #删除临时文件config.mp4
+    if [ "${CLEAR_TEMP:=false}" = "true" ]; then
+    rm -f $MEDIA_DIR/temp/config.mp4
+    fi
 }
 
 update_data() {
@@ -180,6 +184,10 @@ reset() {
     # rm -rf $MEDIA_DIR/config/* 
     cd $MEDIA_DIR
     7z x -aoa -mmt=16 temp/config.mp4
+    #删除临时文件config.mp4
+    if [ "${CLEAR_TEMP:=false}" = "true" ]; then
+    rm -f $MEDIA_DIR/temp/config.mp4
+    fi
     start_emby
 }
 

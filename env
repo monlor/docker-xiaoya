@@ -41,3 +41,5 @@ AUTO_UPDATE_EMBY_INTERVAL=
 AUTO_UPDATE_EMBY_METADATA_ENABLED=true
 # emby的apikey
 EMBY_APIKEY=
+# 下载解压完是否清除源文件，true/false，默认false
+CLEAR_TEMP=
