@@ -189,21 +189,7 @@ fi
 
 if [ "${AUTO_CLEAR_ENABLED:=false}" = "true" ]; then
     echo "启动定时清理定时任务..."
-    AUTO_CLEAR_INTERVAL=${AUTO_CLEAR_INTERVAL:=10}
-    HOURS=$(($AUTO_CLEAR_INTERVAL / 60))
-    REMAINING_MINUTES=$(($AUTO_CLEAR_INTERVAL % 60))
-    
-    if [ $HOURS -gt 0 ]; then
-      if [ $REMAINING_MINUTES -eq 0 ]; then
-        CRONTAB_TIME="0 */$HOURS * * *"
-      else
-        CRONTAB_TIME="$REMAINING_MINUTES */$HOURS * * *"
-      fi
-    else
-      CRONTAB_TIME="*/$REMAINING_MINUTES * * * *"
-    fi
-    crontabs="${crontabs}\n$CRONTAB_TIME /clear.sh"
-    #crontabs="${crontabs}\n*/${AUTO_CLEAR_INTERVAL:=10} * * * * /clear.sh"
+    crontabs="${crontabs}\n* ${AUTO_CLEAR_INTERVAL:=5} * * * /clear.sh"
 fi
 
 # 添加后台守护
