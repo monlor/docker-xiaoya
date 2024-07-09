@@ -13,7 +13,7 @@ PAN115_COOKIE=
 AUTO_UPDATE_ENABLED=true
 # 自动清理阿里云盘
 AUTO_CLEAR_ENABLED=true
-# 阿里云盘自动清理间隔，单位分钟，范围0-60分钟，默认10分钟
+# 自动清理阿里云盘时间节点，整点进行清理，范围0-23点（必须设置为整数），默认5点
 AUTO_CLEAR_INTERVAL=
 # pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
 PIKPAK_USER=
