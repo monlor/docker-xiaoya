@@ -56,6 +56,12 @@ get_addr() {
   fi
 }
 
+echo "等待emby.js创建完成..."
+while ! test -f /etc/nginx/http.d/emby.js; do
+    sleep 2
+done
+
+echo "开始更新媒体服务地址..."
 # 设置一个循环每1分钟检查一次emby的地址是否变化，如果变化就更新/data/emby_server.txt
 while true; do
   nginx_reload=0
@@ -65,7 +71,8 @@ while true; do
       if [ "$NEW_EMBY_ADDR" != "$OLD_EMBY_ADDR" ]; then
         echo "$NEW_EMBY_ADDR" > /data/emby_server.txt
         # 更新nginx配置
-        sed -i "s#set \$emby .*#set \$emby $NEW_EMBY_ADDR;#" /etc/nginx/http.d/emby.conf
+        sed -i "s#set \$emby .*#set \$emby ${NEW_EMBY_ADDR};#" /etc/nginx/http.d/emby.conf
+        sed -i "s#const embyHost .*#const embyHost = '${NEW_EMBY_ADDR}';#" /etc/nginx/http.d/emby.js
         nginx_reload=1
         OLD_EMBY_ADDR=$NEW_EMBY_ADDR
         echo "Updated emby address to $NEW_EMBY_ADDR"
@@ -81,7 +88,8 @@ while true; do
       if [ "$NEW_JELLYFIN_ADDR" != "$OLD_JELLYFIN_ADDR" ]; then
         echo "$NEW_JELLYFIN_ADDR" > /data/jellyfin_server.txt
         # 更新nginx配置
-        sed -i "s#set \$emby .*#set \$emby $NEW_JELLYFIN_ADDR;#" /etc/nginx/http.d/jellyfin.conf
+        sed -i "s#set \$emby .*#set \$emby ${NEW_JELLYFIN_ADDR};#" /etc/nginx/http.d/jellyfin.conf
+        sed -i "s#const embyHost .*#const embyHost = '${NEW_JELLYFIN_ADDR}';#" /etc/nginx/http.d/jellyfin.js
         nginx_reload=1
         OLD_JELLYFIN_ADDR=$NEW_JELLYFIN_ADDR
         echo "Updated jellyfin address to $NEW_JELLYFIN_ADDR"
