@@ -18,6 +18,8 @@
 
 `DISK_CHECK_ENABLED`: 磁盘剩余空间检测开关，true/false，默认true
 
+`CLEAR_TEMP`: 下载解压完是否清除源文件，true/false，默认false
+
 ## emby数据管理
 
 > 进入容器执行

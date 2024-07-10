@@ -112,7 +112,7 @@ download_emby_config() {
 
     #删除临时文件config.mp4
     if [ "${CLEAR_TEMP:=false}" = "true" ]; then
-    rm -f $MEDIA_DIR/temp/config.mp4
+        rm -f $MEDIA_DIR/temp/config.mp4
     fi
 }
 
@@ -148,8 +148,8 @@ download_emby_media() {
 
     #删除临时文件all.mp4,pikpak.mo4
     if [ "${CLEAR_TEMP:=false}" = "true" ]; then
-    rm -f $MEDIA_DIR/temp/all.mp4
-    rm -f $MEDIA_DIR/temp/pikpak.mp4
+        rm -f $MEDIA_DIR/temp/all.mp4
+        rm -f $MEDIA_DIR/temp/pikpak.mp4
     fi
 }
 
@@ -176,7 +176,7 @@ download_jellyfin_config() {
 
     #删除临时文件 config_jf.mp4
     if [ "${CLEAR_TEMP:=false}" = "true" ]; then
-    rm -f $MEDIA_DIR/temp/config_jf.mp4
+        rm -f $MEDIA_DIR/temp/config_jf.mp4
     fi
 }
 
@@ -212,8 +212,8 @@ download_jellyfin_media() {
 
     #删除临时文件all_jf.mp4,pikpak_jf.mo4
     if [ "${CLEAR_TEMP:=false}" = "true" ]; then
-    rm -f $MEDIA_DIR/temp/all_jf.mp4
-    rm -f $MEDIA_DIR/temp/pikpak_jf.mp4
+        rm -f $MEDIA_DIR/temp/all_jf.mp4
+        rm -f $MEDIA_DIR/temp/pikpak_jf.mp4
     fi
 }
 
