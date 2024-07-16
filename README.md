@@ -31,6 +31,7 @@
 * 支持小雅PikPak网盘资源，挂载自定义PikPak资源
 * 支持小雅阿里云盘资源，挂载自定义阿里云盘资源
 * 支持WebDav，TvBox服务
+* [Beta]适配Armv7设备，包括alist, emby和jellyfin
 
 ## 提问规则
 
