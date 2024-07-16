@@ -1,4 +1,4 @@
-FROM xiaoyaliu/glue:latest
+FROM ubuntu:22.04
 
 LABEL MAINTAINER me@monlor.com
 
@@ -14,9 +14,10 @@ ENV LANG=zh_CN.UTF-8 \
     LC_ALL=zh_CN.UTF-8
 
 RUN apt-get update && \
-    apt-get install -y cron locales fonts-wqy-zenhei software-properties-common && \
+    apt-get install -y cron locales fonts-wqy-zenhei software-properties-common busybox unzip curl fd-find gzip lsof sqlite3 httpie jq p7zip-full p7zip-rar tzdata && \
     locale-gen zh_CN.UTF-8 && \
     update-locale LANG=zh_CN.UTF-8 && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get install -y python3.12 && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1 && \
@@ -25,7 +26,7 @@ RUN apt-get update && \
     apt-get remove -y software-properties-common && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* 
+    rm -rf /var/lib/apt/lists/* /tmp/*
     
 
 # 安装solid

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 DATA_DIR="/www/data"
 
 base_urls=(
@@ -91,7 +89,7 @@ update() {
 # 进程守护函数
 daemon() {
 
-    if [ -z "$(pgrep alist)" ] && [ "$(cat /tmp/status)" = "1" ]; then
+    if [ -z "$(pgrep alist)" ] && [ "$(cat /tmp/status 2> /dev/null)" = "1" ]; then
         start
     fi
 

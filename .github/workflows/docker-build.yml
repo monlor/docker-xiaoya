@@ -73,8 +73,9 @@ jobs:
         run: |
           docker buildx imagetools create \
             --tag ghcr.io/monlor/embyserver:latest \
-            amilys/embyserver:latest \
-            amilys/embyserver_arm64v8:latest
+            emby/embyserver:latest \
+            emby/embyserver_arm64v8:latest \
+            emby/embyserver_arm32v7
 
           docker buildx imagetools create \
             --tag ghcr.io/monlor/embyserver-amilys:latest \
@@ -123,7 +124,7 @@ jobs:
           context: ./alist
           push: true
           tags: ${{ needs.prepare.outputs.alist_tags }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       
@@ -169,7 +170,7 @@ jobs:
           context: ./metadata
           push: true
           tags: ${{ needs.prepare.outputs.metadata_tags }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
@@ -215,7 +216,7 @@ jobs:
           context: ./emby
           push: true
           tags: ${{ needs.prepare.outputs.embyserver_tags }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           build-args: |
             BASE_IMAGE=ghcr.io/monlor/embyserver:latest
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -275,7 +276,7 @@ jobs:
           context: ./jellyfin
           push: true
           tags: ${{ needs.prepare.outputs.jellyfin_tags }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           build-args: |
             BASE_IMAGE=jellyfin/jellyfin:latest
           cache-from: type=local,src=/tmp/.buildx-cache

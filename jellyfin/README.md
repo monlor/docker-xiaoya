@@ -4,6 +4,8 @@
 
 ## 其他镜像
 
+> 此镜像仅支持 x86,arm64 架构
+
 ```
 ghcr.io/monlor/xiaoya-jellyfin-nyanmisaka
 ```
