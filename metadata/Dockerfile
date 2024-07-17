@@ -9,9 +9,7 @@ WORKDIR /media
 # 设置非交互模式，以避免安装过程中提示用户输入
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:zh \
-    LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
 
 RUN apt-get update && \
     apt-get install -y cron locales busybox unzip curl fd-find gzip lsof sqlite3 httpie jq tzdata aria2 p7zip-full && \
