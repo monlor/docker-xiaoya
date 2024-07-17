@@ -1,3 +1,7 @@
+FROM alpine as base
+
+RUN apk add dumb-init
+
 FROM xiaoyaliu/alist:hostmode
 
 LABEL MAINTAINER me@monlor.com
@@ -10,11 +14,9 @@ VOLUME /data
 
 ARG TARGETARCH
 
-ENV DUMB_INIT_VERSION "1.2.5"
-
-ADD --chmod=755 https://raw.githubusercontent.com/monlor/docker-xiaoya/main/bin/dumb-init_${DUMB_INIT_VERSION}_${TARGETARCH} /dumb-init
-
 RUN apk add --no-cache tzdata
+
+COPY --chmod=755 --from=base /usr/bin/dumb-init /dumb-init
 
 COPY --chmod=755 ./*.sh /
 
