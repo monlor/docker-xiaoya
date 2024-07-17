@@ -79,10 +79,7 @@ restart() {
 }
 
 update() {
-    if ! download_files; then
-        echo "Failed to download files or no need to update"
-        return 1
-    fi
+    download_files
     restart
 }
 
