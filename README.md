@@ -9,8 +9,8 @@
 <a href="https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml"><img src="https://github.com/monlor/docker-xiaoya/actions/workflows/docker-build.yml/badge.svg" alt="Build Status"></a> 
 <a><img src="https://img.shields.io/github/repo-size/monlor/docker-xiaoya.svg?style=flat" alt="repo size"></a> 
 <a href="https://github.com/monlor/docker-xiaoya/releases/latest"><img src="https://img.shields.io/github/v/release/monlor/docker-xiaoya" alt="GitHub release (latest by date)"></a> 
-<a href="https://github.com/monlor/docker-xiaoya/graphs/contributors"><img src="https://img.shields.io/badge/Contributors-3-orange.svg" alt="All Contributors"></a> 
-<a href="https://afdian.net/a/monlor"><img src="https://img.shields.io/badge/爱发电-monlor-purple" alt="爱发电"></a>
+<a href="https://github.com/monlor/docker-xiaoya/graphs/contributors"><img src="https://img.shields.io/badge/Contributors-6-orange.svg" alt="All Contributors"></a> 
+<a href="https://buymeacoffee.com/monlor"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-048754?logo=buymeacoffee" alt="buymeacoffee"></a>
 </p>
 
 ## 功能特性
@@ -276,7 +276,7 @@ docker logs emby
 
 ## 赞助
 
-[![](https://img.shields.io/badge/爱发电-monlor-purple)](https://afdian.net/a/monlor)
+<a href="https://www.buymeacoffee.com/monlor" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ## License
 
