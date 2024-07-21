@@ -21,6 +21,8 @@ PIKPAK_USER=
 TVBOX_SECURITY=
 # webdav用户名为dav，设置密码。默认用户密码：guest/guest_Api789
 WEBDAV_PASSWORD=
+# alist 地址，这里需要填写 emby 客户端能正常访问到的地址，如果不使用 emby 观看夸克内容可以不修改，格式：`http://192.168.1.1:5678`
+DOCKER_ADDRESS=
 
 # emby 地址，容器内部使用地址，一般不用改
 EMBY_ADDR=http://emby:6908
