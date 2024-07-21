@@ -9,11 +9,11 @@ WORKDIR /media
 # 设置非交互模式，以避免安装过程中提示用户输入
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV LANG=zh_CN.UTF-8
+ENV LANG=C.UTF-8
 
 RUN apt-get update && \
     apt-get install -y cron locales fonts-wqy-zenhei busybox unzip curl fd-find gzip lsof sqlite3 httpie jq tzdata aria2 p7zip-full && \
-    locale-gen zh_CN.UTF-8 && \
+    locale-gen C.UTF-8 && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     apt-get autoremove -y && \
     apt-get clean && \
