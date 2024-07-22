@@ -33,6 +33,7 @@ releases:
           QUARK_COOKIE:
           PAN115_COOKIE:
           PIKPAK_USER:
+          DOCKER_ADDRESS:
         volumes:
         - name: data
           mountPath: /data
