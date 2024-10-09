@@ -3,7 +3,6 @@
 DATA_DIR="/www/data"
 
 base_urls=(
-    "https://gitlab.com/xiaoyaliu/data/-/raw/main"
     "https://raw.githubusercontent.com/xiaoyaliu00/data/main"
     "https://cdn.wygg.shop/https://raw.githubusercontent.com/xiaoyaliu00/data/main"
     "https://fastly.jsdelivr.net/gh/xiaoyaliu00/data@latest"
