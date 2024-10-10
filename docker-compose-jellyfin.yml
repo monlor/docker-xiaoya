@@ -31,9 +31,13 @@ services:
     networks:
       - default
   jellyfin:
-    image: ghcr.io/monlor/xiaoya-jellyfin:latest
+    image: https://hub.docker.com/r/nyanmisaka/jellyfin
     env_file:
       - env
+    environment:
+      - TZ=Asia/Shanghai
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
     privileged: true
     depends_on:
       - metadata
@@ -45,6 +49,12 @@ services:
     ports:
       - 8096:8096
     restart: unless-stopped
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+           - capabilities: [ gpu ]
     networks:
       - default
 
