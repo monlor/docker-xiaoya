@@ -185,6 +185,7 @@ env:
     QUARK_COOKIE:
     PAN115_COOKIE:
     PIKPAK_USER:
+    DOCKER_ADDRESS:
     ...
 ```
 
