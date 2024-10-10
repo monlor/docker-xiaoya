@@ -38,6 +38,8 @@ services:
     depends_on:
       - metadata
       - alist
+    devices:
+      - /dev/dri
     volumes:
       - jf_media:/media
       - jf_config:/config
