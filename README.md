@@ -42,16 +42,16 @@
 
 ### 部署或更新脚本
 
-> 脚本支持重复执行
+> 脚本支持重复执行，每天自动同步最新镜像（不需要同步请选择下面的稳定版本）
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
+export VERSION=main && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/${VERSION:-main}/install.sh)
 ```
 
 **使用加速源**
 
 ```bash
-export GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
+export VERSION=main GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/${VERSION:-main}/install.sh)
 ```
 
 **环境信息**
@@ -85,12 +85,12 @@ cd 你的安装目录
 docker-compose up --remove-orphans -d
 ```
 
-### 发烧友测试版
+### 稳定版
 
-以下是测试版一键部署脚本，使用此脚本可以体验最新的功能，具体可以查看[commit](https://github.com/monlor/docker-xiaoya/commits/main/)更新了哪些测试版专属功能，**此脚本仅限发烧友使用，需要有一定的解决问题能力**
+> release 版本
 
 ```bash
-export VERSION=main && bash -c "$(curl -fsSL ${GH_PROXY}https://raw.githubusercontent.com/monlor/docker-xiaoya/${VERSION:-main}/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)""
 ```
 
 ## 部署配置推荐
