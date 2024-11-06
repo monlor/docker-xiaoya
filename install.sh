@@ -262,6 +262,7 @@ echo "启动服务：$install_path/manage.sh start"
 echo "停止服务：$install_path/manage.sh stop"
 echo "重启服务：$install_path/manage.sh restart"
 echo "加载配置：$install_path/manage.sh reload"
+echo "更新服务：$install_path/manage.sh update"
 echo "高级用户自定义配置：$install_path/env"
 echo "修改env或者compose配置后，需要执行上面的加载配置reload命令生效！"
 
@@ -310,8 +311,11 @@ case \$1 in
   logs)
     $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" logs -f
     ;;
+  update)
+    $DOCKER_COMPOSE -f "$install_path/docker-compose.yml" up --remove-orphans --pull=always -d 
+    ;;
   *)
-    echo "Usage: \$0 {start|stop|restart|reload|logs}"
+    echo "Usage: \$0 {start|stop|restart|reload|logs|update}"
     exit 1
     ;;
 esac
