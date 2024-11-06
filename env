@@ -9,6 +9,8 @@ ALIYUN_FOLDER_ID=
 QUARK_COOKIE=
 # 115网盘的cookie
 PAN115_COOKIE=
+# 阿里云盘转存115播放
+ALIYUN_TO_115=
 # 自动更新小雅alist文件
 AUTO_UPDATE_ENABLED=false
 # 自动清理阿里云盘
