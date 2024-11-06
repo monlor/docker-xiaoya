@@ -186,8 +186,8 @@ echo
 echo "部署类型："
 echo "1. alist + emby (默认)"
 echo "2. alist"
-echo "3. alist + jellyfin"
-echo "4. alist + emby + jellyfin"
+# echo "3. alist + jellyfin"
+# echo "4. alist + emby + jellyfin"
 read -rp "请选择部署服务类型: " service_type
 case $service_type in
   1)

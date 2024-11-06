@@ -10,7 +10,7 @@ QUARK_COOKIE=
 # 115网盘的cookie
 PAN115_COOKIE=
 # 自动更新小雅alist文件
-AUTO_UPDATE_ENABLED=true
+AUTO_UPDATE_ENABLED=false
 # 自动清理阿里云盘
 AUTO_CLEAR_ENABLED=true
 # 阿里云盘自动清理间隔，单位分钟，范围0-60分钟，默认10分钟
@@ -34,7 +34,7 @@ EMBY_ENABLED=true
 # 是否启用jellyfin
 JELLYFIN_ENABLED=false
 # 自动更新emby的配置，依赖EMBY_APIKEY
-AUTO_UPDATE_EMBY_CONFIG_ENABLED=true
+AUTO_UPDATE_EMBY_CONFIG_ENABLED=false
 # 自动更新emby配置，config.mp4间隔，单位天，默认7天
 AUTO_UPDATE_EMBY_INTERVAL=
 # 自动更新emby元数据
