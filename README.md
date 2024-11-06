@@ -90,7 +90,7 @@ docker-compose up --remove-orphans -d
 > release 版本
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)""
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/main/install.sh)"
 ```
 
 ## 部署配置推荐
