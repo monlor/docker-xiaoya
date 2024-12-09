@@ -54,6 +54,16 @@ fi
 if [ -n "${PAN115_COOKIE:-}" ]; then
     echo "添加115网盘 Cookie..."
     echo "${PAN115_COOKIE}" > /data/115_cookie.txt
+    if [ "${ALIYUN_TO_115}" = "true" ]; then
+        cat > /data/ali2115.txt <<-EOF
+purge_ali_temp=true
+cookie="${PAN115_COOKIE}"
+purge_pan115_temp=true
+dir_id=0
+EOF
+    else
+        rm -rf /data/ali2115.txt
+    fi
 else
     rm -rf /data/115_cookie.txt
 fi  
