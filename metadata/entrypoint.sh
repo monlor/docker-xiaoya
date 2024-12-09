@@ -235,7 +235,7 @@ if [ "${EMBY_ENABLED:=false}" = "true" ]; then
         # 随机生成一个时间，避免给服务器造成压力
         random_min=$(shuf -i 0-59 -n 1)
         random_hour=$(shuf -i 1-6 -n 1)
-        crontabs="${crontabs}\n${random_min} ${random_hour} * * * python3 /solid.py --media ${MEDIA_DIR}/xiaoya"
+        crontabs="${crontabs}\n${random_min} ${random_hour} * * * /usr/local/bin/python3 /solid.py --media ${MEDIA_DIR}/xiaoya"
     fi
 fi
 
