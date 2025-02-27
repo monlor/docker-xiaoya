@@ -132,6 +132,7 @@ folder_id=""
 quark_cookie=""
 pan115_cookie=""
 aliyun_to_115="false"
+pan115_folder_id=""
 
 # 如果是更新服务，则从原有的compose配置中获取token等信息
 if [ "${update}" != "0" ]; then
@@ -141,7 +142,7 @@ if [ "${update}" != "0" ]; then
   quark_cookie=$(grep QUARK_COOKIE "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
   pan115_cookie=$(grep PAN115_COOKIE "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
   aliyun_to_115=$(grep ALIYUN_TO_115 "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
-fi
+  pan115_folder_id=$(grep PAN115_FOLDER_ID "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
 
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
 echo
@@ -187,6 +188,12 @@ if [ -n "${pan115_cookie}" ]; then
   read -rp "是否开启将阿里云盘转存到115播放？[y/n]: " res
   if [ "${res}" = "y" ]; then
     aliyun_to_115="true"
+    read -rp "请输入115网盘文件夹ID(默认为$pan115_folder_id): " res
+    pan115_folder_id=${res:=$pan115_folder_id}
+    if [ ${#pan115_folder_id} -ne 19 ]; then
+      echo "长度不对,115网盘 folder id是19位"
+      exit 1
+    fi
   else
     aliyun_to_115="false"
   fi
@@ -237,6 +244,7 @@ sedsh "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" env
 sedsh "s#QUARK_COOKIE=.*#QUARK_COOKIE=$quark_cookie#g" env
 sedsh "s#PAN115_COOKIE=.*#PAN115_COOKIE=$pan115_cookie#g" env
 sedsh "s#ALIYUN_TO_115=.*#ALIYUN_TO_115=$aliyun_to_115#g" env
+sedsh "s#PAN115_FOLDER_ID=.*#PAN115_FOLDER_ID=$pan115_folder_id#g" env
 
 if [ -n "$IMAGE_PROXY" ]; then
   sedsh -E "s#image: [^/]+#image: ${IMAGE_PROXY}#g" docker-compose.yml

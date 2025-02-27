@@ -26,6 +26,10 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `PAN115_COOKIE`:  115网盘的cookie，登陆115网盘，F12找一个请求，查看请求中的Cookie信息
 
+`ALIYUN_TO_115`: 是否将阿里云盘的文件自动迁移到115网盘，true/false，默认false
+
+`PAN115_FOLDER_ID`: 进入115网页版，创建一个文件夹，点击文件夹，复制浏览器115网盘地址中的cid，默认根目录为0
+
 `PIKPAK_USER`: pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
 
 `PIKPAK_LIST`: 挂载你自己 pikpak 账号，格式：`挂载名:qqq@qq.com:aaadds,aaa:+8613111111111:dasf`，密码中不支持符号,:

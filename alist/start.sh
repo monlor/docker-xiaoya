@@ -59,7 +59,7 @@ if [ -n "${PAN115_COOKIE:-}" ]; then
 purge_ali_temp=true
 cookie="${PAN115_COOKIE}"
 purge_pan115_temp=true
-dir_id=0
+dir_id=${PAN115_FOLDER_ID:-0}
 EOF
     else
         rm -rf /data/ali2115.txt
