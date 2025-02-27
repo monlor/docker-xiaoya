@@ -75,7 +75,6 @@ releases:
           TZ: Asia/Shanghai
           # ALIST_ADDR: http://alist:5678
           EMBY_ENABLED: true
-          JELLYFIN_ENABLED: false
           AUTO_UPDATE_EMBY_CONFIG_ENABLED: true
           AUTO_UPDATE_EMBY_METADATA_ENABLED: true
         volumes:

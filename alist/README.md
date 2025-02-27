@@ -4,8 +4,6 @@ alist访问端口：5678
 
 emby访问端口：2345
 
-jellyfin访问端口：2346
-
 tvbox访问地址：http://ip:5678/tvbox/my_ext.json
 
 ## 启动命令
@@ -49,8 +47,6 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 `WEBDAV_PASSWORD`: webdav用户名为dav，设置密码。默认用户密码：guest/guest_Api789
 
 `EMBY_ADDR`: emby部署地址，默认http://emby:6908，容器内部使用地址，一般不用改
-
-`JELLYFIN_ADDR`: jellyfin部署地址，默认http://jellyfin:8096，容器内部使用地址，一般不用改
 
 `EMBY_APIKEY`: 填入一个emby的api key，用于在infuse中播放emby
 

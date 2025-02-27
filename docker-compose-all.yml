@@ -16,7 +16,6 @@ services:
     image: ghcr.io/monlor/xiaoya-metadata:latest
     environment:
       - EMBY_ENABLED=true
-      - JELLYFIN_ENABLED=true
     env_file:
       - env
     volumes:
@@ -24,9 +23,6 @@ services:
       - media:/media/xiaoya
       - config:/media/config
       - cache:/media/config/cache
-      - jf_media:/media/jf_xiaoya
-      - jf_config:/media/jf_config
-      - jf_cache:/media/jf_config/cache
       - meta:/media/temp
     depends_on:
       - alist
@@ -49,23 +45,6 @@ services:
     restart: unless-stopped
     networks:
       - default
-  jellyfin:
-    image: ghcr.io/monlor/xiaoya-jellyfin:latest
-    env_file:
-      - env
-    privileged: true
-    depends_on:
-      - metadata
-      - alist
-    volumes:
-      - jf_media:/media
-      - jf_config:/config
-      - jf_cache:/cache
-    ports:
-      - 8096:8096
-    restart: unless-stopped
-    networks:
-      - default
 
 networks:
   default:
@@ -75,8 +54,5 @@ volumes:
   media:
   config:
   cache:
-  jf_media:
-  jf_config:
-  jf_cache:
   meta:
   
