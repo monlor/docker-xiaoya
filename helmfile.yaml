@@ -24,7 +24,6 @@ releases:
           pullPolicy: Always
         env:
           TZ: Asia/Shanghai
-          AUTO_UPDATE_ENABLED: true
           AUTO_CLEAR_ENABLED: true
           WEBDAV_PASSWORD: 
           ALIYUN_TOKEN: 
@@ -75,7 +74,6 @@ releases:
           TZ: Asia/Shanghai
           # ALIST_ADDR: http://alist:5678
           EMBY_ENABLED: true
-          JELLYFIN_ENABLED: false
           AUTO_UPDATE_EMBY_CONFIG_ENABLED: true
           AUTO_UPDATE_EMBY_METADATA_ENABLED: true
         volumes:

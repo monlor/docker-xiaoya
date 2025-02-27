@@ -2,7 +2,7 @@
 
 <div align="center">
 <h2>小雅全家桶部署</h2>
-<p><em>使用 Docker Compose 一键部署 Alist + Emby + Jellyfin</em></p>
+<p><em>使用 Docker Compose 一键部署 Alist + Emby</em></p>
 </div>
 
 <p align="center">
@@ -19,10 +19,10 @@
 
 🚀 使用 Docker Compose 一键部署服务，兼容群晖，Linux，Windows，Mac，包含所有X86和Arm架构
 
-✨ 部署alist+下载元数据+部署emby/jellyfin服务全流程自动，无需人工干预
+✨ 部署alist+下载元数据+部署emby服务全流程自动，无需人工干预
 
 * 所有脚本集成到 Docker 镜像，避免污染系统环境
-* 合并jellyfin和emby的x86和arm镜像，部署时无需区分镜像名
+* 合并emby的x86和arm镜像，部署时无需区分镜像名
 * 自动清理阿里云盘，默认每10分钟一次
 * 自动更新小雅alist中的云盘数据，默认每天一次
 * 自动更新emby服务配置，默认每周一次
@@ -31,7 +31,7 @@
 * 支持小雅PikPak网盘资源，挂载自定义PikPak资源
 * 支持小雅阿里云盘资源，挂载自定义阿里云盘资源
 * 支持WebDav，TvBox服务
-* [Beta]适配Armv7设备，包括alist, emby和jellyfin
+* [Beta]适配Armv7设备，包括alist, emby
 
 ## 提问规则
 
@@ -62,7 +62,6 @@ export VERSION=main GH_PROXY=https://gh.monlor.com/ IMAGE_PROXY=ghcr.monlor.com 
 | webdav | http://ip:5678/dav | guest/guest_Api789 |
 | tvbox | http://ip:5678/tvbox/my_ext.json | - |
 | emby | http://ip:2345 | xiaoya/1234 |
-| jellyfin | http://ip:2346 | ailg/5678 |
 
 ### 卸载脚本
 
@@ -99,22 +98,17 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/monlor/docker-xiaoya/mai
 | ----------------- | -------- | --------- | --------- |
 | Alist + Emby      | 2核   | 4G    | 140G  |
 | 仅部署 Alist      | 1核   | 512M  | 512M  |
-| Alist + Emby + Jellyfin      | 4核   | 8G    | 300G  |
-| Alist + Jellyfin      | 4核   | 8G    | 155G  |
 
 ## 配置示例
 
 * [只部署小雅alist](/docker-compose-alist.yml)
 * [部署小雅alist+emby](/docker-compose.yml)
-* [部署小雅alist+jellyfin](/docker-compose-jellyfin.yml)
-* [部署小雅alist+emby+jellyfin](/docker-compose-all.yml)
 
 ## 服务组件介绍
 
 * [Alist](/alist): 提供资源在线播放，WebDav服务
-* [Metadata](/metadata): Emby和Jellyfin的元数据管理
+* [Metadata](/metadata): Emby的元数据管理
 * [Emby](/emby): 用家庭影视库的方式，可视化展示Alist中的资源
-* [Jellyfin](/jellyfin): Emby的开源版本，功能是一样的
 
 ## 手动部署
 
@@ -223,7 +217,6 @@ docker run -d --name alist \
     -e ALIYUN_OPEN_TOKEN=阿里云盘Open Token \
     -e ALIYUN_FOLDER_ID=阿里云盘文件夹ID \
     -e QUARK_COOKIE=夸克网盘cookie \
-    -e AUTO_UPDATE_ENABLED=true \
     -e AUTO_CLEAR_ENABLED=true \
     --network=xiaoya \
     ghcr.io/monlor/xiaoya-alist 
@@ -235,7 +228,6 @@ docker run -d --name alist \
 docker run -d --name metadata \
     -e LANG=C.UTF-8 \
     -e EMBY_ENABLED=true \
-    -e JELLYFIN_ENABLED=false \
     -e AUTO_UPDATE_EMBY_CONFIG_ENABLED=true \
     -v xiaoya:/etc/xiaoya \
     -v media:/media/xiaoya \

@@ -132,6 +132,7 @@ folder_id=""
 quark_cookie=""
 pan115_cookie=""
 aliyun_to_115="false"
+pan115_folder_id=""
 
 # 如果是更新服务，则从原有的compose配置中获取token等信息
 if [ "${update}" != "0" ]; then
@@ -141,7 +142,7 @@ if [ "${update}" != "0" ]; then
   quark_cookie=$(grep QUARK_COOKIE "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
   pan115_cookie=$(grep PAN115_COOKIE "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
   aliyun_to_115=$(grep ALIYUN_TO_115 "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
-fi
+  pan115_folder_id=$(grep PAN115_FOLDER_ID "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
 
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
 echo
@@ -187,18 +188,22 @@ if [ -n "${pan115_cookie}" ]; then
   read -rp "是否开启将阿里云盘转存到115播放？[y/n]: " res
   if [ "${res}" = "y" ]; then
     aliyun_to_115="true"
+    read -rp "请输入115网盘文件夹ID(默认为$pan115_folder_id): " res
+    pan115_folder_id=${res:=$pan115_folder_id}
+    if [ -n "${pan115_folder_id}" ] && [ ${#pan115_folder_id} -ne 19 ] && [ "${pan115_folder_id}" != "0" ]; then
+      echo "长度不对,115网盘 folder id是19位"
+      exit 1
+    fi
   else
     aliyun_to_115="false"
   fi
 fi
 
-# 选择部署服务类型，alist + emby (默认), alist, alist + jellyfin, alist + emby + jellyfin
+# 选择部署服务类型，alist + emby (默认), alist
 echo
 echo "部署类型："
 echo "1. alist + emby (默认)"
 echo "2. alist"
-# echo "3. alist + jellyfin"
-# echo "4. alist + emby + jellyfin"
 read -rp "请选择部署服务类型: " service_type
 case $service_type in
   1)
@@ -206,12 +211,6 @@ case $service_type in
     ;;
   2)
     service_type="-alist"
-    ;;
-  3)
-    service_type="-jellyfin"
-    ;;
-  4)
-    service_type="-all"
     ;;
   *)
     service_type=""
@@ -237,6 +236,7 @@ sedsh "s#ALIYUN_FOLDER_ID=.*#ALIYUN_FOLDER_ID=$folder_id#g" env
 sedsh "s#QUARK_COOKIE=.*#QUARK_COOKIE=$quark_cookie#g" env
 sedsh "s#PAN115_COOKIE=.*#PAN115_COOKIE=$pan115_cookie#g" env
 sedsh "s#ALIYUN_TO_115=.*#ALIYUN_TO_115=$aliyun_to_115#g" env
+sedsh "s#PAN115_FOLDER_ID=.*#PAN115_FOLDER_ID=$pan115_folder_id#g" env
 
 if [ -n "$IMAGE_PROXY" ]; then
   sedsh -E "s#image: [^/]+#image: ${IMAGE_PROXY}#g" docker-compose.yml
@@ -262,7 +262,7 @@ fi
 echo "开始部署服务..."
 $DOCKER_COMPOSE -f docker-compose.yml up --remove-orphans --pull=always -d
 
-echo "服务开始部署，如果部署emby/jellyfin，下载并解压60G元数据需要一段时间，请耐心等待..."
+echo "服务开始部署，如果部署emby，下载并解压60G元数据需要一段时间，请耐心等待..."
 echo "脚本执行完成不代表服务启动完成，请执行下面的命令查看日志来检查部署情况."
 
 echo 
@@ -296,11 +296,10 @@ echo "alist: http://$local_ip:5678, http://$ip:5678"
 echo "webdav: http://$local_ip:5678/dav, http://$ip:5678/dav, 默认用户密码: guest/guest_Api789"
 echo "tvbox: http://$local_ip:5678/tvbox/my_ext.json, http://$ip:5678/tvbox/my_ext.json"
 echo "emby: http://$local_ip:2345, http://$ip:2345, 默认用户密码: xiaoya/1234"
-echo "jellyfin: http://$local_ip:2346, http://$ip:2346, 默认用户密码：ailg/5678"
 
 echo
 echo "服务正在后台部署，执行这个命令查看日志：$install_path/manage.sh logs"
-echo "部署alist需要10分钟，emby/jellyfin需要1-24小时，请耐心等待..."
+echo "部署alist需要10分钟，emby需要1-24小时，请耐心等待..."
 # 添加管理脚本，启动，停止，查看日志
 cat > "$install_path/manage.sh" <<-EOF
 #!/bin/bash

@@ -31,8 +31,6 @@ jobs:
       metadata_tags: ${{ steps.vars.outputs.metadata_tags }}
       embyserver_tags: ${{ steps.vars.outputs.embyserver_tags }}
       embyserver-amilys_tags: ${{ steps.vars.outputs.embyserver-amilys_tags }}
-      jellyfin_tags: ${{ steps.vars.outputs.jellyfin_tags }}
-      jellyfin-nyanmisaka_tags: ${{ steps.vars.outputs.jellyfin-nyanmisaka_tags }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -46,8 +44,6 @@ jobs:
             "metadata"
             "embyserver"
             "embyserver-amilys"
-            "jellyfin"
-            "jellyfin-nyanmisaka"
           )
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
@@ -83,11 +79,6 @@ jobs:
             --tag ghcr.io/monlor/embyserver-amilys:latest \
             amilys/embyserver:latest \
             amilys/embyserver_arm64v8:latest
-
-          docker buildx imagetools create \
-            --tag ghcr.io/monlor/jellyfin-nyanmisaka:latest \
-            nyanmisaka/jellyfin:240401-amd64 \
-            nyanmisaka/jellyfin:240401-arm64
 
   build-alist:
     runs-on: ubuntu-latest
@@ -233,66 +224,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             BASE_IMAGE=ghcr.io/monlor/embyserver-amilys:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
-      
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-  build-jellyfin:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
-      id-token: write
-    needs: prepare
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ github.job }}-${{ github.sha }}
-          restore-keys: |
-            ${{ github.job }}-
-
-      - name: Build and push xiaoya-jellyfin
-        uses: docker/build-push-action@v4
-        with:
-          context: ./jellyfin
-          push: true
-          tags: ${{ needs.prepare.outputs.jellyfin_tags }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          build-args: |
-            BASE_IMAGE=jellyfin/jellyfin:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
-
-      - name: Build and push xiaoya-jellyfin-nyanmisaka
-        uses: docker/build-push-action@v4
-        with:
-          context: ./jellyfin
-          push: true
-          tags: ${{ needs.prepare.outputs.jellyfin-nyanmisaka_tags }}
-          platforms: linux/amd64,linux/arm64
-          build-args: |
-            BASE_IMAGE=ghcr.io/monlor/jellyfin-nyanmisaka:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       

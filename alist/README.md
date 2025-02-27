@@ -4,8 +4,6 @@ alist访问端口：5678
 
 emby访问端口：2345
 
-jellyfin访问端口：2346
-
 tvbox访问地址：http://ip:5678/tvbox/my_ext.json
 
 ## 启动命令
@@ -25,6 +23,10 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 `QUARK_COOKIE`: 夸克的cookie，登陆夸克网盘，F12找一个请求，查看请求中的Cookie信息
 
 `PAN115_COOKIE`:  115网盘的cookie，登陆115网盘，F12找一个请求，查看请求中的Cookie信息
+
+`ALIYUN_TO_115`: 是否将阿里云盘的文件自动迁移到115网盘，true/false，默认false
+
+`PAN115_FOLDER_ID`: 进入115网页版，创建一个文件夹，点击文件夹，复制浏览器115网盘地址中的cid，默认根目录为0
 
 `PIKPAK_USER`: pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
 
@@ -46,11 +48,7 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `EMBY_ADDR`: emby部署地址，默认http://emby:6908，容器内部使用地址，一般不用改
 
-`JELLYFIN_ADDR`: jellyfin部署地址，默认http://jellyfin:8096，容器内部使用地址，一般不用改
-
 `EMBY_APIKEY`: 填入一个emby的api key，用于在infuse中播放emby
-
-`AUTO_UPDATE_ENABLED`: 每天自动更新小雅的文件，true/false，默认false
 
 `AUTO_CLEAR_ENABLED`: 自动清理阿里云云盘的文件，true/false，默认false
 

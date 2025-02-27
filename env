@@ -11,10 +11,10 @@ QUARK_COOKIE=
 PAN115_COOKIE=
 # 阿里云盘转存115播放
 ALIYUN_TO_115=
-# 自动更新小雅alist文件
-AUTO_UPDATE_ENABLED=false
+# 115网盘文件夹ID
+PAN115_FOLDER_ID=
 # 自动清理阿里云盘
-AUTO_CLEAR_ENABLED=true
+AUTO_CLEAR_ENABLED=
 # 阿里云盘自动清理间隔，单位分钟，范围0-60分钟，默认10分钟
 AUTO_CLEAR_INTERVAL=
 # pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`
@@ -26,15 +26,11 @@ WEBDAV_PASSWORD=
 
 # emby 地址，容器内部使用地址，一般不用改
 EMBY_ADDR=http://emby:6908
-# jellyfin 地址，容器内部使用地址，一般不用改
-JELLYFIN_ADDR=http://jellyfin:8096
 # alist 地址，容器内部使用地址，一般不用改
 ALIST_ADDR=http://alist:5678
 
 # 是否启用emby
 EMBY_ENABLED=true
-# 是否启用jellyfin
-JELLYFIN_ENABLED=false
 # 自动更新emby的配置，依赖EMBY_APIKEY
 AUTO_UPDATE_EMBY_CONFIG_ENABLED=false
 # 自动更新emby配置，config.mp4间隔，单位天，默认7天

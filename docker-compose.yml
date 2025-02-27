@@ -7,6 +7,8 @@ services:
       - "5678:5678"
       - "2345:2345"
       - "2346:2346"
+    environment:
+      - AUTO_UPDATE_MEDIA_ADDR=true
     env_file:
       - env
     restart: unless-stopped
