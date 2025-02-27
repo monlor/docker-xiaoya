@@ -190,7 +190,7 @@ if [ -n "${pan115_cookie}" ]; then
     aliyun_to_115="true"
     read -rp "请输入115网盘文件夹ID(默认为$pan115_folder_id): " res
     pan115_folder_id=${res:=$pan115_folder_id}
-    if [ ${#pan115_folder_id} -ne 19 ]; then
+    if [ -n "${pan115_folder_id}" ] && [ ${#pan115_folder_id} -ne 19 ] && [ "${pan115_folder_id}" != "0" ]; then
       echo "长度不对,115网盘 folder id是19位"
       exit 1
     fi
