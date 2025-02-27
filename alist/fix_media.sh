@@ -5,6 +5,8 @@ while ! test -f /etc/nginx/http.d/emby.js; do
     sleep 2
 done
 
+echo "修复emby.js..."
+
 sed -i '/async function fetchXYApi/{:a;N;$!ba;d}' /etc/nginx/http.d/emby.js
 
 cat >> /etc/nginx/http.d/emby.js <<-\EOF

@@ -24,7 +24,6 @@ releases:
           pullPolicy: Always
         env:
           TZ: Asia/Shanghai
-          AUTO_UPDATE_ENABLED: true
           AUTO_CLEAR_ENABLED: true
           WEBDAV_PASSWORD: 
           ALIYUN_TOKEN: 

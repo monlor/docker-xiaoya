@@ -189,15 +189,7 @@ echo "http://127.0.0.1:5233/data" > /data/download_url.txt
 
 crontabs=""
 
-if [ "${AUTO_UPDATE_ENABLED:=false}" = "true" ]; then
-    echo "启动定时更新定时任务..."
-    # 随机生成一个时间，避免给服务器造成压力
-    random_min=$(shuf -i 0-59 -n 1)
-    random_hour=$(shuf -i 2-6 -n 1)
-    crontabs="${random_min} ${random_hour} * * * /service.sh update"
-fi
-
-if [ "${AUTO_CLEAR_ENABLED:=false}" = "true" ]; then
+if [ "${AUTO_CLEAR_ENABLED:=true}" = "true" ]; then
     echo "启动定时清理定时任务..."
     AUTO_CLEAR_INTERVAL=${AUTO_CLEAR_INTERVAL:=10}
     HOURS=$(($AUTO_CLEAR_INTERVAL / 60))
@@ -226,13 +218,14 @@ fi
 # 设置本地变量
 echo "${EMBY_APIKEY:-e825ed6f7f8f44ffa0563cddaddce14d}" > /data/infuse_api_key.txt
 
-if [ "${AUTO_UPDATE_MEDIA_ADDR:=true}" = "true" ]; then
+if [ "${AUTO_UPDATE_MEDIA_ADDR:=false}" = "true" ]; then
     echo "开始自动更新媒体服务地址..."
     /update_media_addr.sh &> /dev/null &
 fi
 
 /fix_media.sh &
 
-/entrypoint.sh /opt/alist/alist server --no-prefix &
+crond
 
-exec crond -f
+/entrypoint.sh /opt/alist/alist server --no-prefix
+ 

@@ -13,10 +13,8 @@ PAN115_COOKIE=
 ALIYUN_TO_115=
 # 115网盘文件夹ID
 PAN115_FOLDER_ID=
-# 自动更新小雅alist文件
-AUTO_UPDATE_ENABLED=false
 # 自动清理阿里云盘
-AUTO_CLEAR_ENABLED=true
+AUTO_CLEAR_ENABLED=
 # 阿里云盘自动清理间隔，单位分钟，范围0-60分钟，默认10分钟
 AUTO_CLEAR_INTERVAL=
 # pikpak 账号，用来观看小雅中pikpak分享给你的资源，格式：`qqq@qq.com:aaadds`

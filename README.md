@@ -217,7 +217,6 @@ docker run -d --name alist \
     -e ALIYUN_OPEN_TOKEN=阿里云盘Open Token \
     -e ALIYUN_FOLDER_ID=阿里云盘文件夹ID \
     -e QUARK_COOKIE=夸克网盘cookie \
-    -e AUTO_UPDATE_ENABLED=true \
     -e AUTO_CLEAR_ENABLED=true \
     --network=xiaoya \
     ghcr.io/monlor/xiaoya-alist 

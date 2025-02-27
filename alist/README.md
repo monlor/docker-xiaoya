@@ -50,8 +50,6 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 
 `EMBY_APIKEY`: 填入一个emby的api key，用于在infuse中播放emby
 
-`AUTO_UPDATE_ENABLED`: 每天自动更新小雅的文件，true/false，默认false
-
 `AUTO_CLEAR_ENABLED`: 自动清理阿里云云盘的文件，true/false，默认false
 
 `AUTO_CLEAR_INTERVAL`: 自动清理间隔，单位分钟，范围0-60分钟，默认10分钟
