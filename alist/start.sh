@@ -8,9 +8,14 @@ if [ ! -d "/data" ]; then
     mkdir /data
 fi
 
-# 设置端口
-local_ip=$(ip a | grep inet | grep -v '127.0.0.1|inet6' | awk '{print $2}' | cut -d/ -f1)
-echo "http://$local_ip:5678" > /data/docker_address.txt
+# 设置 AList 容器地址
+if [ -n "${DOCKER_ADDRESS:-}" ]; then
+    echo "设置 AList 容器地址..."
+    echo "${DOCKER_ADDRESS}" > /data/docker_address.txt
+else
+    local_ip=$(ip a | grep inet | grep -v '127.0.0.1|inet6' | awk '{print $2}' | cut -d/ -f1)
+    echo "http://$local_ip:5678" > /data/docker_address.txt
+fi
 
 # 生成配置，阿里云token
 if [ ${#ALIYUN_TOKEN} -ne 32 ]; then

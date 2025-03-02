@@ -55,3 +55,5 @@ docker run -d -p 5678:80 -p 2345:2345 -p 2346:2346 --restart=unless-stopped --na
 `AUTO_CLEAR_INTERVAL`: 自动清理间隔，单位分钟，范围0-60分钟，默认10分钟
 
 `AUTO_CLEAR_THRESHOLD`: 阿里云盘自动清理文件存在时间阈值，单位分钟，范围0-60分钟，默认10分钟
+
+`DOCKER_ADDRESS`: alist 地址，这里需要填写 emby 客户端能正常访问到的地址，如果不使用 emby 观看夸克内容可以不修改，格式：`http://192.168.1.1:5678`
