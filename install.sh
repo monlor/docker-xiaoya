@@ -143,6 +143,7 @@ if [ "${update}" != "0" ]; then
   pan115_cookie=$(grep PAN115_COOKIE "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
   aliyun_to_115=$(grep ALIYUN_TO_115 "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
   pan115_folder_id=$(grep PAN115_FOLDER_ID "$install_path/env" 2> /dev/null | cut -d '=' -f2-)
+fi
 
 # 让用户输入阿里云盘TOKEN，token获取方式教程：https://alist.nn.ci/zh/guide/drivers/aliyundrive.html 
 echo
